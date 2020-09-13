@@ -684,7 +684,14 @@ subscribe
   background-size: cover;
   text-align: center;
 }
-
+#call-in-action {
+  padding: 120px 0px;
+  background-image: url(../images/2-bg.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
 .cta-content h2 {
   font-size: 36px;
   text-transform: uppercase;
