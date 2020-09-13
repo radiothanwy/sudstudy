@@ -670,11 +670,6 @@ features
   font-weight: 500;
 }
 
-/*
----------------------------------------------
-subscribe
----------------------------------------------
-*/
 
 #call-to-action {
   padding: 120px 0px;
@@ -686,6 +681,7 @@ subscribe
 }
 #call-in-action {
   padding: 120px 0px;
+  margin-bottom: 200px;
   background-image: url(../images/2-bg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
