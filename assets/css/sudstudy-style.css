@@ -629,45 +629,12 @@ banner
 
 /*
 ---------------------------------------------
-features
+mid-writing
 ---------------------------------------------
 */
 
-#features {
+#mid-writing {
   margin-bottom: 80px;
-}
-
-.feature-item {
-  display: inline-block;
-  margin-bottom: 60px;
-}
-
-.feature-item .left-icon img {
-  float: left;
-  margin-right: 30px;
-}
-
-.feature-item .right-content {
-  display: inline;
-}
-
-.feature-item .right-content h4 {
-  margin-top: 0px;
-  margin-bottom:  7px;
-  letter-spacing: 0.25px;
-  color: #232d39;
-  font-size: 19px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.feature-item .right-content a.text-button {
-  margin-top: 7px;
-  display: inline-block;
-  font-size: 13px;
-  text-transform: uppercase;
-  color: #33CCCC;
-  font-weight: 500;
 }
 
 
@@ -681,13 +648,21 @@ features
 }
 #call-in-action {
   padding: 120px 0px;
-  margin-bottom: 200px;
   background-image: url(../images/2-bg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
 }
+#teach {
+  padding: 120px 0px;
+  background-image: url(../images/3-bg.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
 .cta-content h2 {
   font-size: 36px;
   text-transform: uppercase;
@@ -715,7 +690,7 @@ Our Classes
 --------------------------------------------
 */
 
-#our-classes {
+#university {
   margin-bottom: 140px;
   
 }
@@ -805,129 +780,26 @@ Our Classes
 }
 
 
-/* 
----------------------------------------------
-schedule
---------------------------------------------- 
-*/
-
-#schedule {
-  padding: 0px 0px 140px 0px;
-  background-image: url(../images/schedule-bg.jpg);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-#schedule table {
-  width: 100%;
-  text-align: center;
-  border: 1px solid #fff;
-}
-
-#schedule table tbody {
-  border-top: 1px solid #fff; 
-}
-
-#schedule table tbody tr {
-  border-bottom: 1px solid #fff;
-}
-
-#schedule table tbody tr td {
-  border-right: 1px solid #fff;
-  height: 100px;
-}
-
-#schedule table tr td {
-  color: #fff;
-  font-size: 13px;
-  text-transform: capitalize;
-  font-weight: 500;
-  letter-spacing: 0.25px;
-}
-
-.schedule-table.filtering .ts-item {
-    opacity: 0;
-    transition: all 0.5s;
-}
-
-.schedule-table.filtering .ts-item.show {
-    opacity: 1;
-    transition: all 0.5s;
-}
-
-#schedule .filters {
-  margin-bottom: 40px;
-}
-#schedule .filters ul {
-  padding: 0;
-  text-align: center;
-}
-#schedule .filters ul li {
-  list-style: none;
-  display: inline;
-  cursor: pointer;
-  position: relative;
-  margin-right: 10px;
-  font-size: 15px;
-  font-weight: 500;
-  color: #fff;
-  text-transform: capitalize;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-#schedule .filters ul li:after {
-  content: "/";
-  margin-left: 10px;
-  color: #fff;
-}
-#schedule .filters ul li:last-child {
-  margin-right: 0px;
-}
-#schedule .filters ul li:last-child::after {
-  display: none;
-}
-#schedule .filters ul li.active,
-#schedule .filters ul li:hover {
-  color: black;
-}
-#schedule .filters-content {
-  margin-top: 50px;
-}
-#schedule .filters-content .show {
-  opacity: 1;
-  visibility: visible;
-  transition: all 350ms;
-}
-#schedule .filters-content .hide {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 350ms;
-}
-
 
 /* 
 ---------------------------------------------
-trainers
+others
 --------------------------------------------- 
 */
 
-#trainers .trainer-item {
+#others .other-item {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
   padding: 40px;
 }
 
-#trainers .trainer-item img {
+#others .other-item img {
   width: 100%;
   border-radius: 5px;
 }
 
-#trainers .trainer-item span {
+#others .other-item span {
   font-size: 13px;
   font-weight: 500;
   color: #33CCCC;
@@ -936,7 +808,7 @@ trainers
   margin-bottom: 10px;
 }
 
-#trainers .trainer-item h4 {
+#others .other-item h4 {
   font-size: 19px;
   font-weight: 600;
   color: #232d39;
@@ -944,108 +816,8 @@ trainers
   margin-bottom: 18px;
 }
 
-#trainers .trainer-item p {
+#others .other-item p {
   margin-bottom: 20px;
-}
-
-#trainers .trainer-item ul.social-icons li {
-  display: inline-block;
-  margin-right: 12px;
-}
-
-#trainers .trainer-item ul.social-icons li:last-child {
-  margin-right: 0px;
-}
-
-#trainers .trainer-item ul.social-icons li a {
-  color: #232d39;
-  transition: all .3s;
-}
-
-#trainers .trainer-item ul.social-icons li a:hover {
-  color: black;
-}
-
-
-/* 
----------------------------------------------
-contact
---------------------------------------------- 
-*/
-
-#contact-us {
-  margin-top: 140px;
-}
-
-#contact-us .container-fluid .col-lg-6 {
-  padding: 0px;
-}
-
-#contact-us .contact-form {
-  padding: 80px;
-  background-image: url(../images/contact-bg.jpg);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-#contact-us .contact-form #contact {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 5px;
-}
-
-.contact-form input,
-.contact-form textarea {
-  color: #7a7a7a;
-  font-size: 13px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  width: 100%;
-  height: 40px;
-  outline: none;
-  line-height: 40px;
-  padding: 0px 10px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin-bottom: 30px;
-}
-
-.contact-form textarea {
-  height: 150px;
-  resize: none;
-}
-
-.contact-form ::-webkit-input-placeholder { /* Edge */
-  color: #7a7a7a;
-}
-
-.contact-form :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: #7a7a7a;
-}
-
-.contact-form ::placeholder {
-  color: #7a7a7a;
-}
-
-.contact-form button {
-  display: inline-block;
-  font-size: 13px;
-  padding: 11px 17px;
-  background-color: #33CCCC;
-  color: #fff;
-  text-align: center;
-  font-weight: 400;
-  text-transform: uppercase;
-  transition: all .3s;
-  border: none;
-  outline: none;
-  margin-top: -8px;
-}
-
-.contact-form button:hover {
-  background-color: black;
 }
 
 
@@ -1075,7 +847,23 @@ footer p a:hover {
   color: black;
 }
 
+#others .other-item ul.social-icons li {
+  display: inline-block;
+  margin-right: 12px;
+}
 
+#others .other-item ul.social-icons li:last-child {
+  margin-right: 0px;
+}
+
+#others .other-item ul.social-icons li a {
+  color: #232d39;
+  transition: all .3s;
+}
+
+#others .other-item ul.social-icons li a:hover {
+  color: black;
+}
 
 /* 
 ---------------------------------------------
@@ -1190,28 +978,18 @@ responsive
   .main-banner .caption h2 {
     font-size: 64px;
   }
-  #features {
+  #mid-writing {
     margin-bottom: 110px;
   }
-  #features .feature-item {
+  #mid-writing {
     margin-bottom: 30px;
   }
-  #our-classes .tabs-content {
+  #university .tabs-content {
     margin-left: 0px;
     margin-top: 30px;
   }
-  .trainer-item {
+  .other-item {
     margin-bottom: 30px;
-  }
-  #contact-us #map {
-    margin-bottom: -7px;
-  }
-  #contact-us .contact-form {
-    padding: 30px;
-  }
-  #contact-us .contact-form #contact {
-    padding: 30px;
-  }
 
 }
 
