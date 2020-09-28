@@ -44,11 +44,11 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#others"> الحلول الاخرى</a></li> 
-                            <li class="scroll-to-section"><a href="#teach"> المحتوى التعليمي </a></li>
-                            <li class="scroll-to-section"><a href="#university">الجامعات السودانية</a></li>
-                            <li class="scroll-to-section"><a href="#secoundary">الثانوية السودانية</a></li>
-                            <li class="scroll-to-section"><a href="#top" class="active">البداية</a></li>  
+                            <li class="scroll-to-section"><a class="menu-links" href="#others"> الحلول الاخرى</a></li> 
+                            <li class="scroll-to-section"><a class="menu-links" href="#teach"> المحتوى التعليمي </a></li>
+                            <li class="scroll-to-section"><a class="menu-links" href="#university">الجامعات السودانية</a></li>
+                            <li class="scroll-to-section"><a class="menu-links" href="#secoundary">الثانوية السودانية</a></li>
+                            <li class="scroll-to-section"><a class="menu-links" href="#top" class="active">البداية</a></li>  
                         </ul>        
                         <a class='menu-trigger'>
                             <span>القائمة</span>
@@ -327,6 +327,14 @@
     
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
+
+    <script>
+        $(function(){
+          $(".menu-links").click(function(){
+            $(".menu-trigger").click() ;
+          });
+        });
+    </script>
 
   </body>
 </html>
