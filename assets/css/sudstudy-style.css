@@ -184,11 +184,11 @@ header
   color: #232d39!important;
 }
 
-.background-header .main-nav .nav li:last-child a {
+.background-header .main-nav  a {
   color: #fff !important;
 }
 
-.background-header .main-nav .nav li:last-child a:hover {
+.background-header .main-nav  a:hover {
   color: #fff!important;
 }
 
@@ -395,23 +395,12 @@ header
   width: 100%;
 }
 
-.header-area .main-nav .menu-trigger.active span:before {
-  -moz-transform: translateY(6px) translateX(1px) rotate(45deg);
-  -ms-transform: translateY(6px) translateX(1px) rotate(45deg);
-  -webkit-transform: translateY(6px) translateX(1px) rotate(45deg);
-  transform: translateY(6px) translateX(1px) rotate(45deg);
-  background-color: #1e1e1e;
-}
-
 .background-header .main-nav .menu-trigger.active span:before {
   background-color: #1e1e1e;
 }
 
 .header-area .main-nav .menu-trigger.active span:after {
-  -moz-transform: translateY(-6px) translateX(1px) rotate(-45deg);
-  -ms-transform: translateY(-6px) translateX(1px) rotate(-45deg);
-  -webkit-transform: translateY(-6px) translateX(1px) rotate(-45deg);
-  transform: translateY(-6px) translateX(1px) rotate(-45deg);
+
   background-color: #1e1e1e;
 }
 
