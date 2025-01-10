@@ -269,21 +269,22 @@
         });
         // end of services animation 
         // Handle form submission
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
+        document.querySelector('form').addEventListener('submit', function (e) {
             e.preventDefault();
-
-            // Get form data
-            const formData = new FormData(contactForm);
-            const data = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                message: formData.get('message')
-            };
-
-            // Here you would typically send this to your server
-            // For demonstration, we'll just log it
-            console.log('Form submitted:', data);
-            alert('Message sent successfully!');
-            contactForm.reset();
+            fetch(this.action, {
+                method: this.method,
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('Thank you for your submission!');
+                    this.reset();
+                } else {
+                    alert('Oops! Something went wrong.');
+                }
+            }).catch(error => {
+                alert('Oops! Something went wrong.');
+            });
         });
