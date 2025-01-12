@@ -1,6 +1,22 @@
         // Define currentLang in the global scope
         let currentLang = 'en';
+	// remove # from link 
+	const navLinks = document.querySelectorAll('nav a');
 
+	navLinks.forEach(link => {
+	  link.addEventListener('click', (event) => {
+		event.preventDefault();
+		const targetId = link.getAttribute('href').substring(1); 
+		const targetElement = document.getElementById(targetId);
+		if (targetElement) {
+		  history.pushState(null, null, ''); // Push a new state without URL change
+		  window.scrollTo({ 
+			top: targetElement.offsetTop,
+			behavior: 'smooth' 
+		  });
+		}
+	  });
+	});
         // animation and observer code remains unchanged
         const observerOptions = {
             root: null,
