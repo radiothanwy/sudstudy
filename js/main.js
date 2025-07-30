@@ -1,6 +1,22 @@
         // Define currentLang in the global scope
         let currentLang = 'en';
+	// remove # from link 
+	const navLinks = document.querySelectorAll('nav a');
 
+	navLinks.forEach(link => {
+	  link.addEventListener('click', (event) => {
+		event.preventDefault();
+		const targetId = link.getAttribute('href').substring(1); 
+		const targetElement = document.getElementById(targetId);
+		if (targetElement) {
+		  history.pushState(null, null, ''); // Push a new state without URL change
+		  window.scrollTo({ 
+			top: targetElement.offsetTop,
+			behavior: 'smooth' 
+		  });
+		}
+	  });
+	});
         // animation and observer code remains unchanged
         const observerOptions = {
             root: null,
@@ -269,21 +285,22 @@
         });
         // end of services animation 
         // Handle form submission
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
+        document.querySelector('form').addEventListener('submit', function (e) {
             e.preventDefault();
-
-            // Get form data
-            const formData = new FormData(contactForm);
-            const data = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                message: formData.get('message')
-            };
-
-            // Here you would typically send this to your server
-            // For demonstration, we'll just log it
-            console.log('Form submitted:', data);
-            alert('Message sent successfully!');
-            contactForm.reset();
+            fetch(this.action, {
+                method: this.method,
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('Thank you for your submission!');
+                    this.reset();
+                } else {
+                    alert('Oops! Something went wrong.');
+                }
+            }).catch(error => {
+                alert('Oops! Something went wrong.');
+            });
         });
