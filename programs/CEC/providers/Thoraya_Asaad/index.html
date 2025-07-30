@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بروفايل مقدم الخدمة | Service Provider Profile</title>
+    <title>بروفايل ثريا أسعد | Thoraya Asaad Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <style>
@@ -409,6 +409,37 @@
         .bio-section {
             animation-delay: 0.3s;
         }
+        
+        .path-info {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-family: monospace;
+            font-size: 14px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .path-info h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .path-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+        
+        .path-info .example {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid var(--secondary);
+        }
     </style>
 </head>
 <body>
@@ -418,18 +449,19 @@
     </div>
 
     <div class="container">
-        <h1 class="page-title" lang="ar">بروفايل مقدم الخدمة</h1>
-        <h1 class="page-title" lang="en" style="display:none">Service Provider Profile</h1>
+        <h1 class="page-title" lang="ar">بروفايل ثريا أسعد</h1>
+        <h1 class="page-title" lang="en" style="display:none">Thoraya Asaad Profile</h1>
         
         <div class="provider-card fade-in">
             <div class="card-header">
                 <div class="provider-image">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Provider">
+                    <!-- Correct image path for Thoraya Asaad -->
+                    <img src="../../../../images/providers/thoraya.jpeg" alt="Thoraya Asaad">
                 </div>
-                <div class="provider-name" lang="ar">أحمد سعيد</div>
-                <div class="provider-name" lang="en" style="display:none">Ahmed Saeed</div>
-                <div class="provider-expertise" lang="ar">مطور تطبيقات الويب</div>
-                <div class="provider-expertise" lang="en" style="display:none">Web Applications Developer</div>
+                <div class="provider-name" lang="ar">ثريا أسعد</div>
+                <div class="provider-name" lang="en" style="display:none">Thoraya Asaad</div>
+                <div class="provider-expertise" lang="ar">مدربة تنمية بشرية</div>
+                <div class="provider-expertise" lang="en" style="display:none">Human Development Trainer</div>
             </div>
             <div class="card-body">
                 <div class="expertise-title">
@@ -438,14 +470,14 @@
                     <span lang="en" style="display:none">Areas of Expertise</span>
                 </div>
                 <ul class="expertise-list">
-                    <li lang="ar"><i class="fas fa-check-circle"></i> تطوير تطبيقات الويب المتقدمة</li>
-                    <li lang="ar"><i class="fas fa-check-circle"></i> تصميم واجهات المستخدم</li>
-                    <li lang="ar"><i class="fas fa-check-circle"></i> حلول التجارة الإلكترونية</li>
-                    <li lang="ar"><i class="fas fa-check-circle"></i> تطبيقات الهواتف الذكية</li>
-                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Advanced Web Applications</li>
-                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> UI/UX Design</li>
-                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> E-commerce Solutions</li>
-                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Mobile Applications</li>
+                    <li lang="ar"><i class="fas fa-check-circle"></i> تطوير المهارات القيادية</li>
+                    <li lang="ar"><i class="fas fa-check-circle"></i> بناء فرق العمل</li>
+                    <li lang="ar"><i class="fas fa-check-circle"></i> التواصل الفعال</li>
+                    <li lang="ar"><i class="fas fa-check-circle"></i> إدارة الضغوط</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Leadership Skills Development</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Team Building</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Effective Communication</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Stress Management</li>
                 </ul>
             </div>
             <div class="qrcode-container">
@@ -463,53 +495,55 @@
             </h2>
             
             <div class="bio-content" lang="ar">
-                <p>أحمد سعيد هو مطور تطبيقات ويب محترف مع أكثر من 8 سنوات من الخبرة في مجال تطوير البرمجيات. تخصص في إنشاء حلول ويب مبتكرة وسهلة الاستخدام للشركات والمؤسسات.</p>
-                <p>حاصل على درجة الماجستير في هندسة الحاسوب من جامعة القاهرة، ويتميز بقدرته على تحويل الأفكار المعقدة إلى تطبيقات عملية وفعالة. خلال مسيرته المهنية، عمل مع شركات رائدة في المنطقة وساهم في تطوير أكثر من 50 مشروع ناجح.</p>
-                <p>يؤمن أحمد بأهمية التكنولوجيا في حل المشكلات اليومية ويسعى دائماً لتبني أحدث التقنيات وأساليب التطوير لضمان تقديم حلول عالية الجودة تلبي توقعات العملاء.</p>
+                <p>ثريا أسعد هي مدربة تنمية بشرية معتمدة مع أكثر من 10 سنوات من الخبرة في مجال التدريب وتطوير المهارات الشخصية والمهنية. تخصصت في تصميم وتنفيذ برامج تدريبية مخصصة تلبي احتياجات المؤسسات والأفراد.</p>
+                <p>حاصلة على درجة الماجستير في علم النفس التنظيمي من جامعة الملك سعود، كما حصلت على شهادات معتمدة في التدريب من عدة مؤسسات دولية. خلال مسيرتها المهنية، دربت أكثر من 5000 متدرب في مختلف المؤسسات الحكومية والخاصة.</p>
+                <p>تؤمن ثريا بقوة التطوير الذاتي وتأثيره الإيجابي على حياة الأفراد والمؤسسات، وتسعى دائماً لتبني أحدث الأساليب العلمية في مجال التدريب والتطوير.</p>
             </div>
             
             <div class="bio-content" lang="en" style="display:none">
-                <p>Ahmed Saeed is a professional web applications developer with over 8 years of experience in software development. He specializes in creating innovative and user-friendly web solutions for businesses and organizations.</p>
-                <p>Holding a Master's degree in Computer Engineering from Cairo University, he excels at transforming complex ideas into practical and efficient applications. Throughout his career, he has worked with leading companies in the region and contributed to the development of over 50 successful projects.</p>
-                <p>Ahmed believes in the power of technology to solve everyday problems and constantly adopts the latest technologies and development methodologies to ensure delivery of high-quality solutions that meet client expectations.</p>
+                <p>Thoraya Asaad is a certified human development trainer with over 10 years of experience in training and developing personal and professional skills. She specializes in designing and implementing customized training programs that meet the needs of organizations and individuals.</p>
+                <p>She holds a Master's degree in Organizational Psychology from King Saud University and has obtained certified training qualifications from several international institutions. Throughout her career, she has trained over 5,000 trainees in various government and private institutions.</p>
+                <p>Thoraya believes in the power of self-development and its positive impact on the lives of individuals and organizations, and she constantly adopts the latest scientific methods in the field of training and development.</p>
             </div>
             
             <div class="stats-container">
                 <div class="stat-card">
-                    <div class="stat-value">8+</div>
+                    <div class="stat-value">10+</div>
                     <div class="stat-label" lang="ar">سنوات خبرة</div>
                     <div class="stat-label" lang="en" style="display:none">Years Experience</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">120+</div>
-                    <div class="stat-label" lang="ar">مشروع مكتمل</div>
-                    <div class="stat-label" lang="en" style="display:none">Projects Completed</div>
+                    <div class="stat-label" lang="ar">برنامج تدريبي</div>
+                    <div class="stat-label" lang="en" style="display:none">Training Programs</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">98%</div>
+                    <div class="stat-value">5000+</div>
+                    <div class="stat-label" lang="ar">متدرب</div>
+                    <div class="stat-label" lang="en" style="display:none">Trainees</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">97%</div>
                     <div class="stat-label" lang="ar">رضا العملاء</div>
                     <div class="stat-label" lang="en" style="display:none">Client Satisfaction</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">25</div>
-                    <div class="stat-label" lang="ar">عميل دائم</div>
-                    <div class="stat-label" lang="en" style="display:none">Regular Clients</div>
                 </div>
             </div>
         </div>
         
         <div class="cta-section fade-in">
             <button class="cta-button" id="reserveButton">
-                <span lang="ar"><i class="fas fa-calendar-check"></i> احجز خدمة الآن</span>
-                <span lang="en" style="display:none"><i class="fas fa-calendar-check"></i> Book Service Now</span>
+                <span lang="ar"><i class="fas fa-calendar-check"></i> احجز جلسة تدريبية</span>
+                <span lang="en" style="display:none"><i class="fas fa-calendar-check"></i> Book Training Session</span>
             </button>
         </div>
+        
+
     </div>
 
     <script>
-        // Generate QR code for current page
+        // Generate QR code for the provider's page
         new QRCode(document.getElementById("qrcode"), {
-            text: window.location.href,
+            text: "https://sudstudy.com/programs/CEC/providers/Thoraya_Asaad/",
             width: 100,
             height: 100,
             colorDark: "#1a2a6c",
@@ -549,8 +583,8 @@
             document.getElementById('reserveButton').addEventListener('click', function() {
                 const lang = document.documentElement.lang;
                 const message = lang === 'ar' ? 
-                    "شكراً لتعبئة النموذج! سنتواصل معك قريباً لتأكيد الحجز." : 
-                    "Thank you for your submission! We'll contact you shortly to confirm your booking.";
+                    "شكراً لحجز جلسة تدريبية! سنتواصل معك قريباً لتأكيد التفاصيل." : 
+                    "Thank you for booking a training session! We'll contact you shortly to confirm the details.";
                 
                 alert(message);
             });
