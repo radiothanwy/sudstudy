@@ -213,13 +213,23 @@
             font-size: 16px;
         }
 
-        #qrcode {
-            width: 100px !important;
-            height: 100px !important;
-            padding: 5px;
+        .qrcode-wrapper {
+            width: 110px;
+            height: 110px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #qrcode {
+            width: 100px !important;
+            height: 100px !important;
+            margin: 0 auto;
         }
 
         /* Bio Section */
@@ -261,6 +271,20 @@
             margin-bottom: 30px;
         }
 
+        /* New font for Arabic bio */
+        [lang="ar"] .bio-content {
+            font-family: Changa;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+        }
+
+        /* New font for English bio */
+        [lang="en"] .bio-content {
+            font-family: Changa;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -291,6 +315,12 @@
         .stat-label {
             color: var(--secondary);
             font-weight: 600;
+            text-align: center;
+            width: 100%;
+        }
+
+        [lang="en"] .stat-label {
+            text-align: center;
         }
 
         .cta-section {
@@ -356,6 +386,22 @@
             right: auto;
             left: 0;
         }
+        .footer .container {
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             width: 100%;
+        }
+         
+        .copyright {
+             margin: 0;
+             font-size: 0.9em;
+             text-align: center;
+        }
+        .container {
+             max-width: 1200px;
+             margin: 0 auto;
+         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -484,7 +530,9 @@
             <div class="qrcode-container">
                 <div class="qrcode-label" lang="ar">شارك البروفايل</div>
                 <div class="qrcode-label" lang="en" style="display:none">Share Profile</div>
-                <div id="qrcode"></div>
+                <div class="qrcode-wrapper">
+                    <div id="qrcode"></div>
+                </div>
             </div>
         </div>
         
@@ -496,13 +544,13 @@
             </h2>
             
             <div class="bio-content" lang="ar">
-                <p>ثريا أسعد هي مدرسة لغة انجليزية معتمدة مع أكثر من 10 سنوات من الخبرة في مجال التدريب وتطوير المهارات الشخصية واللغوية. تخصصت في مناهج التعليم المتطور ومناهج الوزارة المحدثة مثل كونكت و كونكت بلص.</p>
+                <p>ثريا أسعد هي مدرسة لغة انجليزية معتمدة مع أكثر من 10 سنوات من الخبرة في مجال التدريس والتدريب وتطوير المهارات الشخصية واللغوية. تخصصت في مناهج التعليم المتطور ومناهج الوزارة المحدثة مثل كونكت و كونكت بلص.</p>
                 <p> حصلت على شهادات معتمدة في التدريب من عدة مؤسسات دولية. خلال مسيرتها المهنية، دربت أكثر من 1300 طالب في مختلف المراحل والمستويات التعليمية الحكومية والخاصة.</p>
                 <p>تؤمن ثريا بقوة التطوير العلمي والتعليم المخصص الفعال وتأثيره الإيجابي على حياة الأفراد والمؤسسات، وتسعى دائماً لتبني أحدث الأساليب العلمية فيما يعود بالنفع على الطالب وعلى الاسرة ككل.</p>
             </div>
             
             <div class="bio-content" lang="en" style="display:none">
-                <p>Thuraya Asaad is a certified English language teacher with over 10 years of experience in training and developing personal and language skills. She specializes in advanced education curricula and updated Ministry of Education curricula such as Connect and Connect Plus.</p>
+                <p>Thuraya Asaad is a certified English language teacher with over 10 years of experience in teaching, training and developing personal and language skills. She specializes in advanced education curricula and updated Ministry of Education curricula such as Connect and Connect Plus.</p>
                 <p>She has obtained accredited training certificates from several international institutions during her career, and has trained more than 1,300 students at various levels and stages of government and private education.</p>
                 <p>Thuraya believes in the power of scientific development and effective personalized education and its positive impact on the lives of individuals and institutions. She always strives to adopt the latest scientific methods that benefit the student and the family as a whole.</p>
             </div>
@@ -541,6 +589,19 @@
 
     </div>
 
+    <footer class="footer">
+        <div class="container">
+            <p class="copyright lang-en">&copy; 2017-
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> SUDSTUDY. All rights reserved.</p>
+            <p class="copyright lang-ar" style="display: none;">© 2017-
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> SUDSTUDY. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
     <script>
         // Generate QR code for the provider's page
         new QRCode(document.getElementById("qrcode"), {
@@ -550,6 +611,7 @@
             colorDark: "#1a2a6c",
             colorLight: "#ffffff"
         });
+
 
         // Language switching
         function switchLanguage(lang) {
@@ -580,14 +642,22 @@
                 });
             }, 100);
             
-            // Add reservation button functionality
+            // WhatsApp integration
             document.getElementById('reserveButton').addEventListener('click', function() {
                 const lang = document.documentElement.lang;
-                const message = lang === 'ar' ? 
-                    "شكراً لحجزك! سنتواصل معك قريباً لتأكيد التفاصيل." : 
-                    "Thank you for booking! We'll contact you shortly to confirm the details.";
                 
-                alert(message);
+                // WhatsApp number (replace with your actual number)
+                const whatsappNumber = "+201273792856"; // Example number
+                
+                // Predefined messages
+                const arabicMessage = encodeURIComponent("مرحباً، أود حجز جلسة تدريبية مع ثريا أسعد.");
+                const englishMessage = encodeURIComponent("Hello, I would like to book a training session with Thoraya Asaad.");
+                
+                // Create WhatsApp URL
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${lang === 'ar' ? arabicMessage : englishMessage}`;
+                
+                // Open WhatsApp
+                window.open(whatsappUrl, '_blank');
             });
         };
     </script>
