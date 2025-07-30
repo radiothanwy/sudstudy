@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بروفايل مقدم الخدمة | Service Provider Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --light: #f5f7fa;
+            --dark: #333;
+            --card-width: 320px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark);
+        }
+
+        .language-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .language-toggle button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .language-toggle button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .page-title {
+            color: var(--primary);
+            text-align: center;
+            margin: 30px 0 20px;
+            padding: 0 15px;
+            position: relative;
+            font-size: 32px;
+        }
+
+        .page-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        /* FIFA Style Card */
+        .provider-card {
+            width: var(--card-width);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            perspective: 1000px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            padding: 25px 20px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .provider-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin: 0 auto 15px;
+            background: linear-gradient(45deg, var(--accent), #ff8c00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .provider-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .provider-name {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .provider-expertise {
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+            background: white;
+            min-height: 180px;
+        }
+
+        .expertise-title {
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .expertise-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .expertise-list li {
+            padding: 8px 0;
+            color: var(--dark);
+            position: relative;
+            padding-right: 25px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .expertise-list li:before {
+            content: "•";
+            color: var(--secondary);
+            position: absolute;
+            right: 0;
+            font-size: 24px;
+        }
+
+        .qrcode-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 2px dashed var(--accent);
+        }
+
+        .qrcode-label {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        #qrcode {
+            width: 100px !important;
+            height: 100px !important;
+            padding: 5px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Bio Section */
+        .bio-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .bio-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .bio-title {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bio-content {
+            line-height: 1.8;
+            font-size: 17px;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .cta-section {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(26, 42, 108, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover:before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(26, 42, 108, 0.4);
+        }
+
+        /* RTL/LTR Switching */
+        [lang="ar"] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        [lang="en"] {
+            direction: ltr;
+            text-align: left;
+        }
+
+        [lang="en"] .expertise-list li {
+            padding-right: 0;
+            padding-left: 25px;
+        }
+
+        [lang="en"] .expertise-list li:before {
+            right: auto;
+            left: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .provider-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .language-toggle {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-button {
+                width: 100%;
+                padding: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .bio-section, .provider-card {
+            opacity: 0;
+        }
+
+        .bio-section {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-toggle">
+        <button onclick="switchLanguage('en')"><i class="fas fa-language"></i> English</button>
+        <button onclick="switchLanguage('ar')"><i class="fas fa-language"></i> العربية</button>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title" lang="ar">بروفايل مقدم الخدمة</h1>
+        <h1 class="page-title" lang="en" style="display:none">Service Provider Profile</h1>
+        
+        <div class="provider-card fade-in">
+            <div class="card-header">
+                <div class="provider-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Provider">
+                </div>
+                <div class="provider-name" lang="ar">أحمد سعيد</div>
+                <div class="provider-name" lang="en" style="display:none">Ahmed Saeed</div>
+                <div class="provider-expertise" lang="ar">مطور تطبيقات الويب</div>
+                <div class="provider-expertise" lang="en" style="display:none">Web Applications Developer</div>
+            </div>
+            <div class="card-body">
+                <div class="expertise-title">
+                    <i class="fas fa-star"></i>
+                    <span lang="ar">مجالات التخصص</span>
+                    <span lang="en" style="display:none">Areas of Expertise</span>
+                </div>
+                <ul class="expertise-list">
+                    <li lang="ar"><i class="fas fa-check-circle"></i> تطوير تطبيقات الويب المتقدمة</li>
+                    <li lang="ar"><i class="fas fa-check-circle"></i> تصميم واجهات المستخدم</li>
+                    <li lang="ar"><i class="fas fa-check-circle"></i> حلول التجارة الإلكترونية</li>
+                    <li lang="ar"><i class="fas fa-check-circle"></i> تطبيقات الهواتف الذكية</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Advanced Web Applications</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> UI/UX Design</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> E-commerce Solutions</li>
+                    <li lang="en" style="display:none"><i class="fas fa-check-circle"></i> Mobile Applications</li>
+                </ul>
+            </div>
+            <div class="qrcode-container">
+                <div class="qrcode-label" lang="ar">شارك البروفايل</div>
+                <div class="qrcode-label" lang="en" style="display:none">Share Profile</div>
+                <div id="qrcode"></div>
+            </div>
+        </div>
+        
+        <div class="bio-section fade-in">
+            <h2 class="bio-title">
+                <i class="fas fa-user"></i>
+                <span lang="ar">السيرة الذاتية</span>
+                <span lang="en" style="display:none">Professional Bio</span>
+            </h2>
+            
+            <div class="bio-content" lang="ar">
+                <p>أحمد سعيد هو مطور تطبيقات ويب محترف مع أكثر من 8 سنوات من الخبرة في مجال تطوير البرمجيات. تخصص في إنشاء حلول ويب مبتكرة وسهلة الاستخدام للشركات والمؤسسات.</p>
+                <p>حاصل على درجة الماجستير في هندسة الحاسوب من جامعة القاهرة، ويتميز بقدرته على تحويل الأفكار المعقدة إلى تطبيقات عملية وفعالة. خلال مسيرته المهنية، عمل مع شركات رائدة في المنطقة وساهم في تطوير أكثر من 50 مشروع ناجح.</p>
+                <p>يؤمن أحمد بأهمية التكنولوجيا في حل المشكلات اليومية ويسعى دائماً لتبني أحدث التقنيات وأساليب التطوير لضمان تقديم حلول عالية الجودة تلبي توقعات العملاء.</p>
+            </div>
+            
+            <div class="bio-content" lang="en" style="display:none">
+                <p>Ahmed Saeed is a professional web applications developer with over 8 years of experience in software development. He specializes in creating innovative and user-friendly web solutions for businesses and organizations.</p>
+                <p>Holding a Master's degree in Computer Engineering from Cairo University, he excels at transforming complex ideas into practical and efficient applications. Throughout his career, he has worked with leading companies in the region and contributed to the development of over 50 successful projects.</p>
+                <p>Ahmed believes in the power of technology to solve everyday problems and constantly adopts the latest technologies and development methodologies to ensure delivery of high-quality solutions that meet client expectations.</p>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">8+</div>
+                    <div class="stat-label" lang="ar">سنوات خبرة</div>
+                    <div class="stat-label" lang="en" style="display:none">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">120+</div>
+                    <div class="stat-label" lang="ar">مشروع مكتمل</div>
+                    <div class="stat-label" lang="en" style="display:none">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label" lang="ar">رضا العملاء</div>
+                    <div class="stat-label" lang="en" style="display:none">Client Satisfaction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">25</div>
+                    <div class="stat-label" lang="ar">عميل دائم</div>
+                    <div class="stat-label" lang="en" style="display:none">Regular Clients</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section fade-in">
+            <button class="cta-button" id="reserveButton">
+                <span lang="ar"><i class="fas fa-calendar-check"></i> احجز خدمة الآن</span>
+                <span lang="en" style="display:none"><i class="fas fa-calendar-check"></i> Book Service Now</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Generate QR code for current page
+        new QRCode(document.getElementById("qrcode"), {
+            text: window.location.href,
+            width: 100,
+            height: 100,
+            colorDark: "#1a2a6c",
+            colorLight: "#ffffff"
+        });
+
+        // Language switching
+        function switchLanguage(lang) {
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Set direction
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            
+            // Toggle visibility of elements
+            document.querySelectorAll('[lang]').forEach(el => {
+                if (el.classList.contains('fade-in')) {
+                    el.style.display = (el.getAttribute('lang') === lang) ? 'block' : 'none';
+                } else {
+                    el.style.display = (el.getAttribute('lang') === lang) ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Initialize with Arabic
+        window.onload = function() {
+            switchLanguage('ar');
+            
+            // Trigger fade-in animations
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.style.opacity = '1';
+                });
+            }, 100);
+            
+            // Add reservation button functionality
+            document.getElementById('reserveButton').addEventListener('click', function() {
+                const lang = document.documentElement.lang;
+                const message = lang === 'ar' ? 
+                    "شكراً لتعبئة النموذج! سنتواصل معك قريباً لتأكيد الحجز." : 
+                    "Thank you for your submission! We'll contact you shortly to confirm your booking.";
+                
+                alert(message);
+            });
+        };
+    </script>
+</body>
+</html>
