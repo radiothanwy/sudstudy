@@ -6,8 +6,8 @@
 
 const SECURE_CONFIG = {
   // Replace these with your actual Google Apps Script deployment URLs
-  API_URL: 'https://script.google.com/macros/s/AKfycbwZrmAHDuIcUJqzAGSCeP6B4K84_Bf5dal1XNBS9NnifzbkSdSZW38MpkOzJhNW4Do8yw/exec',
-  ADMIN_API_URL: 'https://script.google.com/macros/s/AKfycbwHmvzkN2qAN076HKZch_UF-D53hhCgKdJQeRHD4KdcmHuW6KV-R32iRh-J2crVQWORCA/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbw1Rm9BavT7aR3EyYGEy1MQZOyh_QDgsanU6LY7JVlWlLmJ9hwSJgBscVRp-KUCz0SI/exec',
+  ADMIN_API_URL: 'https://script.google.com/macros/s/AKfycbzwQ_6reqsHl2DbiF8vsTQRcfvuIcZGIPRqB0HFDNunxoXln4LBdorUFypRZXk3_SFo/exec',
   
   REQUEST_TIMEOUT: 20000,
   MAX_RETRIES: 3,
