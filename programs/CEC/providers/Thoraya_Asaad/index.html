@@ -642,22 +642,9 @@
                 });
             }, 100);
             
-            // WhatsApp integration
+            // Change CTA button to redirect to reservation URL
             document.getElementById('reserveButton').addEventListener('click', function() {
-                const lang = document.documentElement.lang;
-                
-                // WhatsApp number (replace with your actual number)
-                const whatsappNumber = "+201273792856"; // Example number
-                
-                // Predefined messages
-                const arabicMessage = encodeURIComponent("مرحباً، أود حجز جلسة تعليمية مع أ/ثريا أسعد.");
-                const englishMessage = encodeURIComponent("Hello, I would like to book an educational session with Ms/Thoraya Asaad.");
-                
-                // Create WhatsApp URL
-                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${lang === 'ar' ? arabicMessage : englishMessage}`;
-                
-                // Open WhatsApp
-                window.open(whatsappUrl, '_blank');
+                window.open('https://radiothanwy.github.io/tutor_reservation/', '_blank');
             });
         };
     </script>
