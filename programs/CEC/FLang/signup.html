@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Flang - Unlock Your Next Level</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles - same as before */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827; /* Dark Slate */
+            color: #F9FAFB; /* Off-White */
+            transition: font-family 0.3s ease;
+        }
+        body.rtl { direction: rtl; font-family: 'Cairo', sans-serif; }
+        body.ltr { direction: ltr; font-family: 'Poppins', sans-serif; }
+        .hidden { display: none; }
+
+        /* NEW: Signup Animation - Ascending Ladder */
+        .signup-animation-container {
+            width: 100%;
+            max-width: 200px; /* Constrain width for better focus */
+            height: 220px; /* Adjusted height for ladder */
+            margin: 2rem auto 3rem auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Align items to bottom for climbing */
+        }
+
+        .ladder {
+            position: relative;
+            width: 60px; /* Width of the ladder */
+            height: 100%; /* Full height of container */
+            display: flex;
+            flex-direction: column-reverse; /* Build from bottom */
+            justify-content: flex-start; /* Align rungs at the bottom */
+            align-items: center;
+        }
+
+        /* Style for individual ladder rungs */
+        .rung {
+            width: 100%;
+            height: 6px; /* Thickness of rungs */
+            background-color: #0831ed; /* Bright Blue */
+            border-radius: 3px;
+            margin-bottom: 25px; /* Spacing between rungs */
+            opacity: 0; /* Start hidden */
+            transform: translateY(20px); /* Start slightly lower */
+            animation: build-rung 8s ease-in-out infinite alternate;
+            box-shadow: 0 0 8px rgba(61, 179, 227, 0.5);
+        }
+
+        /* Stagger the animation delay for each rung */
+        .rung-1 { animation-delay: 0s; }
+        .rung-2 { animation-delay: 0.8s; }
+        .rung-3 { animation-delay: 1.6s; }
+        .rung-4 { animation-delay: 2.4s; }
+        .rung-5 { animation-delay: 3.2s; } /* Top rung */
+
+        /* The climber character */
+        .climber {
+            position: absolute;
+            bottom: -15px; /* Start below the first rung position */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: #4B5563; /* Initial gray */
+            border-radius: 50%;
+            animation: climb-ladder 8s ease-in-out infinite alternate;
+            z-index: 10;
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        /* Keyframes for building the rungs */
+        @keyframes build-rung {
+            0%, 5% { /* Stay hidden initially */
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            15%, 100% { /* Fade in and move up */
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Keyframes for the climber */
+        @keyframes climb-ladder {
+            0%, 5% { /* Start at the bottom, gray */
+                bottom: -15px;
+                background-color: #4B5563;
+                box-shadow: none;
+            }
+            /* Climb steps in sync with rung appearance (slightly after) */
+            18% { bottom: 16px; } /* Above rung 1 */
+            34% { bottom: 47px; } /* Above rung 2 */
+            50% { bottom: 78px; } /* Above rung 3 */
+            66% { bottom: 109px; } /* Above rung 4 */
+            82%, 95% { /* Reach the top (rung 5 pos), change color & glow */
+                bottom: 140px;
+                background-color: #e91e8c; /* Magenta */
+                box-shadow: 0 0 15px #e91e8c, 0 0 30px #F472B6;
+            }
+            100% { /* Briefly hold at top before reversing */
+                bottom: 140px;
+                background-color: #e91e8c;
+                box-shadow: 0 0 15px #e91e8c, 0 0 30px #F472B6;
+            }
+        }
+
+
+        /* Form Styles - Enhanced (Same as previous version) */
+        .form-card { background-color: #1f2937; padding: 2rem; margin-top: -2rem; position: relative; z-index: 5; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); }
+        @media (min-width: 768px) { .form-card { padding: 3rem; } }
+        input, select { background-color: #374151; border: 1px solid #4B5563; color: #F9FAFB; border-radius: 0.5rem; padding: 0.875rem 1rem; transition: border-color 0.3s ease, box-shadow 0.3s ease; width: 100%; }
+        input:focus, select:focus { outline: none; border-color: #2596be; box-shadow: 0 0 0 3px rgba(37, 150, 190, 0.4); }
+        label { margin-bottom: 0.625rem; display: block; font-weight: 500; color: #D1D5DB; }
+        body.rtl label { text-align: right; }
+        body.rtl input, body.rtl select { text-align: right; }
+        body.rtl select option { direction: rtl; }
+        .radio-container { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;}
+        .radio-label { display: inline-flex; align-items: center; cursor: pointer; padding: 0.5rem 0; }
+        .radio-input { appearance: none; width: 1.15rem; height: 1.15rem; border: 2px solid #6B7280; border-radius: 50%; display: grid; place-content: center; transition: border-color 0.3s ease; margin-right: 0.5rem; flex-shrink: 0;}
+        body.rtl .radio-input { margin-right: 0; margin-left: 0.5rem; }
+        .radio-input::before { content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%; background-color: #2596be; transform: scale(0); transition: transform 0.1s ease-in-out; }
+        .radio-input:checked { border-color: #0831ed; }
+        .radio-input:checked::before { transform: scale(1); }
+        button[type="submit"] { background-color: #0831ed; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 15px rgba(37, 150, 190, 0.3); padding-top: 0.875rem; padding-bottom: 0.875rem; }
+        button[type="submit"]:hover { background-color: #1e7a9d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 150, 190, 0.4); }
+        button[type="submit"]:disabled { background-color: #4B5563; cursor: not-allowed; box-shadow: none; transform: none; }
+        #successModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(17, 24, 39, 0.8); display: flex; justify-content: center; align-items: center; z-index: 50; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+        #successModal.show { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+        .modal-content { background-color: #1f2937; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2); max-width: 500px; width: 90%; text-align: center; transform: scale(0.95); transition: transform 0.3s ease; }
+        #successModal.show .modal-content { transform: scale(1); }
+        body.rtl .modal-content { text-align: right; }
+        body.rtl #modalOriginalAmountLine { text-align: right; }
+        .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top: 4px solid #0831ed; width: 30px; height: 30px; animation: spin 1s linear infinite; display: inline-block; margin-left: 0.5rem; }
+        body.rtl .spinner { margin-left: 0; margin-right: 0.5rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body class="antialiased ltr"> <!-- Default to LTR, JS will switch -->
+
+    <!-- Header -->
+    <header class="py-6 px-4 md:px-12 text-center">
+        <a href="index.html" id="headerLink" class="text-3xl md:text-4xl font-bold text-white">Flang</a>
+    </header>
+
+    <!-- Signup Section -->
+    <main class="container mx-auto px-4 sm:px-6 py-12 md:py-16 max-w-2xl">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title">
+             <span class="lang-en">Join The A-List</span>
+             <span class="lang-ar hidden">انضم إلى النخبة</span>
+        </h2>
+        <p class="text-center text-gray-400 mb-8">
+             <span class="lang-en">Complete the form below to unlock your fluent edge.</span>
+             <span class="lang-ar hidden">أكمل النموذج أدناه لفتح طريقك نحو الطلاقة.</span>
+        </p>
+
+        <!-- NEW Signup Animation - Ascending Ladder -->
+        <div class="signup-animation-container">
+            <div class="ladder">
+                <div class="rung rung-5"></div>
+                <div class="rung rung-4"></div>
+                <div class="rung rung-3"></div>
+                <div class="rung rung-2"></div>
+                <div class="rung rung-1"></div>
+            </div>
+            <div class="climber"></div>
+        </div>
+
+        <!-- Signup Form Wrapper Card -->
+        <div class="form-card">
+            <form id="signupForm" class="space-y-6">
+                 <div>
+                    <label for="name" class="lang-en">Full Name</label>
+                    <label for="name" class="lang-ar hidden">الاسم الكامل</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div>
+                     <label class="lang-en">Gender</label>
+                     <label class="lang-ar hidden">النوع</label>
+                     <div class="radio-container">
+                         <label class="radio-label">
+                             <input type="radio" name="gender" value="Male" required class="radio-input">
+                             <span class="lang-en">Male</span>
+                             <span class="lang-ar hidden">ذكر</span>
+                         </label>
+                         <label class="radio-label">
+                             <input type="radio" name="gender" value="Female" required class="radio-input">
+                             <span class="lang-en">Female</span>
+                             <span class="lang-ar hidden">أنثى</span>
+                         </label>
+                     </div>
+                </div>
+
+                <div>
+                    <label for="whatsapp" class="lang-en">WhatsApp Number (e.g., +201xxxxxxxxx)</label>
+                    <label for="whatsapp" class="lang-ar hidden">رقم الواتساب (مثال: +201xxxxxxxxx)</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" required pattern="^\+?\d{10,15}$" title="Please enter a valid phone number with country code">
+                    <p class="text-xs text-gray-500 mt-2">
+                        <span class="lang-en">We use WhatsApp for program updates and community access.</span>
+                        <span class="lang-ar hidden">نستخدم واتساب لتحديثات البرنامج والوصول للمجتمع.</span>
+                    </p>
+                </div>
+
+                <div>
+                     <label for="grade" class="lang-en">Current Grade / Level</label>
+                     <label for="grade" class="lang-ar hidden">الصف الدراسي / المستوى الحالي</label>
+                    <select id="grade" name="grade" required>
+                        <option value="" disabled selected class="lang-en">Select your grade</option>
+                        <option value="" disabled selected class="lang-ar hidden">اختر صفك الدراسي</option>
+                        <option value="Middle School 1 / الإعدادي ١">Middle School 1 / الإعدادي ١</option>
+                        <option value="Middle School 2 / الإعدادي ٢">Middle School 2 / الإعدادي ٢</option>
+                        <option value="Middle School 3 / الإعدادي ٣">Middle School 3 / الإعدادي ٣</option>
+                        <option value="High School 1 / الثانوي ١">High School 1 / الثانوي ١</option>
+                        <option value="High School 2 / الثانوي ٢">High School 2 / الثانوي ٢</option>
+                        <option value="High School 3 / الثانوي ٣">High School 3 / الثانوي ٣</option>
+                        <option value="University / جامعي">University / جامعي</option>
+                        <option value="Graduate / خريج">Graduate / خريج</option>
+                        <option value="Other / أخرى">Other / أخرى</option>
+                    </select>
+                </div>
+
+                 <div>
+                    <label for="promoCode" class="lang-en">Promo Code (Optional)</label>
+                    <label for="promoCode" class="lang-ar hidden">كود الخصم (اختياري)</label>
+                    <input type="text" id="promoCode" name="promoCode">
+                </div>
+
+                <input type="hidden" id="plan" name="plan">
+                <input type="hidden" id="price" name="price">
+
+                <button type="submit" id="submitButton" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg flex items-center justify-center">
+                    <span id="submitTextEn" class="lang-en">Join Now & Get Access</span>
+                    <span id="submitTextAr" class="lang-ar hidden">انضم الآن واحصل على الوصول</span>
+                    <span id="loadingSpinner" class="spinner hidden"></span>
+                </button>
+            </form>
+            <p id="formError" class="text-red-500 text-center mt-4 hidden"></p>
+        </div> <!-- End of form-card -->
+
+    </main>
+
+    <!-- Success Modal (Remains the same structure) -->
+     <div id="successModal">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-4" style="color:#0831ed;">
+                 <span class="lang-en">Registration Successful!</span>
+                 <span class="lang-ar hidden">تم التسجيل بنجاح!</span>
+            </h3>
+            <p class="text-gray-300 mb-6">
+                 <span class="lang-en">Welcome to The A-List! Please follow the payment instructions sent via WhatsApp to activate your access.</span>
+                 <span class="lang-ar hidden">أهلاً بك في النخبة! يرجى اتباع تعليمات الدفع المرسلة عبر واتساب لتفعيل وصولك.</span>
+            </p>
+            <div class="bg-gray-700 p-4 rounded-lg mb-6 text-left">
+                 <p class="mb-2">
+                    <strong class="lang-en">Selected Plan:</strong> <strong class="lang-ar hidden">الخطة المختارة:</strong> <span id="modalPlan" class="font-semibold capitalize"></span>
+                </p>
+                <p id="modalDiscountLine" class="hidden mb-2">
+                     <strong class="lang-en">Discount Applied:</strong> <strong class="lang-ar hidden">الخصم المطبق:</strong> <span id="modalDiscount" class="font-semibold"></span>%
+                </p>
+                 <p id="modalOriginalAmountLine" class="text-sm text-gray-400 line-through hidden mb-1">
+                    <span class="lang-en">Original:</span> <span class="lang-ar hidden">الأصلي:</span> <span id="modalOriginalAmount"></span> <span class="lang-en">EGP</span><span class="lang-ar hidden">ج.م</span>
+                </p>
+                <p class="text-xl font-semibold mt-2">
+                     <strong class="lang-en">Total Amount Due:</strong> <strong class="lang-ar hidden">المبلغ الإجمالي المستحق:</strong> <span id="modalAmount" class="text-green-400"></span> <span class="lang-en">EGP</span><span class="lang-ar hidden">ج.م</span>
+                </p>
+            </div>
+             <button id="receiptButton" class="w-full text-white font-semibold py-3 rounded-lg transition" style="background-color: #0831ed;" onmouseover="this.style.backgroundColor='#0831ed'" onmouseout="this.style.backgroundColor='#2596be'">
+                <span class="lang-en">Generate My Receipt</span>
+                <span class="lang-ar hidden">إنشاء إيصال الدفع</span>
+            </button>
+             <button id="closeModalButton" class="w-full mt-3 text-gray-400 font-semibold py-2 rounded-lg hover:text-white transition">
+                 <span class="lang-en">Close</span>
+                 <span class="lang-ar hidden">إغلاق</span>
+             </button>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="py-12 mt-16">
+         <div class="container mx-auto px-6 text-center text-gray-400">
+             <p>
+                <span class="lang-en">&copy; 2025 Flang. All Rights Reserved.</span>
+                <span class="lang-ar hidden">&copy; 2025 فلانج. جميع الحقوق محفوظة.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // All JavaScript remains the same as the previous version
+        // (scriptURL constant, form handling, language switching, modal logic etc.)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzsDfkAqOsN0RzNqGTUPbC-SjndF2OrNPjzCpjoq_nu-0A83cCSQiE8qu0BknB_1crN/exec'; // <-- IMPORTANT: Replace
+        const form = document.getElementById('signupForm');
+        const submitButton = document.getElementById('submitButton');
+        const submitTextEn = document.getElementById('submitTextEn');
+        const submitTextAr = document.getElementById('submitTextAr');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const formError = document.getElementById('formError');
+        const successModal = document.getElementById('successModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const headerLink = document.getElementById('headerLink');
+        const gradeSelect = document.getElementById('grade');
+
+        function switchLanguage(lang) {
+            const body = document.body;
+            const enElements = document.querySelectorAll('.lang-en');
+            const arElements = document.querySelectorAll('.lang-ar');
+            const enGradeOption = gradeSelect.querySelector('option.lang-en[disabled]');
+            const arGradeOption = gradeSelect.querySelector('option.lang-ar[disabled]');
+
+            if (lang === 'ar') {
+                body.classList.remove('ltr');
+                body.classList.add('rtl');
+                enElements.forEach(el => el.classList.add('hidden'));
+                arElements.forEach(el => el.classList.remove('hidden'));
+                headerLink.href = `index.html?lang=ar`;
+                if (enGradeOption) enGradeOption.classList.add('hidden');
+                if (arGradeOption) arGradeOption.classList.remove('hidden');
+                if (gradeSelect.value === "") { if (arGradeOption) arGradeOption.selected = true; }
+            } else {
+                body.classList.remove('rtl');
+                body.classList.add('ltr');
+                arElements.forEach(el => el.classList.add('hidden'));
+                enElements.forEach(el => el.classList.remove('hidden'));
+                headerLink.href = `index.html?lang=en`;
+                if (arGradeOption) arGradeOption.classList.add('hidden');
+                if (enGradeOption) enGradeOption.classList.remove('hidden');
+                if (gradeSelect.value === "") { if (enGradeOption) enGradeOption.selected = true; }
+            }
+             localStorage.setItem('flangLanguage', lang);
+        }
+
+         document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const plan = urlParams.get('plan') || 'core';
+            const price = urlParams.get('price') || '1500';
+            const urlLang = urlParams.get('lang');
+            document.getElementById('plan').value = plan;
+            document.getElementById('price').value = price;
+            let initialLang = 'en';
+            if (urlLang === 'en' || urlLang === 'ar') { initialLang = urlLang; }
+            else { const storedLang = localStorage.getItem('flangLanguage'); if (storedLang) { initialLang = storedLang; } }
+            switchLanguage(initialLang);
+        });
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            setLoading(true);
+            formError.classList.add('hidden');
+            const formData = new FormData(form);
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => { setLoading(false); if (data.result === "success") { showSuccessModal(data); form.reset(); const urlParams = new URLSearchParams(window.location.search); document.getElementById('plan').value = urlParams.get('plan') || 'core'; document.getElementById('price').value = urlParams.get('price') || '1500'; const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en'; switchLanguage(currentLang); } else { const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en'; formError.textContent = (currentLang === 'ar' ? 'خطأ: ' : 'Error: ') + (data.error || 'Submission failed') + (currentLang === 'ar' ? '. يرجى المحاولة مرة أخرى.' : '. Please try again.'); formError.classList.remove('hidden'); } })
+                .catch(error => { setLoading(false); console.error('Error!', error.message); const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en'; formError.textContent = (currentLang === 'ar' ? 'خطأ: ' : 'Error: ') + error.message + (currentLang === 'ar' ? '. يرجى المحاولة مرة أخرى.' : '. Please try again.'); formError.classList.remove('hidden'); });
+        });
+
+        function setLoading(isLoading) {
+            const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en';
+            if (isLoading) { submitButton.disabled = true; submitTextEn.classList.add('hidden'); submitTextAr.classList.add('hidden'); loadingSpinner.classList.remove('hidden'); }
+            else { submitButton.disabled = false; loadingSpinner.classList.add('hidden'); if (currentLang === 'ar') { submitTextAr.classList.remove('hidden'); } else { submitTextEn.classList.remove('hidden'); } }
+        }
+
+        function showSuccessModal(data) {
+             const modalPlanEl = document.getElementById('modalPlan');
+             const modalAmountEl = document.getElementById('modalAmount');
+             const discountLine = document.getElementById('modalDiscountLine');
+             const originalAmountLine = document.getElementById('modalOriginalAmountLine');
+             const modalDiscountEl = document.getElementById('modalDiscount');
+             const modalOriginalAmountEl = document.getElementById('modalOriginalAmount');
+             if(modalPlanEl) modalPlanEl.textContent = data.plan;
+             if(modalAmountEl) modalAmountEl.textContent = data.finalPrice;
+             if (data.discount > 0) { if(modalDiscountEl) modalDiscountEl.textContent = data.discount; if(modalOriginalAmountEl) modalOriginalAmountEl.textContent = data.originalPrice; if(discountLine) discountLine.classList.remove('hidden'); if(originalAmountLine) originalAmountLine.classList.remove('hidden'); }
+             else { if(discountLine) discountLine.classList.add('hidden'); if(originalAmountLine) originalAmountLine.classList.add('hidden'); }
+             const receiptButton = document.getElementById('receiptButton');
+             receiptButton.onclick = () => { const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en'; const receiptData = { name: data.name, plan: data.plan, amount: data.finalPrice, originalAmount: data.originalPrice, discount: data.discount, date: new Date().toLocaleDateString('en-GB'), lang: currentLang }; const queryString = new URLSearchParams(receiptData).toString(); window.open(`receipt.html?${queryString}`, '_blank'); };
+             if(successModal) successModal.classList.add('show');
+        }
+
+        if (closeModalButton && successModal) {
+            closeModalButton.addEventListener('click', () => { successModal.classList.remove('show'); });
+            successModal.addEventListener('click', (e) => { if (e.target === successModal) { successModal.classList.remove('show'); } });
+        }
+    </script>
+
+</body>
+</html>
+

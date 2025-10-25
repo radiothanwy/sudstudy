@@ -20,10 +20,16 @@
         ==============================================
         */
 
+        /* Apply smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #111827;
             color: #F9FAFB;
+            transition: font-family 0.3s ease; /* Smooth font transition */
         }
 
         body.rtl {
@@ -39,12 +45,15 @@
         /* The Hero Animation Container */
         .hero-animation {
             position: relative;
-            width: 95%;
+            width: 95%; /* Adjusted for slightly better spacing */
+            max-width: 400px; /* Max width for larger screens */
             height: 300px;
             display: flex;
             justify-content: center;
             align-items: center;
             perspective: 800px;
+            margin-left: auto; /* Center the container */
+            margin-right: auto; /* Center the container */
         }
 
         /* Base style for all silhouette shapes (circles) */
@@ -60,7 +69,7 @@
             align-items: center;
             font-size: 24px;
         }
-        
+
         /* The main character - the user */
         .hero-shape {
             display: flex;
@@ -82,21 +91,23 @@
         .group-shape-4::before { content: '🙂'; }
         .group-shape-5 { background-color: #2596be; animation: group-gather-5 6s ease-in-out infinite alternate; }
         .group-shape-5::before { content: '😁'; }
-        
+
         /* The Mesh Network Lines */
         .line {
             position: absolute;
-            background-color: rgba(61, 179, 227, 0.2);
+            background-color: rgba(61, 179, 227, 0.2); /* Faint Bright Blue */
             height: 2px;
             transform-origin: left center;
             opacity: 0;
             animation: mesh-fade 6s ease-in-out infinite alternate;
         }
-        .line-1 { top: 120px; left: 42%; width: 100px; transform: rotate(30deg); }
-        .line-2 { top: 150px; left: 45%; width: 90px; transform: rotate(-15deg); }
-        .line-3 { top: 180px; left: 40%; width: 110px; transform: rotate(110deg); }
-        .line-4 { top: 130px; left: 50%; width: 80px; transform: rotate(160deg); }
-        .line-5 { top: 190px; left: 55%; width: 95px; transform: rotate(-50deg); }
+        /* Positioning adjusted slightly for smaller shapes */
+        .line-1 { top: 45%; left: 42%; width: 100px; transform: rotate(30deg); }
+        .line-2 { top: 50%; left: 45%; width: 90px; transform: rotate(-15deg); }
+        .line-3 { top: 60%; left: 40%; width: 110px; transform: rotate(110deg); }
+        .line-4 { top: 48%; left: 50%; width: 80px; transform: rotate(160deg); }
+        .line-5 { top: 65%; left: 55%; width: 95px; transform: rotate(-50deg); }
+
 
         /* ==============================================
         KEYFRAME ANIMATION LOGIC
@@ -114,7 +125,7 @@
             }
             /* 45%: Moves to center, becomes the brand's Accent Color - Happy */
             45% {
-                background-color: #14B8A6;
+                background-color: #3db3e3; /* Bright Blue */
                 transform: translate(0, 0) scale(1);
                 border-radius: 50%;
                 box-shadow: none;
@@ -129,10 +140,10 @@
             }
             /* 85-100%: The A-LISTER. The glowing cube with crown */
             85%, 100% {
-                background: linear-gradient(145deg, #FBCFE8, #e91e8c);
+                background: linear-gradient(145deg, #FBCFE8, #e91e8c); /* Magenta Gradient */
                 transform: translate(0, -8px) scale(1.2);
                 border-radius: 15%;
-                box-shadow: 0 0 30px #e91e8c, 0 0 60px #F472B6, 0 0 90px #0831ed;
+                box-shadow: 0 0 30px #e91e8c, 0 0 60px #F472B6, 0 0 90px #0831ed; /* Multi-color glow */
                 z-index: 20;
                 font-size: 36px;
             }
@@ -153,36 +164,37 @@
             }
             100% {
                 opacity: 0.6;
-                box-shadow: 0 0 10px rgba(61, 179, 227, 0.5);
+                box-shadow: 0 0 10px rgba(61, 179, 227, 0.5); /* Bright Blue shadow */
             }
         }
 
         /* Custom styles with new brand colors */
         .glow-button {
-            box-shadow: 0 0 10px #0831ed, 0 0 20px #2596be;
+            box-shadow: 0 0 10px #0831ed, 0 0 20px #2596be; /* Ocean Blue shadow */
         }
         .section-title {
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
         .pricing-card {
-            border: 1px solid #0831ed;
+            border: 1px solid #374151; /* Darker border */
             transition: all 0.3s ease;
         }
         .pricing-card:hover {
-            border: 1px solid #0831ed;
+            border: 1px solid #2596be; /* Ocean Blue border on hover */
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(37, 150, 190, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(37, 150, 190, 0.2); /* Ocean Blue shadow */
         }
         .highlight-card {
-             border: 2px solid #0831ed;
-             transform: scale(1.05);
-             box-shadow: 0 20px 25px -5px rgba(37, 150, 190, 0.2);
+             border: 2px solid #2596be; /* Ocean Blue border */
+             transform: scale(1.05); /* Slightly reduced scale for subtlety */
+             box-shadow: 0 20px 25px -5px rgba(37, 150, 190, 0.2); /* Ocean Blue shadow */
         }
 
+        /* Language Toggle Styles */
         .lang-toggle {
             position: relative;
             background: linear-gradient(145deg, #1a1f2e, #0f1419);
-            border: 1px solid rgba(37, 150, 190, 0.3);
+            border: 1px solid rgba(37, 150, 190, 0.3); /* Faint Ocean Blue border */
             border-radius: 2rem;
             padding: 0.25rem;
             display: inline-flex;
@@ -202,7 +214,7 @@
         }
 
         .lang-toggle button.active {
-            background: linear-gradient(135deg, #0831ed, #1e7a9d);
+            background: linear-gradient(135deg, #0831ed, #1e7a9d); /* Primary gradient */
             color: white;
             box-shadow: 0 2px 8px rgba(37, 150, 190, 0.4), 0 0 20px rgba(37, 150, 190, 0.2);
         }
@@ -221,19 +233,82 @@
             .lang-toggle {
                 padding: 0.2rem;
             }
-            
             .lang-toggle button {
                 padding: 0.4rem 0.875rem;
                 font-size: 0.8125rem;
             }
+            .hero-animation {
+                 height: 250px; /* Slightly smaller on mobile */
+            }
+            .shape { width: 35px; height: 35px; font-size: 20px;}
+            .hero-shape { font-size: 26px; }
+             @keyframes transform-story { /* Adjust translate distance for mobile */
+                0%, 25% { transform: translate(-120px, 0px) scale(0.8); font-size: 22px; }
+                45% { transform: translate(0, 0) scale(1); font-size: 22px; background-color: #3db3e3; }
+                65% { transform: translate(0, -3px) scale(1.1); font-size: 26px; border-radius: 15%; background-color: #3db3e3; }
+                85%, 100% { transform: translate(0, -6px) scale(1.15); font-size: 28px; background: linear-gradient(145deg, #FBCFE8, #e91e8c); border-radius: 15%; box-shadow: 0 0 20px #e91e8c, 0 0 40px #F472B6, 0 0 60px #0831ed;}
+             }
+             @keyframes group-gather-1 { from { transform: translate(-80px, -40px) scale(0.9); } to { transform: translate(-40px, -25px) scale(1); } }
+             @keyframes group-gather-2 { from { transform: translate(15px, -60px) scale(0.9); } to { transform: translate(15px, -35px) scale(1); } }
+             @keyframes group-gather-3 { from { transform: translate(90px, -30px) scale(0.9); } to { transform: translate(50px, -20px) scale(1); } }
+             @keyframes group-gather-4 { from { transform: translate(-70px, 50px) scale(0.9); } to { transform: translate(-35px, 25px) scale(1); } }
+             @keyframes group-gather-5 { from { transform: translate(70px, 60px) scale(0.9); } to { transform: translate(40px, 35px) scale(1); } }
+             .line { height: 1.5px; } /* Thinner lines on mobile */
+             .line-1 { top: 45%; left: 40%; width: 70px; }
+             .line-2 { top: 50%; left: 42%; width: 60px; }
+             .line-3 { top: 60%; left: 38%; width: 75px; }
+             .line-4 { top: 48%; left: 52%; width: 55px; }
+             .line-5 { top: 65%; left: 55%; width: 65px; }
+
         }
 
         .hidden {
             display: none;
         }
+
+        /* NEW: Bold Statement Animation */
+        .bold-statement {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlogan 1.5s ease-out 0.5s forwards; /* Fade in after 0.5s delay */
+        }
+        @keyframes fadeInSlogan {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CORRECTED: RTL Styles for Pricing Cards */
+        body.rtl .pricing-card ul {
+            text-align: right; /* Align list text to the right */
+        }
+        /* Style list items for consistent checkmark placement */
+        .pricing-card li {
+            position: relative;
+            padding-left: 1.75rem; /* Space for checkmark in LTR */
+            text-align: left; /* Default LTR text align */
+        }
+        .pricing-card li::before {
+             content: '✅';
+             position: absolute;
+             left: 0; /* Position checkmark to the left in LTR */
+             top: 2px; /* Adjust vertical alignment */
+        }
+        /* RTL specific overrides */
+        body.rtl .pricing-card li {
+            padding-left: 0; /* Remove LTR padding */
+            padding-right: 1.75rem; /* Add space for checkmark in RTL */
+            text-align: right; /* Align text to the right in RTL */
+        }
+        body.rtl .pricing-card li::before {
+            left: auto; /* Remove LTR position */
+            right: 0; /* Position checkmark to the right in RTL */
+        }
+
     </style>
 </head>
-<body class="antialiased ltr">
+<body class="antialiased ltr"> <!-- Default to LTR, JS will switch -->
 
     <!-- Header -->
     <header class="py-4 px-4 md:px-12">
@@ -244,22 +319,36 @@
                     <button id="btn-en" class="active" onclick="switchLanguage('en')">EN</button>
                     <button id="btn-ar" onclick="switchLanguage('ar')">ع</button>
                 </div>
-
+                <!-- Updated Link for Smooth Scroll -->
+                <a href="#pricing" onclick="smoothScroll(event, 'pricing')" class="font-semibold py-2 px-3 md:px-5 rounded-lg transition text-white" style="background-color: #0831ed;" onmouseover="this.style.backgroundColor='#1e7a9d'" onmouseout="this.style.backgroundColor='#2596be'">
+                    <span class="lang-en">Join Waitlist</span>
+                    <span class="lang-ar hidden">انضم للقائمة</span>
+                </a>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <main class="container mx-auto px-6 py-16 md:py-24 text-center">
-        <h2 class="text-4xl md:text-6xl font-bold leading-tight mb-4 section-title">
-            <span class="lang-en">Don't just speak English. <br><span style="color: #0831ed;">Belong.</span></span>
-            <span class="lang-ar hidden">لا تتحدث الإنجليزية فقط. <br><span style="color: #0831ed;">انتمِ.</span></span>
+    <main class="container mx-auto px-6 py-10 md:py-16 text-center">
+        <!-- NEW: Bold Statement -->
+        <p class="text-lg md:text-xl text-gray-400 mb-2 bold-statement">
+            <span class="lang-en">The World's Best Technique To Break The Ice Speaking English.</span>
+            <span class="lang-ar hidden">أفضل طريقة في العالم لكسر حاجز التحدث بالإنجليزية.</span>
+        </p>
+        <h2 class="text-4xl md:text-6xl font-bold leading-tight mb-2 section-title">
+            <span class="lang-en">Don't just speak English.</span>
+            <span class="lang-ar hidden">مش مجرد هتتكلم انجليزي.</span>
+        </h2>
+        <!-- Adjusted Margin Top for "Belong" -->
+        <h2 class="text-4xl md:text-6xl font-bold leading-tight mb-4 section-title mt-2 md:mt-0" style="color: #0831ed;">
+             <span class="lang-en">Belong.</span>
+             <span class="lang-ar hidden">هترتقي.</span>
         </h2>
         <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
             <span class="lang-en">Flang teaches you the unwritten rules. The specific words and phrases that signal confidence, intelligence, and opportunity. This is English that fits you, and makes you fit in.</span>
-            <span class="lang-ar hidden">فلانج يعلمك القواعد غير المكتوبة. الكلمات والعبارات المحددة التي تشير إلى الثقة والذكاء والفرص. هذه هي الإنجليزية التي تناسبك وتجعلك تنتمي.</span>
+            <span class="lang-ar hidden">اف لانج بيعلمك الاسرار المخفية للغة . الكلمات والعبارات اللي تديك الثقة والذكاء وتفتحلك فرص اكبر . إنجليزي يناسبك ، ويخليك فوق المناسب .</span>
         </p>
-        
+
         <!-- CSS Animation -->
         <div class="hero-animation my-12">
             <div class="line line-1"></div>
@@ -267,7 +356,7 @@
             <div class="line line-3"></div>
             <div class="line line-4"></div>
             <div class="line line-5"></div>
-            <div class="shape hero-shape">😔</div>
+            <div class="shape hero-shape">😔</div> <!-- Emoji updated by JS -->
             <div class="shape group-shape-1"></div>
             <div class="shape group-shape-2"></div>
             <div class="shape group-shape-3"></div>
@@ -275,9 +364,10 @@
             <div class="shape group-shape-5"></div>
         </div>
 
-        <a href="#pricing" class="bg-blue-500 text-white font-bold py-4 px-10 rounded-lg text-xl hover:bg-blue-600 transition-transform transform hover:scale-105 glow-button inline-block" style="background-color: #0831ed;">
+        <!-- Updated Link for Smooth Scroll -->
+        <a href="#pricing" onclick="smoothScroll(event, 'pricing')" class="text-white font-bold py-4 px-10 rounded-lg text-xl transition-transform transform hover:scale-105 glow-button inline-block" style="background-color: #0831ed;" onmouseover="this.style.backgroundColor='#1e7a9d'" onmouseout="this.style.backgroundColor='#2596be'">
             <span class="lang-en">Unlock The A-List Code</span>
-            <span class="lang-ar hidden">ابدأ طريق النخبة</span>
+            <span class="lang-ar hidden">طريقك للوصول يبدأ هنا</span>
         </a>
     </main>
 
@@ -286,29 +376,29 @@
         <div class="container mx-auto px-6 text-center">
             <h3 class="text-3xl md:text-4xl font-bold mb-10 section-title">
                 <span class="lang-en">Does This Sound Familiar?</span>
-                <span class="lang-ar hidden">كلام مش غريب ، صح ؟</span>
+                <span class="lang-ar hidden">الكلام ده مش غريب عليك ، صح ؟</span>
             </h3>
             <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <div class="bg-gray-700 p-6 rounded-xl">
+                 <div class="bg-gray-700 p-6 rounded-xl">
                     <p class="text-5xl mb-4">📚</p>
                     <h4 class="text-xl font-semibold mb-2">
                         <span class="lang-en">The Knowledge Gap</span>
-                        <span class="lang-ar hidden"> فجوة المعرفة </span>
+                        <span class="lang-ar hidden"> فجوة ف المعرفة </span>
                     </h4>
                     <p class="text-gray-400">
                         <span class="lang-en">You've studied grammar for years. You can read English... but when it's time to speak, you freeze.</span>
-                        <span class="lang-ar hidden">درست القواعد كتير لسنين. بتعرف تقرأ انجليزي بالفعل... لكن وقت التحدث، بتتجمد.</span>
+                        <span class="lang-ar hidden">درست الجرامر كتير . بتعرف تقرأ انجليزي بالفعل... بس وقت ما بتتكلم. بتتجمد.</span>
                     </p>
                 </div>
                 <div class="bg-gray-700 p-6 rounded-xl">
                     <p class="text-5xl mb-4">😰</p>
                     <h4 class="text-xl font-semibold mb-2">
                         <span class="lang-en">The Confidence Gap</span>
-                        <span class="lang-ar hidden">فجوة الثقة</span>
+                        <span class="lang-ar hidden">فجوة ف الثقة</span>
                     </h4>
                     <p class="text-gray-400">
                         <span class="lang-en">You worry you'll sound "like a textbook" or make a mistake. The fear of being judged is real.</span>
-                        <span class="lang-ar hidden">بتخاف انك تبان "حافظ مش فاهم" أو أن تغلط ف الكلام . الخوف من الحكم عليك حقيقي.</span>
+                        <span class="lang-ar hidden">بتخاف انك تبان "حافظ مش فاهم" أو أن تغلط ف الكلام . خوف من الحكم عليك حقيقي وفعلي .</span>
                     </p>
                 </div>
                 <div class="bg-gray-700 p-6 rounded-xl">
@@ -319,7 +409,7 @@
                     </h4>
                     <p class="text-gray-400">
                         <span class="lang-en">You see others speak a cool, hybrid language and you feel left out. You're not part of the "in-crowd."</span>
-                        <span class="lang-ar hidden" > بتشوف اللي حواليك بيتكلم لغة جميلة ومختلطة وتحس انك مش منهم. أنت لست جزءاً من "المجموعة المميزة".</span>
+                        <span class="lang-ar hidden" > بتشوف اللي حواليك بيتكلم لغة سلسة ومختلطة وتحس انك مش منهم. أنت مش حد من "المجموعة المميزة".</span>
                     </p>
                 </div>
             </div>
@@ -329,31 +419,31 @@
     <!-- How It Works Section -->
     <section class="py-20">
         <div class="container mx-auto px-6 text-center">
-            <h3 class="text-3xl md:text-4xl font-bold mb-12 section-title">
+             <h3 class="text-3xl md:text-4xl font-bold mb-12 section-title">
                 <span class="lang-en">Unlock Your Fluent Edge in 3 Steps</span>
-                <span class="lang-ar hidden">طريقك للطلاقة في 3 خطوات</span>
+                <span class="lang-ar hidden"> طلاقة في 3 خطوات</span>
             </h3>
             <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
                 <div class="text-center">
                     <div class="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4 border-2" style="background-color: rgba(37, 150, 190, 0.2); color: #ffffff; border-color: #0831ed;">1</div>
                     <h4 class="text-2xl font-semibold mb-2">
                         <span class="lang-en">Acquire the Code</span>
-                        <span class="lang-ar hidden">احصل على الكود</span>
+                        <span class="lang-ar hidden"> مفتاح اللغة </span>
                     </h4>
                     <p class="text-gray-400">
                         <span class="lang-en">Each week, you get a "Code Briefing" with ~30 high-impact phrases—the language of the A-List.</span>
-                        <span class="lang-ar hidden">كل أسبوع، تحصل على "إحاطة الكود" مع ~30 عبارة عالية التأثير - لغة النخبة.</span>
+                        <span class="lang-ar hidden">كل أسبوع، تحصل على "مفتاح لللغة " مع ~30 عبارة عالية التأثير - لغة النخبة.</span>
                     </p>
                 </div>
                 <div class="text-center">
                     <div class="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4 border-2" style="background-color: rgba(37, 150, 190, 0.2); color: #ffffff; border-color: #0831ed;">2</div>
                     <h4 class="text-2xl font-semibold mb-2">
                         <span class="lang-en">Integrate Naturally</span>
-                        <span class="lang-ar hidden">اندمج بشكل طبيعي</span>
+                        <span class="lang-ar hidden">نفذ بشكل طبيعي</span>
                     </h4>
                     <p class="text-gray-400">
                         <span class="lang-en">Our unique "Integration Method" teaches you to drop these phrases into your native language, building confidence without fear.</span>
-                        <span class="lang-ar hidden">طريقتنا الفريدة "للاندماج" تعلمك إدراج هذه العبارات في لغتك الأم، بناء الثقة بدون خوف.</span>
+                        <span class="lang-ar hidden">طريقتنا الفريدة "للاندماج" هتعلمك ازاي تدمج العبارات دي في كلامك اليومي، وبناء الثقة بدون خوف.</span>
                     </p>
                 </div>
                 <div class="text-center">
@@ -364,7 +454,7 @@
                     </h4>
                     <p class="text-gray-400">
                         <span class="lang-en">In 6 weeks, you'll sound more confident, intelligent, and authentic. You won't just speak English; you'll signal success.</span>
-                        <span class="lang-ar hidden">في 6 أسابيع، ستبدو أكثر ثقة وذكاءً وأصالة. لن تتحدث الإنجليزية فقط؛ ستشير إلى النجاح.</span>
+                        <span class="lang-ar hidden">في 6 أسابيع بس، هتصل لمستوى أكثر ثقة وذكاءً وأصالة. هش هتتكلم انجليزي بس، هتوصل لمستوى اعلى .</span>
                     </p>
                 </div>
             </div>
@@ -376,14 +466,14 @@
         <div class="container mx-auto px-6 text-center">
             <h3 class="text-3xl md:text-4xl font-bold mb-12 section-title">
                 <span class="lang-en">Choose Your Access Level</span>
-                <span class="lang-ar hidden">اختر مستوى الوصول الخاص بك</span>
+                <span class="lang-ar hidden">اختار المستوى المناسب ليك</span>
             </h3>
             <div class="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                 <!-- Tier 1 -->
-                <div class="pricing-card bg-gray-900 p-8 rounded-lg text-center">
+                 <div class="pricing-card bg-gray-900 p-8 rounded-lg text-center">
                     <h4 class="text-2xl font-bold mb-4">
                         <span class="lang-en">Flang Core</span>
-                        <span class="lang-ar hidden">فلانج الأساسي</span>
+                        <span class="lang-ar hidden">اف لانج العادي</span>
                     </h4>
                     <p class="text-5xl font-bold mb-4">1,500 <span class="text-lg font-normal text-gray-400">
                         <span class="lang-en">EGP</span>
@@ -391,32 +481,34 @@
                     </span></p>
                     <p class="text-gray-400 mb-6">
                         <span class="lang-en">One-time payment</span>
-                        <span class="lang-ar hidden">دفعة واحدة</span>
+                        <span class="lang-ar hidden">تدفع مرة واحدة</span>
                     </p>
-                    <ul class="text-left space-y-3 mb-8">
-                        <li class="lang-en">✅ 6-Week "Impact 200" Program</li>
-                        <li class="lang-en">✅ Weekly "Code Briefings"</li>
-                        <li class="lang-en">✅ Movie Clips & Audio Guides</li>
-                        <li class="lang-en">✅ Private Community Access</li>
-                        <li class="lang-ar hidden">✅ برنامج "التأثير 200" لمدة 6 أسابيع</li>
-                        <li class="lang-ar hidden">✅ إحاطات الكود الأسبوعية</li>
-                        <li class="lang-ar hidden">✅ مقاطع أفلام وأدلة صوتية</li>
-                        <li class="lang-ar hidden">✅ الوصول إلى المجتمع الخاص</li>
+                    <ul class="space-y-3 mb-8">
+                        <li class="lang-en">6-Week "Impact" Program</li>
+                        <li class="lang-en">Weekly "Code Briefings"</li>
+                        <li class="lang-en">Movie Clips & Audio Guides</li>
+                        <li class="lang-en">Private Community Access</li>
+                         <!-- RTL List Items -->
+                        <li class="lang-ar hidden">برنامج "التأثير" لمدة 6 أسابيع</li>
+                        <li class="lang-ar hidden">كل اسبوع مجموعة من التعبيرات</li>
+                        <li class="lang-ar hidden">دليل شامل لاستخدامها مع امثلة</li>
+                        <li class="lang-ar hidden">الممارسة الفعلية مع التوجيه</li>
                     </ul>
-                    <button class="w-full bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition">
+                    <!-- Link to signup page -->
+                    <a href="signup.html?plan=core&price=1500" data-link="signup" class="w-full block bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition">
                         <span class="lang-en">Get Started</span>
-                        <span class="lang-ar hidden">ابدأ الآن</span>
-                    </button>
+                        <span class="lang-ar hidden">ابدأ دلوقتي</span>
+                    </a>
                 </div>
                 <!-- Tier 2 - Highlighted -->
                 <div class="pricing-card bg-gray-900 p-8 rounded-lg text-center relative highlight-card">
-                    <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 text-white text-sm font-bold px-4 py-1 rounded-full" style="background-color: #0831ed;">
+                     <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 text-white text-sm font-bold px-4 py-1 rounded-full" style="background-color: #0831ed;">
                         <span class="lang-en">MOST POPULAR</span>
                         <span class="lang-ar hidden">الأكثر شعبية</span>
                     </span>
                     <h4 class="text-2xl font-bold mb-4" style="color: #0831ed;">
                         <span class="lang-en">Flang Pro</span>
-                        <span class="lang-ar hidden">فلانج برو</span>
+                        <span class="lang-ar hidden">اف لانج برو</span>
                     </h4>
                     <p class="text-5xl font-bold mb-4">2,400 <span class="text-lg font-normal text-gray-400">
                         <span class="lang-en">EGP</span>
@@ -424,28 +516,30 @@
                     </span></p>
                     <p class="text-gray-400 mb-6">
                         <span class="lang-en">One-time payment</span>
-                        <span class="lang-ar hidden">دفعة واحدة</span>
+                        <span class="lang-ar hidden">تدفع مرة واحدة</span>
                     </p>
-                    <ul class="text-left space-y-3 mb-8">
-                        <li class="lang-en">✅ Everything in Flang Core</li>
-                        <li class="lang-en">🔥 **The Boardroom Code** Pack</li>
-                        <li class="lang-en">🔥 **The Social Code** Pack</li>
-                        <li class="lang-en">🚀 Priority Community Support</li>
-                        <li class="lang-ar hidden">✅ كل شيء في فلانج الأساسي</li>
-                        <li class="lang-ar hidden">🔥 **كود قاعة الاجتماعات**</li>
-                        <li class="lang-ar hidden">🔥 **الكود الاجتماعي**</li>
-                        <li class="lang-ar hidden">🚀 دعم المجتمع ذو الأولوية</li>
+                    <ul class="space-y-3 mb-8">
+                        <li class="lang-en">Everything in Flang Core</li>
+                        <li class="lang-en">**The Boardroom Code** Pack</li>
+                        <li class="lang-en">**The Social Code** Pack</li>
+                        <li class="lang-en">Priority Community Support</li>
+                         <!-- RTL List Items -->
+                        <li class="lang-ar hidden">كل شيء في اف لانج العادي</li>
+                        <li class="lang-ar hidden">** باكدج البيزنس **</li>
+                        <li class="lang-ar hidden">**الباكدج الاجتماعي**</li>
+                        <li class="lang-ar hidden">اولوية في الدعم والوصول</li>
                     </ul>
-                    <button class="w-full text-white font-semibold py-3 rounded-lg transition" style="background-color: #0831ed;" onmouseover="this.style.backgroundColor='#1e7a9d'" onmouseout="this.style.backgroundColor='#2596be'">
+                     <!-- Link to signup page -->
+                    <a href="signup.html?plan=pro&price=2400" data-link="signup" class="w-full block text-white font-semibold py-3 rounded-lg transition" style="background-color: #0831ed;" onmouseover="this.style.backgroundColor='#1e7a9d'" onmouseout="this.style.backgroundColor='#2596be'">
                         <span class="lang-en">Unlock Pro Access</span>
-                        <span class="lang-ar hidden">افتح الوصول الاحترافي</span>
-                    </button>
+                        <span class="lang-ar hidden">ابدا طريقك الاحترافي</span>
+                    </a>
                 </div>
                 <!-- Tier 3 -->
                 <div class="pricing-card bg-gray-900 p-8 rounded-lg text-center">
                     <h4 class="text-2xl font-bold mb-4">
                         <span class="lang-en">Flang Elite</span>
-                        <span class="lang-ar hidden">فلانج النخبة</span>
+                        <span class="lang-ar hidden">اف لانج النخبة</span>
                     </h4>
                     <p class="text-5xl font-bold mb-4">7,500 <span class="text-lg font-normal text-gray-400">
                         <span class="lang-en">EGP</span>
@@ -453,22 +547,24 @@
                     </span></p>
                     <p class="text-gray-400 mb-6">
                         <span class="lang-en">One-time payment</span>
-                        <span class="lang-ar hidden">دفعة واحدة</span>
+                        <span class="lang-ar hidden">تدفع مرة واحدة</span>
                     </p>
-                    <ul class="text-left space-y-3 mb-8">
-                        <li class="lang-en">✅ Everything in Flang Pro</li>
-                        <li class="lang-en">⭐ 2x One-on-One Dialogue Coaching Calls</li>
-                        <li class="lang-en">⭐ Access to "Inner Circle" Group</li>
-                        <li class="lang-en">⭐ Monthly Live Q&A Sessions</li>
-                        <li class="lang-ar hidden">✅ كل شيء في فلانج برو</li>
-                        <li class="lang-ar hidden">⭐ جلستان تدريب فردي على الحوار</li>
-                        <li class="lang-ar hidden">⭐ الوصول إلى مجموعة "الدائرة الداخلية"</li>
-                        <li class="lang-ar hidden">⭐ جلسات أسئلة وأجوبة شهرية مباشرة</li>
+                    <ul class="space-y-3 mb-8">
+                        <li class="lang-en">Everything in Flang Pro</li>
+                        <li class="lang-en">2x One-on-One Dialogue Coaching Calls</li>
+                        <li class="lang-en">Access to "Inner Circle" Group</li>
+                        <li class="lang-en">Monthly Live Q&A Sessions</li>
+                        <!-- RTL List Items -->
+                        <li class="lang-ar hidden">كل شيء في اف لانج برو</li>
+                        <li class="lang-ar hidden"> تدريب فردي على الحوار</li>
+                        <li class="lang-ar hidden">الوصول للمجموعة المتميزة من المتحدثين</li>
+                        <li class="lang-ar hidden">جلسات أسئلة وأجوبة شهرية مباشرة</li>
                     </ul>
-                    <button class="w-full bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition">
+                     <!-- Link to signup page -->
+                    <a href="signup.html?plan=elite&price=7500" data-link="signup" class="w-full block bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition">
                         <span class="lang-en">Become Elite</span>
-                        <span class="lang-ar hidden">كن من النخبة</span>
-                    </button>
+                        <span class="lang-ar hidden">خليك من النخبة</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -479,7 +575,7 @@
         <div class="container mx-auto px-6 text-center text-gray-400">
             <p>
                 <span class="lang-en">&copy; 2025 Flang. All Rights Reserved. Unlock Your Next Level.</span>
-                <span class="lang-ar hidden">&copy; 2025 فلانج. جميع الحقوق محفوظة. افتح مستواك التالي.</span>
+                <span class="lang-ar hidden">&copy; 2025 اف لانج . جميع الحقوق محفوظة. حقق مستواك التالي.</span>
             </p>
         </div>
     </footer>
@@ -493,7 +589,7 @@
         function updateHeroEmoji() {
             // Calculate progress (0 to 1, then 1 to 0)
             animationProgress += direction * 0.0033; // Adjust speed to match 6s animation
-            
+
             if (animationProgress >= 1) {
                 animationProgress = 1;
                 direction = -1;
@@ -503,22 +599,25 @@
             }
 
             // Change emoji based on progress threshold
-            // 0-0.4: sad face, 0.4-1: crown (smooth transition point)
             if (animationProgress < 0.4) {
-                heroShape.textContent = '😔';
+                heroShape.textContent = '😔'; // Sad face when isolated
+            } else if (animationProgress > 0.85) {
+                 heroShape.textContent = '👑'; // Crown when A-Lister
             } else {
-                heroShape.textContent = '👑';
+                 heroShape.textContent = '🙂'; // Simple smile when integrating/morphing
             }
         }
 
-        setInterval(updateHeroEmoji, 20); // Update every 20ms for smooth transition
+        setInterval(updateHeroEmoji, 20); // Update every 20ms
 
+        // Language Switching Function
         function switchLanguage(lang) {
             const body = document.body;
             const enBtn = document.getElementById('btn-en');
             const arBtn = document.getElementById('btn-ar');
             const enElements = document.querySelectorAll('.lang-en');
             const arElements = document.querySelectorAll('.lang-ar');
+            const currentLang = lang || (document.body.classList.contains('rtl') ? 'ar' : 'en'); // Get current lang before switch
 
             if (lang === 'ar') {
                 body.classList.remove('ltr');
@@ -527,7 +626,7 @@
                 arBtn.classList.add('active');
                 enElements.forEach(el => el.classList.add('hidden'));
                 arElements.forEach(el => el.classList.remove('hidden'));
-            } else {
+            } else { // Default to English
                 body.classList.remove('rtl');
                 body.classList.add('ltr');
                 arBtn.classList.remove('active');
@@ -535,8 +634,53 @@
                 arElements.forEach(el => el.classList.add('hidden'));
                 enElements.forEach(el => el.classList.remove('hidden'));
             }
+
+             // Store preference
+            localStorage.setItem('flangLanguage', lang);
+
+            // Update signup links AFTER switching language
+            document.querySelectorAll('a[data-link="signup"]').forEach(link => {
+                const url = new URL(link.href);
+                url.searchParams.set('lang', lang); // Set or update lang param
+                link.href = url.toString();
+            });
         }
+
+        // Smooth Scroll Function (Corrected)
+        function smoothScroll(event, targetId) {
+            event.preventDefault(); // Prevent the default anchor jump *and* hash change
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Check for stored language preference and URL param on load
+        document.addEventListener('DOMContentLoaded', () => {
+             const urlParams = new URLSearchParams(window.location.search);
+             const urlLang = urlParams.get('lang'); // Check URL first
+             let initialLang = 'en'; // Default
+
+             if (urlLang === 'en' || urlLang === 'ar') {
+                 initialLang = urlLang;
+             } else {
+                 const storedLang = localStorage.getItem('flangLanguage');
+                 if (storedLang) {
+                     initialLang = storedLang;
+                 }
+             }
+             switchLanguage(initialLang); // Apply initial language AND update links
+
+            // Attach smooth scroll to all relevant links after initial setup
+             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                const targetId = anchor.getAttribute('href').substring(1);
+                if (targetId) { // Ensure there's an ID
+                    anchor.addEventListener('click', (event) => smoothScroll(event, targetId));
+                }
+            });
+        });
     </script>
 
 </body>
 </html>
+
