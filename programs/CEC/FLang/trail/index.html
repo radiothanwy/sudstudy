@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flang - 14-Day Free Trial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles - consistent with main site */
+        body { font-family: 'Poppins', sans-serif; background-color: #111827; color: #F9FAFB; transition: font-family 0.3s ease; overflow-x: hidden; }
+        body.rtl { direction: rtl; font-family: 'Cairo', sans-serif; }
+        body.ltr { direction: ltr; font-family: 'Poppins', sans-serif; }
+        .hidden { display: none; }
+
+        /* NEW: Signup Animation - "The Spark Network" */
+        .signup-animation-container {
+            width: 100%;
+            max-width: 400px;
+            height: 220px;
+            margin: 2rem auto 3rem auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .network-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible; /* Allow glows to extend */
+        }
+
+        /* Node Styling */
+        .node {
+            fill: #0008f8; /* Ocean Blue */
+            stroke: #651ee0; /* Bright Blue */
+            stroke-width: 2;
+            r: 5; /* Node radius */
+            animation: pulse 4s ease-in-out infinite alternate;
+        }
+        .node-1 { animation-delay: -1s; }
+        .node-2 { animation-delay: -2s; }
+        .node-3 { animation-delay: -3s; }
+        .node-4 { animation-delay: -0.5s; }
+        .node-5 { animation-delay: -2.5s; }
+
+        /* User Node Styling */
+        .node-user {
+            fill: #e91e8c; /* Magenta */
+            stroke: #fce7f3; /* Pink-50 */
+            stroke-width: 2;
+            r: 7;
+            animation: user-pulse 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 10px #e91e8c);
+        }
+
+        /* Line Styling */
+        .mesh-line {
+            stroke: #2596be; /* Ocean Blue */
+            stroke-width: 1;
+            opacity: 0.3;
+            animation: line-pulse 4s ease-in-out infinite alternate;
+        }
+        
+        /* Spark Styling */
+        .spark {
+            fill: #e91e8c; /* Magenta */
+            r: 3;
+            animation: spark-travel 5s ease-out infinite;
+            animation-delay: var(--delay);
+            opacity: 0;
+            filter: drop-shadow(0 0 5px #e91e8c);
+        }
+
+        @keyframes pulse {
+            0%, 100% { r: 5; opacity: 0.7; }
+            50% { r: 6; opacity: 1; }
+        }
+         @keyframes user-pulse {
+            0%, 100% { r: 7; opacity: 1; }
+            50% { r: 8; opacity: 0.9; }
+        }
+         @keyframes line-pulse {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.4; }
+        }
+        
+        /* Keyframes for the spark traveling along the path */
+        @keyframes spark-travel {
+            0% { offset-distance: 0%; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { offset-distance: 100%; opacity: 0; }
+        }
+
+        /* Form Styles - Enhanced */
+        .form-card { background-color: #1f2937; padding: 2rem; margin-top: -2rem; position: relative; z-index: 5; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); }
+        @media (min-width: 768px) { .form-card { padding: 3rem; } }
+        input[type="text"], input[type="tel"], select, textarea { background-color: #374151; border: 1px solid #4B5563; color: #F9FAFB; border-radius: 0.5rem; padding: 0.875rem 1rem; transition: border-color 0.3s ease, box-shadow 0.3s ease; width: 100%; }
+        input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus { outline: none; border-color: #2596be; box-shadow: 0 0 0 3px rgba(37, 150, 190, 0.4); }
+        textarea { min-height: 120px; }
+        label { margin-bottom: 0.625rem; display: block; font-weight: 500; color: #D1D5DB; }
+        body.rtl label { text-align: right; }
+        body.rtl input, body.rtl select, body.rtl textarea { text-align: right; }
+        body.rtl select option { direction: rtl; }
+        
+        /* Radio/Checkbox Styles */
+        .choice-container { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem;}
+        .choice-label { display: inline-flex; align-items: center; cursor: pointer; padding: 0.5rem 0.75rem; background-color: #374151; border: 1px solid #4B5563; border-radius: 0.5rem; transition: all 0.2s ease;}
+        .choice-label:hover { background-color: #4B5563; }
+        .choice-input { appearance: none; width: 1.15rem; height: 1.15rem; border: 2px solid #6B7280; border-radius: 50%; display: grid; place-content: center; transition: border-color 0.3s ease; margin-right: 0.5rem; flex-shrink: 0;}
+        .choice-input[type="checkbox"] { border-radius: 0.25rem; }
+        body.rtl .choice-input { margin-right: 0; margin-left: 0.5rem; }
+        .choice-input::before { content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%; background-color: #2596be; transform: scale(0); transition: transform 0.1s ease-in-out; }
+        .choice-input[type="checkbox"]::before { border-radius: 0.1rem; }
+        .choice-input:checked { border-color: #2596be; }
+        .choice-input:checked::before { transform: scale(1); }
+        .choice-input:checked + span { color: #3db3e3; }
+        .choice-label:has(:checked) { background-color: #1f2937; border-color: #2596be; }
+
+        /* Submit Button */
+        button[type="submit"] { background-color: #e91e8c; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 15px rgba(233, 30, 140, 0.3); padding-top: 0.875rem; padding-bottom: 0.875rem; }
+        button[type="submit"]:hover { background-color: #d01a7c; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233, 30, 140, 0.4); }
+        button[type="submit"]:disabled { background-color: #4B5563; cursor: not-allowed; box-shadow: none; transform: none; }
+
+        /* Modal Styles */
+        #successModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(17, 24, 39, 0.8); display: flex; justify-content: center; align-items: center; z-index: 50; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+        #successModal.show { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+        .modal-content { background-color: #1f2937; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2); max-width: 500px; width: 90%; text-align: center; transform: scale(0.95); transition: transform 0.3s ease; }
+        #successModal.show .modal-content { transform: scale(1); }
+        body.rtl .modal-content { text-align: right; }
+
+        /* Spinner */
+        .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top: 4px solid #e91e8c; width: 30px; height: 30px; animation: spin 1s linear infinite; display: inline-block; margin-left: 0.5rem; }
+        body.rtl .spinner { margin-left: 0; margin-right: 0.5rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="antialiased ltr">
+
+    <!-- Header -->
+    <header class="py-6 px-4 md:px-12 text-center">
+        <a href="index.html" id="headerLink" class="text-3xl md:text-4xl font-bold text-white">Flang</a>
+    </header>
+
+    <!-- Signup Section -->
+    <main class="container mx-auto px-4 sm:px-6 py-12 md:py-16 max-w-2xl">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title">
+             <span class="lang-en">Claim Your 14-Day Free Trial</span>
+             <span class="lang-ar hidden">احصل على تجربتك المجانية لمدة 14 يومًا</span>
+        </h2>
+        <p class="text-center text-gray-400 mb-8">
+             <span class="lang-en">Available for all K-12 students in Egypt.</span>
+             <span class="lang-ar hidden">متاحة لجميع طلاب المدارس (K-12) في مصر.</span>
+        </p>
+
+        <!-- Counter -->
+        <div class="text-center mb-8"> <!-- Centered container -->
+            <div class="counter-container">
+                <span class="text-gray-300 lang-en">Join</span>
+                <span class="text-gray-300 lang-ar hidden">انضم لـ</span>
+                <span id="studentCounter" class="counter-number">...</span>
+                <span class="text-gray-300 lang-en">students who started their journey!</span>
+                <span class="text-gray-300 lang-ar hidden">طالبًا بدأوا رحلتهم!</span>
+            </div>
+        </div>
+
+
+        <!-- NEW Signup Animation - "The Spark Network" -->
+        <div class="signup-animation-container" id="animation-container">
+            <svg class="network-svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 220">
+                <!-- Define paths for sparks -->
+                <defs>
+                    <path id="path-1" d="M 200,100 Q 150,50 120,66" stroke="none" fill="none" />
+                    <path id="path-2" d="M 200,100 Q 280,60 280,86" stroke="none" fill="none" />
+                    <path id="path-3" d="M 200,100 Q 100,150 80,154" stroke="none" fill="none" />
+                    <path id="path-4" d="M 200,100 Q 300,180 320,174" stroke="none" fill="none" />
+                    <path id="path-5" d="M 200,100 Q 200,200 180,190" stroke="none" fill="none" />
+                </defs>
+
+                <!-- Static Mesh Lines -->
+                <line x1="200" y1="100" x2="120" y2="66" class="mesh-line" style="animation-delay: -1s;" />
+                <line x1="200" y1="100" x2="280" y2="86" class="mesh-line" style="animation-delay: -2s;" />
+                <line x1="200" y1="100" x2="80" y2="154" class="mesh-line" style="animation-delay: -3s;" />
+                <line x1="200" y1="100" x2="320" y2="174" class="mesh-line" style="animation-delay: -1.5s;" />
+                <line x1="200" y1="100" x2="180" y2="190" class="mesh-line" style="animation-delay: -2.5s;" />
+
+                <!-- Nodes -->
+                <circle cx="120" cy="66" class="node node-1" />
+                <circle cx="280" cy="86" class="node node-2" />
+                <circle cx="80" cy="154" class="node node-3" />
+                <circle cx="320" cy="174" class="node node-4" />
+                <circle cx="180" cy="190" class="node node-5" />
+                <circle cx="200" cy="100" class="node-user" />
+
+                <!-- Animated Sparks -->
+                <circle class="spark" style="--delay: 0s;">
+                    <animateMotion dur="5s" repeatCount="indefinite" rotate="auto">
+                        <mpath xlink:href="#path-1" />
+                    </animateMotion>
+                </circle>
+                <circle class="spark" style="--delay: -1s;">
+                    <animateMotion dur="5s" repeatCount="indefinite" rotate="auto">
+                        <mpath xlink:href="#path-2" />
+                    </animateMotion>
+                </circle>
+                <circle class="spark" style="--delay: -2s;">
+                    <animateMotion dur="5s" repeatCount="indefinite" rotate="auto">
+                        <mpath xlink:href="#path-3" />
+                    </animateMotion>
+                </circle>
+                <circle class="spark" style="--delay: -3s;">
+                    <animateMotion dur="5s" repeatCount="indefinite" rotate="auto">
+                        <mpath xlink:href="#path-4" />
+                    </animateMotion>
+                </circle>
+                 <circle class="spark" style="--delay: -4s;">
+                    <animateMotion dur="5s" repeatCount="indefinite" rotate="auto">
+                        <mpath xlink:href="#path-5" />
+                    </animateMotion>
+                </circle>
+            </svg>
+        </div>
+
+
+        <!-- Signup Form Wrapper Card -->
+        <div class="form-card" style="margin-top: -1rem;"> <!-- Adjusted margin-top -->
+            <form id="trialForm" class="space-y-6">
+                <!-- Name -->
+                <div>
+                    <label for="name" class="lang-en">Full Name</label>
+                    <label for="name" class="lang-ar hidden">الاسم الكامل</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <!-- Gender -->
+                <div>
+                     <label class="lang-en">Gender</label>
+                     <label class="lang-ar hidden">النوع</label>
+                     <div class="choice-container">
+                         <label class="radio-label choice-label">
+                             <input type="radio" name="gender" value="Male" required class="choice-input">
+                             <span class="lang-en">Male</span>
+                             <span class="lang-ar hidden">ذكر</span>
+                         </label>
+                         <label class="radio-label choice-label">
+                             <input type="radio" name="gender" value="Female" required class="choice-input">
+                             <span class="lang-en">Female</span>
+                             <span class="lang-ar hidden">أنثى</span>
+                         </label>
+                     </div>
+                </div>
+
+                <!-- WhatsApp -->
+                <div>
+                    <label for="whatsapp" class="lang-en">WhatsApp Number (e.g., +201xxxxxxxxx)</label>
+                    <label for="whatsapp" class="lang-ar hidden">رقم الواتساب (مثال: +201xxxxxxxxx)</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" required pattern="^\+?\d{10,15}$" title="Please enter a valid phone number with country code">
+                    <p class="text-xs text-gray-500 mt-2">
+                        <span class="lang-en">We use WhatsApp for verification and program access.</span>
+                        <span class="lang-ar hidden">نستخدم واتساب للتحقق والوصول للبرنامج.</span>
+                    </p>
+                </div>
+
+                <!-- School Grade -->
+                <div>
+                     <label for="grade" class="lang-en">School Grade</label>
+                     <label for="grade" class="lang-ar hidden">الصف الدراسي</label>
+                    <select id="grade" name="grade" required>
+                        <option value="" disabled selected class="lang-en">Select your grade</option>
+                        <option value="" disabled selected class="lang-ar hidden">اختر صفك الدراسي</option>
+                        <option value="Middle School 1 / الإعدادي ١">Middle School 1 / الإعدادي ١</option>
+                        <option value="Middle School 2 / الإعدادي ٢">Middle School 2 / الإعدادي ٢</option>
+                        <option value="Middle School 3 / الإعدادي ٣">Middle School 3 / الإعدادي ٣</option>
+                        <option value="High School 1 / الثانوي ١">High School 1 / الثانوي ١</option>
+                        <option value="High School 2 / الثانوي ٢">High School 2 / الثانوي ٢</option>
+                        <option value="High School 3 / الثانوي ٣">High School 3 / الثانوي ٣</option>
+                        <option value="Other / أخرى">Other / أخرى</option>
+                    </select>
+                </div>
+                
+                <!-- English Level -->
+                <div>
+                    <label class="lang-en">Your English Level (Be honest!)</label>
+                    <label class="lang-ar hidden">مستواك في الإنجليزية (كن صريحًا!)</label>
+                    <div class="choice-container">
+                        <label class="radio-label choice-label">
+                            <input type="radio" name="level" value="Beginner" required class="choice-input">
+                            <span class="lang-en">Beginner (I know some words)</span>
+                            <span class="lang-ar hidden">مبتدئ (أعرف بعض الكلمات)</span>
+                        </label>
+                        <label class="radio-label choice-label">
+                            <input type="radio" name="level" value="Intermediate" required class="choice-input">
+                            <span class="lang-en">Intermediate (I can make sentences)</span>
+                            <span class="lang-ar hidden">متوسط (أستطيع تكوين جمل)</span>
+                        </label>
+                         <label class="radio-label choice-label">
+                            <input type="radio" name="level" value="Advanced" required class="choice-input">
+                            <span class="lang-en">Advanced (I can read/listen well)</span>
+                            <span class="lang-ar hidden">متقدم (أقرأ وأستمع جيدًا)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Interests (Checkboxes) -->
+                <div>
+                    <label class="lang-en">What are your interests?</label>
+                    <label class="lang-ar hidden">ما هي اهتماماتك؟</label>
+                    <div class="choice-container">
+                        <label class="choice-label">
+                            <input type="checkbox" name="interests" value="Football" class="choice-input">
+                            <span class="lang-en">Football</span><span class="lang-ar hidden">كرة القدم</span>
+                        </label>
+                         <label class="choice-label">
+                            <input type="checkbox" name="interests" value="Gaming" class="choice-input">
+                            <span class="lang-en">Gaming</span><span class="lang-ar hidden">الألعاب</span>
+                        </label>
+                         <label class="choice-label">
+                            <input type="checkbox" name="interests" value="Social Media" class="choice-input">
+                            <span class="lang-en">Social Media</span><span class="lang-ar hidden">السوشيال ميديا</span>
+                        </label>
+                         <label class="choice-label">
+                            <input type="checkbox" name="interests" value="Movies" class="choice-input">
+                            <span class="lang-en">Movies</span><span class="lang-ar hidden">الأفلام</span>
+                        </label>
+                         <label class="choice-label">
+                            <input type="checkbox" name="interests" value="TV Series" class="choice-input">
+                            <span class="lang-en">TV Series</span><span class="lang-ar hidden">المسلسلات</span>
+                        </label>
+                         <label class="choice-label">
+                            <input type="checkbox" name="interests" value="Anime" class="choice-input">
+                            <span class="lang-en">Anime</span><span class="lang-ar hidden">الأنمي</span>
+                        </label>
+                         <label class="choice-label">
+                            <input type="checkbox" name="interests" value="Reading" class="choice-input">
+                            <span class="lang-en">Reading</span><span class="lang-ar hidden">القراءة</span>
+                        </label>
+                        <label class="choice-label">
+                            <input type="checkbox" name="interests" value="Other" class="choice-input">
+                            <span class="lang-en">Other</span><span class="lang-ar hidden">أخرى</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- About Yourself -->
+                 <div>
+                    <label for="about" class="lang-en">Tell us about yourself (Why do you want to join?)</label>
+                    <label for="about" class="lang-ar hidden">أخبرنا عن نفسك (لماذا تريد الانضمام؟)</label>
+                    <textarea id="about" name="about" rows="4" class="w-full"></textarea>
+                </div>
+
+                <button type="submit" id="submitButton" class="w-full text-white font-bold py-3 px-6 rounded-lg text-lg flex items-center justify-center">
+                    <span id="submitTextEn" class="lang-en">Claim My Free Trial</span>
+                    <span id="submitTextAr" class="lang-ar hidden">احصل على تجربتي المجانية</span>
+                    <span id="loadingSpinner" class="spinner hidden"></span>
+                </button>
+            </form>
+            <p id="formError" class="text-red-500 text-center mt-4 hidden"></p>
+        </div> <!-- End of form-card -->
+
+    </main>
+
+    <!-- Success Modal -->
+     <div id="successModal">
+        <div class="modal-content">
+            <div class="w-16 h-16 rounded-full flex items-center justify-center text-4xl mx-auto mb-4" style="background-color: rgba(233, 30, 140, 0.1); color: #e91e8c;">
+                🎉
+            </div>
+            <h3 class="text-2xl font-bold mb-4" style="color:#3db3e3;">
+                 <span class="lang-en">Congratulations!</span>
+                 <span class="lang-ar hidden">تهانينا!</span>
+            </h3>
+            <p class="text-lg text-gray-300 mb-6">
+                 <span class="lang-en">You are student <strong id="userNumber" class="text-xl" style="color: #e91e8c;">...</strong> to join the A-List! We will contact you on WhatsApp within 24 hours for verification.</span>
+                 <span class="lang-ar hidden">أنت الطالب رقم <strong id="userNumberAr" class="text-xl" style="color: #e91e8c;">...</strong> للانضمام إلى النخبة! سنتواصل معك عبر واتساب خلال 24 ساعة للتحقق.</span>
+            </p>
+             <button id="closeModalButton" class="w-full mt-3 text-gray-400 font-semibold py-2 rounded-lg hover:text-white transition">
+                 <span class="lang-en">Close</span>
+                 <span class="lang-ar hidden">إغلاق</span>
+             </button>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="py-12 mt-16">
+         <div class="container mx-auto px-6 text-center text-gray-400">
+             <p>
+                <span class="lang-en">&copy; 2025 Flang. All Rights Reserved.</span>
+                <span class="lang-ar hidden">&copy; 2025 فلانج. جميع الحقوق محفوظة.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // NEW SCRIPT URL FOR TRIAL SHEET
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwqp_2HFhI_RTsmBhGcE6D2VgXZrDKL6ByFsmS2tnnSPca0a4I7urBU2v28JVZAjnwX/exec'; // <-- IMPORTANT: Replace with your NEW deployed Web App URL
+        const form = document.getElementById('trialForm');
+        const submitButton = document.getElementById('submitButton');
+        const submitTextEn = document.getElementById('submitTextEn');
+        const submitTextAr = document.getElementById('submitTextAr');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const formError = document.getElementById('formError');
+        const successModal = document.getElementById('successModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const headerLink = document.getElementById('headerLink');
+        const gradeSelect = document.getElementById('grade');
+        const studentCounter = document.getElementById('studentCounter');
+        const userNumber = document.getElementById('userNumber');
+        const userNumberAr = document.getElementById('userNumberAr');
+        const baseCount = 755; // Starting count
+
+        // --- Language Switching ---
+        function switchLanguage(lang) {
+            const body = document.body;
+            const enElements = document.querySelectorAll('.lang-en');
+            const arElements = document.querySelectorAll('.lang-ar');
+            const enGradeOption = gradeSelect.querySelector('option.lang-en[disabled]');
+            const arGradeOption = gradeSelect.querySelector('option.lang-ar[disabled]');
+
+            if (lang === 'ar') {
+                body.classList.remove('ltr'); body.classList.add('rtl');
+                enElements.forEach(el => el.classList.add('hidden'));
+                arElements.forEach(el => el.classList.remove('hidden'));
+                headerLink.href = `index.html?lang=ar`;
+                if (enGradeOption) enGradeOption.classList.add('hidden');
+                if (arGradeOption) arGradeOption.classList.remove('hidden');
+                if (gradeSelect.value === "") { if (arGradeOption) arGradeOption.selected = true; }
+            } else {
+                body.classList.remove('rtl'); body.classList.add('ltr');
+                arElements.forEach(el => el.classList.add('hidden'));
+                enElements.forEach(el => el.classList.remove('hidden'));
+                headerLink.href = `index.html?lang=en`;
+                if (arGradeOption) arGradeOption.classList.add('hidden');
+                if (enGradeOption) enGradeOption.classList.remove('hidden');
+                if (gradeSelect.value === "") { if (enGradeOption) enGradeOption.selected = true; }
+            }
+             localStorage.setItem('flangLanguage', lang);
+        }
+
+         // --- Get Language and Counter on Load ---
+         document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            
+            let initialLang = 'en';
+            if (urlLang === 'en' || urlLang === 'ar') { initialLang = urlLang; }
+            else { const storedLang = localStorage.getItem('flangLanguage'); if (storedLang) { initialLang = storedLang; } }
+            switchLanguage(initialLang);
+
+            // Fetch initial counter
+            // We use a timestamp query to prevent caching
+            fetch(`${scriptURL}?action=getCount&t=${new Date().getTime()}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success' && studentCounter) {
+                        studentCounter.textContent = baseCount + data.count;
+                    } else {
+                         studentCounter.textContent = baseCount; // Fallback
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching count:', error);
+                    studentCounter.textContent = "755+"; // Fallback on error
+                });
+        });
+
+        // --- Form Submission Logic ---
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            setLoading(true);
+            formError.classList.add('hidden');
+
+            const formData = new FormData(form);
+            
+            // Consolidate interests
+            const interests = Array.from(formData.getAll('interests')).join(', ');
+            formData.set('interests', interests); // Set a single 'interests' value
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    setLoading(false);
+                    if (data.result === "success") {
+                        showSuccessModal(data);
+                        form.reset();
+                         const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en';
+                         switchLanguage(currentLang); // Reset placeholders
+                    } else {
+                         const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en';
+                         formError.textContent = (currentLang === 'ar' ? 'خطأ: ' : 'Error: ') + (data.error || 'Submission failed') + (currentLang === 'ar' ? '. يرجى المحاولة مرة أخرى.' : '. Please try again.');
+                         formError.classList.remove('hidden');
+                    }
+                })
+                .catch(error => {
+                    setLoading(false);
+                    console.error('Error!', error.message);
+                     const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en';
+                     formError.textContent = (currentLang === 'ar' ? 'خطأ: ' : 'Error: ') + error.message + (currentLang === 'ar' ? '. يرجى المحاولة مرة أخرى.' : '. Please try again.');
+                     formError.classList.remove('hidden');
+                });
+        });
+
+        function setLoading(isLoading) {
+             const currentLang = document.body.classList.contains('rtl') ? 'ar' : 'en';
+             if (isLoading) {
+                 submitButton.disabled = true;
+                 submitTextEn.classList.add('hidden');
+                 submitTextAr.classList.add('hidden');
+                 loadingSpinner.classList.remove('hidden');
+            } else {
+                 submitButton.disabled = false;
+                 loadingSpinner.classList.add('hidden');
+                  if (currentLang === 'ar') {
+                    submitTextAr.classList.remove('hidden');
+                 } else {
+                     submitTextEn.classList.remove('hidden');
+                 }
+            }
+        }
+
+        function showSuccessModal(data) {
+             if (userNumber) userNumber.textContent = baseCount + data.newCount;
+             if (userNumberAr) userNumberAr.textContent = baseCount + data.newCount;
+             if (studentCounter) studentCounter.textContent = baseCount + data.newCount; // Update main counter too
+
+             if(successModal) successModal.classList.add('show');
+        }
+
+        // --- Close Modal Logic ---
+        if (closeModalButton && successModal) {
+            closeModalButton.addEventListener('click', () => {
+                successModal.classList.remove('show');
+            });
+             successModal.addEventListener('click', (e) => {
+                 if (e.target === successModal) {
+                    successModal.classList.remove('show');
+                 }
+             });
+        }
+    </script>
+
+</body>
+</html>
