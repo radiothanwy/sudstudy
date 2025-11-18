@@ -16,13 +16,37 @@
 
     <title>SUDSTUDY | Most Relevant Educational Experience</title>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Changa" rel="stylesheet">
+    <style>
+        /* [CRITICAL CSS INLINED HERE: e.g., styles for .header, .nav-container, .logo, .hero] */
+        /* For now, we rely on the main stylesheet for simplicity, but this is the primary speed boost area. */
+        :root {
+            --primary-color: #494069;
+            --accent-color: #f5074a;
+        }
+        
+        .header {
+             background: var(--primary-color);
+             padding: 1rem;
+             position: fixed;
+             width: 100%;
+             top: 0;
+             z-index: 1000;
+        }
+        
+        /* The main CSS for the rest of the page */
+    </style>
+    
     <link href="css/styles.css" rel="stylesheet">
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Changa" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Changa"></noscript>
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
 </head>
 
 <body>
-    <header class="header">
+    <header class="header sticky-header">
         <nav class="nav-container">
             <div class="logo-lang-container">
                 <a href="#" class="logo">SUDSTUDY</a>
@@ -43,10 +67,8 @@
                 <li class="nav-item lang-ar" style="display: none;"><a href="#programs">برامجنا</a></li>
                 <li class="nav-item lang-en"><a href="#services">Services</a></li>
                 <li class="nav-item lang-ar" style="display: none;"><a href="#services">خدماتنا</a></li>
-                <li class="nav-item lang-en"><a href="#about-contact">About Us</a></li>
-                <li class="nav-item lang-ar" style="display: none;"><a href="#about-contact">تعرف علينا</a></li>
-                <li class="nav-item lang-en"><a href="#about-contact">Contact</a></li>
-                <li class="nav-item lang-ar" style="display: none;"><a href="#about-contact">تواصل معنا</a></li>
+                <li class="nav-item lang-en"><a href="#about-contact">About Us / Contact</a></li>
+                <li class="nav-item lang-ar" style="display: none;"><a href="#about-contact">تعرف علينا / تواصل معنا</a></li>
             </ul>
         </nav>
     </header>
@@ -57,71 +79,8 @@
             <h1 class="lang-ar" style="display: none;">تعليم حقيقي يناسبك</h1>
             <p class="lang-en">Brighter futures for/from Brighter brains </p>
             <p class="lang-ar" style="display: none;">مستقبل أفتح لـ/بعقول ألمع</p>
-            <a href="#about-contact" class="btn lang-en">Get Involved</a>
-            <a href="#about-contact" class="btn lang-ar" style="display: none;">شارك معنا</a>
-        </div>
-    </section>
-
-    <section id="overview">
-        <div class="container">
-            <h2 class="section-title lang-en">Where We Work</h2>
-            <h2 class="section-title lang-ar" style="display: none;">أين نعمل</h2>
-        <div class="countries-slider" id="countriesSlider">
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/egypt.jpg" alt="Egypt">
-                </div>
-                <h3 class="lang-en">Egypt</h3>
-                <h3 class="lang-ar" style="display: none;">مصر</h3>
-                <p class="lang-en">Supporting education initiatives across Egypt</p>
-                <p class="lang-ar" style="display: none;">دعم المبادرات التعليمية في جميع أنحاء مصر</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/libya.jpg" alt="Libya">
-                </div>
-                <h3 class="lang-en">Libya</h3>
-                <h3 class="lang-ar" style="display: none;">ليبيا</h3>
-                <p class="lang-en">Expanding educational opportunities in Libya</p>
-                <p class="lang-ar" style="display: none;">توسيع الفرص التعليمية في ليبيا</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/sudan.jpg" alt="Sudan">
-                </div>
-                <h3 class="lang-en">Sudan</h3>
-                <h3 class="lang-ar" style="display: none;">السودان</h3>
-                <p class="lang-en">Enhancing learning resources in Sudan</p>
-                <p class="lang-ar" style="display: none;">تعزيز الموارد التعليمية في السودان</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/jordan.jpg" alt="Jordan">
-                </div>
-                <h3 class="lang-en">Jordan</h3>
-                <h3 class="lang-ar" style="display: none;">الأردن</h3>
-                <p class="lang-en">Enhancing learning resources in Jordan</p>
-                <p class="lang-ar" style="display: none;">تعزيز الموارد التعليمية في الأردن</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/ghana.jpg" alt="Ghana">
-                </div>
-                <h3 class="lang-en">Ghana</h3>
-                <h3 class="lang-ar" style="display: none;">غانا</h3>
-                <p class="lang-en">Developing educational programs in Ghana</p>
-                <p class="lang-ar" style="display: none;">تطوير البرامج التعليمية في غانا</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/nigeria.jpg" alt="Nigeria">
-                </div>
-                <h3 class="lang-en">Nigeria</h3>
-                <h3 class="lang-ar" style="display: none;">نيجيريا</h3>
-                <p class="lang-en">Implementing educational solutions in Nigeria</p>
-                <p class="lang-ar" style="display: none;">تنفيذ الحلول التعليمية في نيجيريا</p>
-            </div>
-        </div>
+            <a href="#programs" class="btn lang-en">Explore Our Programs</a>
+            <a href="#programs" class="btn lang-ar" style="display: none;">اكتشف برامجنا</a>
         </div>
     </section>
 
@@ -131,29 +90,29 @@
             <h2 class="section-title lang-ar" style="display: none;">تأثيرنا</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>20,000+</h3>
-                    <p class="lang-en">+Thousand Students Reached</p>
-                    <p class="lang-ar" style="display: none;">الف طالب تم الوصول إليهم+</p>
+                    <h3 data-final="20000">20,000+</h3>
+                    <p class="lang-en">Students Reached</p>
+                    <p class="lang-ar" style="display: none;"> طالب تم الوصول اليهم </p>
                 </div>
                 <div class="stat-card">
-                    <h3>120+</h3>
+                    <h3 data-final="120">120+</h3>
                     <p class="lang-en">institution Partnered</p>
-                    <p class="lang-ar" style="display: none;">مؤسسة تعليمية شريكة</p>
+                    <p class="lang-ar" style="display: none;">مؤسسة تعليمية شركاؤنا</p>
                 </div>
                 <div class="stat-card">
-                    <h3>6</h3>
+                    <h3 data-final="6">6</h3>
                     <p class="lang-en">Countries</p>
                     <p class="lang-ar" style="display: none;">دول</p>
                 </div>
-                <div class="stat-card">
-                    <h3>95%</h3>
+                <div class="stat-card highlight-stat">
+                    <h3 data-final="95">95%</h3>
                     <p class="lang-en">Success Rate</p>
                     <p class="lang-ar" style="display: none;">معدل النجاح</p>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <section id="programs">
         <div class="container">
             <h2 class="section-title lang-en">Our Programs</h2>
@@ -161,7 +120,7 @@
             <div class="programs-grid">
                 <div class="program-card">
                     <div class="image-container">
-                        <img src="images/paths.jpg" alt="Digital Learning">
+                        <img src="images/paths.jpg" alt="Digital Learning" loading="lazy">
                     </div>
                     <div class="program-content">
                         <h3 class="lang-en">Customized Educational Content</h3>
@@ -174,7 +133,7 @@
                 </div>
                 <div class="program-card">
                     <div class="image-container">
-                        <img src="images/data-student-card.jpg" alt="Teacher Training">
+                        <img src="images/data-student-card.jpg" alt="Teacher Training" loading="lazy">
                     </div>
                     <div class="program-content">
                         <h3 class="lang-en">Data Student</h3>
@@ -187,7 +146,7 @@
                 </div>
                 <div class="program-card">
                     <div class="image-container">
-                        <img src="images/international-card.jpg" alt="Infrastructure">
+                        <img src="images/international-card.jpg" alt="Infrastructure" loading="lazy">
                     </div>
                     <div class="program-content">
                         <h3 class="lang-en">international Students</h3>
@@ -262,12 +221,74 @@
         </div>
     </section>
 
+    <section id="overview" class="countries-section">
+        <div class="container">
+            <h2 class="section-title lang-en">Where We Work</h2>
+            <h2 class="section-title lang-ar" style="display: none;">أين نعمل</h2>
+        <div class="countries-slider" id="countriesSlider">
+            <div class="country-card">
+                <div class="image-container">
+                    <img src="images/egypt.jpg" alt="Egypt" loading="lazy">
+                </div>
+                <h3 class="lang-en">Egypt</h3>
+                <h3 class="lang-ar" style="display: none;">مصر</h3>
+                <p class="lang-en">Supporting education initiatives across Egypt</p>
+                <p class="lang-ar" style="display: none;">دعم المبادرات التعليمية في جميع أنحاء مصر</p>
+            </div>
+            <div class="country-card">
+                <div class="image-container">
+                    <img src="images/libya.jpg" alt="Libya" loading="lazy">
+                </div>
+                <h3 class="lang-en">Libya</h3>
+                <h3 class="lang-ar" style="display: none;">ليبيا</h3>
+                <p class="lang-en">Expanding educational opportunities in Libya</p>
+                <p class="lang-ar" style="display: none;">توسيع الفرص التعليمية في ليبيا</p>
+            </div>
+            <div class="country-card">
+                <div class="image-container">
+                    <img src="images/sudan.jpg" alt="Sudan" loading="lazy">
+                </div>
+                <h3 class="lang-en">Sudan</h3>
+                <h3 class="lang-ar" style="display: none;">السودان</h3>
+                <p class="lang-en">Enhancing learning resources in Sudan</p>
+                <p class="lang-ar" style="display: none;">تعزيز الموارد التعليمية في السودان</p>
+            </div>
+            <div class="country-card">
+                <div class="image-container">
+                    <img src="images/jordan.jpg" alt="Jordan" loading="lazy">
+                </div>
+                <h3 class="lang-en">Jordan</h3>
+                <h3 class="lang-ar" style="display: none;">الأردن</h3>
+                <p class="lang-en">Enhancing learning resources in Jordan</p>
+                <p class="lang-ar" style="display: none;">تعزيز الموارد التعليمية في الأردن</p>
+            </div>
+            <div class="country-card">
+                <div class="image-container">
+                    <img src="images/ghana.jpg" alt="Ghana" loading="lazy">
+                </div>
+                <h3 class="lang-en">Ghana</h3>
+                <h3 class="lang-ar" style="display: none;">غانا</h3>
+                <p class="lang-en">Developing educational programs in Ghana</p>
+                <p class="lang-ar" style="display: none;">تطوير البرامج التعليمية في غانا</p>
+            </div>
+            <div class="country-card">
+                <div class="image-container">
+                    <img src="images/nigeria.jpg" alt="Nigeria" loading="lazy">
+                </div>
+                <h3 class="lang-en">Nigeria</h3>
+                <h3 class="lang-ar" style="display: none;">نيجيريا</h3>
+                <p class="lang-en">Implementing educational solutions in Nigeria</p>
+                <p class="lang-ar" style="display: none;">تنفيذ الحلول التعليمية في نيجيريا</p>
+            </div>
+        </div>
+        </div>
+    </section>
+
     <section id="about-contact" style="background: var(--light-bg);">
         <h2 class="section-title lang-en">Get in Touch</h2>
         <h2 class="section-title lang-ar" style="display: none;">تواصل معنا</h2>
 
         <div class="about-contact-container">
-            <!-- About Us Section -->
             <div class="about-section fade-in">
                 <h3 class="lang-en">About Us</h3>
                 <h3 class="lang-ar" style="display: none;">من نحن</h3>
@@ -282,7 +303,7 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span class="lang-en">13 ٌRabaa buildings, Nasr st. Nasr city, Cairo, Egypt</span>
+                        <span class="lang-en">13 Rabaa buildings, Nasr st. Nasr city, Cairo, Egypt</span>
                         <span class="lang-ar" style="display: none;">13 عمارات رابعة ، شارع النصر ، مدينة نصر ، القاهرة ، مصر</span>
                     </div>
                     <div class="contact-item">
@@ -305,30 +326,25 @@
                 </div>
             </div>
 
-            <!-- Contact Form -->
             <form class="contact-form fade-in" id="contactForm" autocomplete="on" action="https://formspree.io/f/movveqpz" method="POST">
-                <!-- Name Field -->
                 <div class="form-group">
                     <label for="name" class="lang-en">Name</label>
                     <label for="name" class="lang-ar" style="display: none;">الاسم</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" required autocomplete="name">
                 </div>
             
-                <!-- Email Field -->
                 <div class="form-group">
                     <label for="email" class="lang-en">Email</label>
                     <label for="email" class="lang-ar" style="display: none;">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required autocomplete="email">
                 </div>
             
-                <!-- Message Field -->
                 <div class="form-group">
                     <label for="message" class="lang-en">Message</label>
                     <label for="message" class="lang-ar" style="display: none;">الرسالة</label>
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
             
-                <!-- Submit Buttons -->
                 <button type="submit" class="btn lang-en">Send Message</button>
                 <button type="submit" class="btn lang-ar" style="display: none;">إرسال الرسالة</button>
             </form>
@@ -346,6 +362,15 @@
     </div>
     <footer class="footer">
         <div class="container">
+            <div class="footer-links">
+                <a href="/privacy-policy.html" class="lang-en">Privacy Policy</a>
+                <a href="/privacy-policy.html" class="lang-ar" style="display: none;">سياسة الخصوصية</a>
+                <span class="separator lang-en">|</span>
+                <span class="separator lang-ar" style="display: none;">|</span>
+                <a href="/terms-of-service.html" class="lang-en">Terms of Service</a>
+                <a href="/terms-of-service.html" class="lang-ar" style="display: none;">شروط الخدمة</a>
+            </div>
+
             <p class="copyright lang-en">&copy; 2017-
                 <script>
                     document.write(new Date().getFullYear())
@@ -356,7 +381,7 @@
                 </script> SUDSTUDY. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
-    <script src="js/main.js"></script>
+    <script src="js/main.js" defer></script>
 </body>
 
 </html>
