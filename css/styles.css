@@ -1,7 +1,7 @@
-          :root {
+:root {
              --primary-color: #494069;
              --secondary-color: #0b014a;
-             --accent-color: #f5074a;
+             --accent-color: #f5074a; /* Used for highlights and accents */
              --gradient-start: #0b014a;
              --gradient-end: #2980b9;
              --text-color: #333;
@@ -18,6 +18,8 @@
              font-family: Changa;
              line-height: 1.6;
              color: var(--text-color);
+             /* Add padding to the top of the body to prevent content hiding behind the fixed header */
+             padding-top: 5rem; /* Adjust based on header height */
          }
          
          .header {
@@ -27,6 +29,8 @@
              width: 100%;
              top: 0;
              z-index: 1000;
+             /* Smooth shadow transition for sticky effect */
+             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
          }
          
          .nav-container {
@@ -158,6 +162,9 @@
              border: none;
              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
              font-family: Changa;
+             /* Ensure mobile touch target is large enough */
+             min-height: 44px;
+             min-width: 150px;
          }
          
          .btn:hover {
@@ -168,6 +175,8 @@
          
          section {
              padding: 5rem 1rem;
+             /* Add margin-top for anchor link offset due to fixed header */
+             scroll-margin-top: 5rem; 
          }
          
          .container {
@@ -258,6 +267,19 @@
              transition: transform 0.3s ease;
          }
          
+         /* HIGHLIGHT FOR SUCCESS RATE (Peer Standard) */
+         .highlight-stat {
+             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+             color: white;
+             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+         }
+
+         .highlight-stat h3 {
+             color: var(--accent-color); /* Highlight the number */
+             font-size: 3rem;
+         }
+         /* END HIGHLIGHT */
+
          .stat-card:hover {
              transform: translateY(-5px);
          }
@@ -308,19 +330,23 @@
              padding: 1rem;
          }
 		 
-		.btn - learn - more {
-			display: inline - block;
+		.btn-learn-more {
+			display: inline-block;
 			padding: 10px 20px;
-			margin - top: 15px;
-			background - color: var(--primary - color);
+			margin-top: 15px;
+			background-color: var(--primary-color);
 			color: white;
-			text - decoration: none;
-			border - radius: 5px;
-			transition: background - color 0.3s ease;
+			text-decoration: none;
+			border-radius: 5px;
+			transition: background-color 0.3s ease;
+            min-height: 40px; /* Ensure sufficient touch target size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
 		}
 
-		.btn - learn - more: hover {
-			background - color: var(--secondary - color);
+		.btn-learn-more:hover {
+			background-color: var(--secondary-color);
 		}
          /* Services Section Styles */
          
@@ -555,6 +581,7 @@
          .contact-form .btn {
              display: block;
              margin-top: 20px;
+             min-width: 150px; /* Ensure sufficient width */
          }
          /* English version - right aligned button */
          
@@ -591,6 +618,8 @@
              border-radius: 5px;
              transition: border-color 0.3s ease, box-shadow 0.3s ease;
              border: 2px solid #ddd;
+             /* Ensure sufficient touch target height */
+             min-height: 40px; 
          }
          
          .form-group input:focus,
@@ -768,19 +797,65 @@
              gap: 10px;
          }
          
+         .footer {
+             background: var(--light-bg);
+             padding: 1rem 0;
+             color: var(--text-color);
+             text-align: center;
+         }
+
          .footer .container {
              display: flex;
+             flex-direction: column; /* Stack elements vertically on mobile/default */
              justify-content: center;
              align-items: center;
              width: 100%;
+             gap: 10px;
          }
-         
+
+         /* Legal Link Styles */
+         .footer-links {
+             display: flex;
+             gap: 15px;
+             margin-bottom: 5px;
+             font-size: 0.9em;
+         }
+
+         .footer-links a {
+             color: var(--primary-color);
+             text-decoration: none;
+             transition: color 0.3s;
+         }
+
+         .footer-links a:hover {
+             color: var(--accent-color);
+         }
+
+         .footer-links .separator {
+             color: #999;
+         }
+
          .copyright {
              margin: 0;
              font-size: 0.9em;
              text-align: center;
          }
          
+         @media (min-width: 769px) {
+             /* Align footer items horizontally on desktop */
+             .footer .container {
+                 flex-direction: row;
+                 justify-content: space-between;
+             }
+             .footer-links {
+                 order: 1;
+                 margin: 0;
+             }
+             .copyright {
+                 order: 2;
+             }
+         }
+
          @media (max-width: 768px) {
              .country-card .image-container {
                  height: 180px;
@@ -884,5 +959,17 @@
              }
              .services-grid {
                  grid-template-columns: 1fr;
+             }
+
+             /* FOOTER ON MOBILE: Stack Legal links and copyright */
+             .footer .container {
+                 flex-direction: column;
+                 gap: 10px;
+             }
+             .footer-links {
+                 order: 1;
+             }
+             .copyright {
+                 order: 2;
              }
          }
