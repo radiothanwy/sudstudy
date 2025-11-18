@@ -1,22 +1,52 @@
-        // Define currentLang in the global scope
+// Define currentLang in the global scope
         let currentLang = 'en';
-	// remove # from link 
-	const navLinks = document.querySelectorAll('nav a');
 
-	navLinks.forEach(link => {
-	  link.addEventListener('click', (event) => {
-		event.preventDefault();
-		const targetId = link.getAttribute('href').substring(1); 
-		const targetElement = document.getElementById(targetId);
-		if (targetElement) {
-		  history.pushState(null, null, ''); // Push a new state without URL change
-		  window.scrollTo({ 
-			top: targetElement.offsetTop,
-			behavior: 'smooth' 
-		  });
-		}
-	  });
-	});
+        // 1. STICKY HEADER IMPLEMENTATION (UX Improvement)
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.querySelector('.header');
+            const observer = new IntersectionObserver( 
+                ([entry]) => {
+                    // entry.intersectionRatio < 1 means the header is scrolled off-screen
+                    header.classList.toggle('is-scrolled', entry.intersectionRatio < 1);
+                },
+                { threshold: [0, 1] } 
+            );
+
+            // Observe the header itself. This is a simple way to detect scroll direction.
+            // A more robust solution might observe a sentinel element below the header,
+            // but for a fixed header, this class toggle approach is effective.
+            // The padding-top on the body handles the initial offset.
+            // A simpler approach is also just to check window.scrollY, but IntersectionObserver is cleaner.
+
+            // Since the header is fixed, we can just check window.scrollY
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    header.classList.add('is-scrolled');
+                } else {
+                    header.classList.remove('is-scrolled');
+                }
+            });
+        });
+        
+        // remove # from link and smooth scroll (original logic is good)
+        const navLinks = document.querySelectorAll('nav a');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const targetId = link.getAttribute('href').substring(1); 
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    // Use standard scroll-margin-top CSS and smooth scroll
+                    window.scrollTo({ 
+                        top: targetElement.offsetTop - document.querySelector('.header').offsetHeight, // Adjust for fixed header height
+                        behavior: 'smooth' 
+                    });
+                    // history.pushState is removed as it was unnecessary to push empty state
+                }
+            });
+        });
+        
         // animation and observer code remains unchanged
         const observerOptions = {
             root: null,
@@ -106,14 +136,27 @@
 		// Call the setup function when the DOM is loaded
 		document.addEventListener('DOMContentLoaded', setupCountriesSlider);
 
-        // Add number counter animation to stats
+        // 2. MODIFIED NUMBER COUNTER ANIMATION (Reliability)
         function animateValue(obj, start, end, duration) {
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const value = Math.floor(progress * (end - start) + start);
-                obj.innerHTML = value + (obj.dataset.suffix || '');
+                
+                // Determine suffix from the original HTML text or use a default
+                const suffix = obj.textContent.includes('%') ? '%' : 
+                               obj.textContent.includes('+') ? '+' : '';
+
+                let value = Math.floor(progress * (end - start) + start);
+                
+                // Special handling for 95% to show the final value correctly
+                if (suffix === '%' && progress === 1) {
+                    value = end; 
+                }
+                
+                // Add comma separators for large numbers (UX)
+                obj.textContent = value.toLocaleString() + suffix; 
+                
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
                 }
@@ -122,13 +165,24 @@
         }
 
         // Animate stats when they come into view
-        document.querySelectorAll('.stat-card h3').forEach(el => {
+        document.querySelectorAll('.stat-card h3[data-final]').forEach(el => {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const finalValue = parseInt(el.innerText);
-                        el.innerText = '0';
-                        animateValue(el, 0, finalValue, 7000);
+                        const finalValue = parseInt(el.getAttribute('data-final'));
+                        // Get the current text to preserve the + or %
+                        const originalText = el.textContent;
+                        
+                        // Set start text based on the presence of '+' or '%'
+                        if (originalText.includes('+')) {
+                            el.textContent = '0+';
+                        } else if (originalText.includes('%')) {
+                            el.textContent = '0%';
+                        } else {
+                            el.textContent = '0';
+                        }
+
+                        animateValue(el, 0, finalValue, 1500); // Reduced duration for faster perceived speed (UX)
                         observer.unobserve(el);
                     }
                 });
@@ -137,7 +191,7 @@
         });
 
 
-        // Mobile menu functionality
+        // Mobile menu functionality (no major change)
         document.addEventListener('DOMContentLoaded', function() {
             // Language switching functionality
             const languageSwitch = document.querySelectorAll('.language-switch');
@@ -149,6 +203,26 @@
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const navMenu = document.querySelector('.nav-menu');
             const menuItems = navMenu.querySelectorAll('a');
+
+            // Function to handle language switching logic
+            function switchLanguage(targetLang) {
+                if (targetLang === 'en') {
+                    languageSwitch.forEach(button => button.setAttribute('data-lang', 'en'));
+                    enElements.forEach(el => el.style.display = 'block');
+                    arElements.forEach(el => el.style.display = 'none');
+                    langText.forEach(text => text.textContent = 'عربي');
+                    document.documentElement.setAttribute('dir', 'ltr');
+                    currentLang = 'en';
+                } else {
+                    languageSwitch.forEach(button => button.setAttribute('data-lang', 'ar'));
+                    enElements.forEach(el => el.style.display = 'none');
+                    arElements.forEach(el => el.style.display = 'block');
+                    langText.forEach(text => text.textContent = 'EN');
+                    document.documentElement.setAttribute('dir', 'rtl');
+                    currentLang = 'ar';
+                }
+            }
+
 
             // Mobile menu toggle
             mobileMenuBtn.addEventListener('click', (e) => {
@@ -173,28 +247,16 @@
             // Language switch functionality
             languageSwitch.forEach(button => {
                 button.addEventListener('click', () => {
-                    const currentLang = button.getAttribute('data-lang');
-                    if (currentLang === 'en') {
-                        button.setAttribute('data-lang', 'ar');
-                        enElements.forEach(el => el.style.display = 'none');
-                        arElements.forEach(el => el.style.display = 'block');
-                        langText.forEach(text => text.textContent = 'EN');
-                        document.dir = 'rtl';
-                    } else {
-                        button.setAttribute('data-lang', 'en');
-                        enElements.forEach(el => el.style.display = 'block');
-                        arElements.forEach(el => el.style.display = 'none');
-                        langText.forEach(text => text.textContent = 'عربي');
-                        document.dir = 'ltr';
-                    }
+                    const nextLang = button.getAttribute('data-lang') === 'en' ? 'ar' : 'en';
+                    switchLanguage(nextLang);
                 });
             });
 
-            // Set initial language text
-            langText.forEach(text => text.textContent = 'عربي');
+            // Set initial language text and direction
+            switchLanguage('en'); 
         });
 
-        // WhatsApp functionality - Updated version
+        // WhatsApp functionality - Updated version (No change needed, logic is clean)
         document.querySelector('.fab-button').addEventListener('click', () => {
             const phoneNumber = '+201096485440';
             const message = currentLang === 'en' ?
@@ -212,12 +274,7 @@
             window.open(whatsappUrl, '_blank');
         });
 
-        // Initialize with English
-        document.addEventListener('DOMContentLoaded', () => {
-            switchLanguage('en');
-        });
-
-        // services animations starts here 
+        // services animations starts here (No change needed)
         function createParticles(card) {
             const particlesContainer = card.querySelector('.particles');
             const numParticles = 5;
@@ -284,7 +341,7 @@
             servicesObserver.observe(card);
         });
         // end of services animation 
-        // Handle form submission
+        // Handle form submission (No change needed)
         document.querySelector('form').addEventListener('submit', function (e) {
             e.preventDefault();
             fetch(this.action, {
@@ -304,3 +361,4 @@
                 alert('Oops! Something went wrong.');
             });
         });
+        
