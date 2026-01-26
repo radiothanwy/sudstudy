@@ -538,8 +538,7 @@
     <div class="fab" onclick="window.open('https://wa.me/+201096485440')">
         <i class="fa-brands fa-whatsapp"></i>
     </div>
-
-    <script>
+<script>
         // 1. LANGUAGE LOGIC
         let currentLang = 'en';
         function toggleLang() {
@@ -558,17 +557,23 @@
             else header.classList.remove('is-scrolled');
         });
 
-        // 3. CLEAN NAV SCROLLING (NO '#' IN URL)
-        document.querySelectorAll('.nav-link[href^="#"], .btn[href^="#"]').forEach(anchor => {
+        // 3. UNIVERSAL SMOOTH SCROLL (No '#' in URL for Footer or Nav)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault(); // Prevent URL change
+                e.preventDefault(); // Stop the hash from entering URL
                 const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
+                if (targetId === '#') return; // Ignore empty links
                 
+                const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    // Offset for fixed header
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
                     });
                 }
             });
@@ -603,6 +608,7 @@
     </script>
 </body>
 </html>
+
 
 
 
