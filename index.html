@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SUDSTUDY - The Architecture of Human Potential. Narrative education and the Analogy Engine.">
     <title>SUDSTUDY | The Analogy Engine Company</title>
-
+        
+    <meta property="og:image" content="path/to/your/logo.png">
+	<link rel="icon" href="images/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
@@ -14,9 +16,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* =========================================
-           1. LUXURY IDENTITY VARIABLES
-           ========================================= */
         :root {
             --bg-deep: #050511;
             --bg-panel: #0a0a1a;
@@ -427,27 +426,45 @@
         <div class="presence-grid">
             <div class="presence-card card-large">
                 <img src="images/egypt.jpg" alt="Egypt">
-                <span class="presence-label">Egypt / HQ</span>
+                <div class="presence-overlay">
+                    <span class="presence-label">Egypt / HQ</span>
+                    <span class="presence-desc">The Narrative Command Center</span>
+                </div>
             </div>
             <div class="presence-card card-med">
                 <img src="images/sudan.jpg" alt="Sudan">
-                <span class="presence-label">Sudan</span>
+                <div class="presence-overlay">
+                    <span class="presence-label">Sudan</span>
+                    <span class="presence-desc">Origin Node: Cultural Retrieval</span>
+                </div>
             </div>
             <div class="presence-card card-small">
                 <img src="images/ghana.jpg" alt="Ghana">
-                <span class="presence-label">Ghana</span>
+                <div class="presence-overlay">
+                    <span class="presence-label">Ghana</span>
+                    <span class="presence-desc">West African Lore Uplink</span>
+                </div>
             </div>
             <div class="presence-card card-med">
                 <img src="images/nigeria.jpg" alt="Nigeria">
-                <span class="presence-label">Nigeria</span>
+                <div class="presence-overlay">
+                    <span class="presence-label">Nigeria</span>
+                    <span class="presence-desc">Market Penetration: Youth Density</span>
+                </div>
             </div>
             <div class="presence-card card-large">
                 <img src="images/jordan.jpg" alt="Jordan">
-                <span class="presence-label">Jordan Hub</span>
+                <div class="presence-overlay">
+                    <span class="presence-label">Jordan Hub</span>
+                    <span class="presence-desc">Levant Strategic Integration</span>
+                </div>
             </div>
             <div class="presence-card card-small">
                 <img src="images/world.jpg" alt="Global">
-                <span class="presence-label">R&D</span>
+                <div class="presence-overlay">
+                    <span class="presence-label">R&D</span>
+                    <span class="presence-desc">The Stars'Up Algorithm</span>
+                </div>
             </div>
         </div>
     </section>
@@ -511,6 +528,7 @@
     </div>
 
     <script>
+        // 1. LANGUAGE LOGIC
         let currentLang = 'en';
         function toggleLang() {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
@@ -521,14 +539,30 @@
             document.querySelectorAll('.lang-ar').forEach(el => el.style.display = currentLang === 'ar' ? 'block' : 'none');
         }
 
-        // Header Scroll
+        // 2. SCROLL HEADER
         window.addEventListener('scroll', () => {
             const header = document.querySelector('.header');
             if (window.scrollY > 50) header.classList.add('is-scrolled');
             else header.classList.remove('is-scrolled');
         });
 
-        // Impact Counters Animation
+        // 3. CLEAN NAV SCROLLING (NO '#' IN URL)
+        document.querySelectorAll('.nav-link[href^="#"], .btn[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent URL change
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 4. ANIMATED COUNTERS
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
