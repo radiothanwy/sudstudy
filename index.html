@@ -593,7 +593,9 @@
                         current += step;
                         if(current >= target) {
                             el.textContent = target.toLocaleString() + (target > 1000 ? '+' : '%');
-                            if(target === 95) el.textContent = "95%"; 
+                            if(target === 95) el.textContent = "95%";
+							else if(target === 6) el.textContent = "6"; 
+							else if(target === 120) el.textContent = "120"; 
                             clearInterval(timer);
                         } else {
                             el.textContent = current.toLocaleString();
@@ -608,6 +610,7 @@
     </script>
 </body>
 </html>
+
 
 
 
