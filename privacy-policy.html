@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Protocol | SUDSTUDY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Exact SAME CSS as index.html */
+        :root { --bg-deep: #050511; --gold-primary: #D4AF37; --text-main: #ffffff; --text-muted: #a0a0b0; --font-main: 'Changa', sans-serif; --font-serif: 'Playfair Display', serif; --border-glass: 1px solid rgba(255, 255, 255, 0.08); }
+        * { box-sizing: border-box; }
+        body { background-color: var(--bg-deep); color: var(--text-main); font-family: var(--font-main); line-height: 1.8; margin: 0; }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px); opacity: 0.15; z-index: -1; }
+        
+        /* Header */
+        .header { position: fixed; top: 0; width: 100%; padding: 1rem 0; background: rgba(5, 5, 17, 0.95); border-bottom: var(--border-glass); z-index: 1000; }
+        .nav-container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; text-transform: uppercase; direction: ltr !important; }
+        .logo span { color: var(--gold-primary); }
+        .btn-back { color: var(--gold-primary); text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+        
+        /* Content */
+        .content-section { padding: 10rem 2rem 5rem; max-width: 900px; margin: 0 auto; min-height: 70vh; }
+        h1 { font-family: var(--font-serif); font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 2rem; font-style: italic; }
+        h3 { color: #fff; margin-top: 2.5rem; font-size: 1.4rem; border-bottom: 1px solid rgba(212,175,55,0.2); display: inline-block; padding-bottom: 5px; }
+        p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        
+        /* Footer */
+        .footer { background: #000; padding: 4rem 0 2rem; border-top: var(--border-glass); text-align: center; }
+        .social-row { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+        .social-row a { width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .social-row a:hover { border-color: var(--gold-primary); color: var(--gold-primary); transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">SUD<span>STUDY</span></a>
+            <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Return to Terminal</a>
+        </nav>
+    </header>
+
+    <main class="content-section">
+        <h1>Data Privacy <br>Protocol</h1>
+        <p><strong>System Status: Active / Version 4.0.2</strong></p>
+        
+        <h3>1. Scope of Intelligence</h3>
+        <p>At SUDSTUDY, we treat user data as critical infrastructure. Our privacy standards exceed commercial requirements because we understand that your intellectual journey is personal. We collect only what is necessary to power the Analogy Engine.</p>
+        
+        <h3>2. Information Nodes</h3>
+        <p>We process three categories of data: Identity Nodes (Name, Email), Preference Nodes (Learning styles, Lore affinity), and Technical Nodes (IP address, Session logs). This data is used solely to optimize the educational experience.</p>
+        
+        <h3>3. Data Encryption</h3>
+        <p>Your data is stored in air-gapped virtual environments protected by AES-256 encryption. We do not engage in the monetization or sale of user datasets to external advertising clusters.</p>
+        
+        <h3>4. User Sovereignty</h3>
+        <p>Under the "Global Citizen Rights" protocol, you maintain full sovereignty over your data. You may request a complete data purge from our nodes at any time by contacting our Security Officer.</p>
+    </main>
+
+    <footer class="footer">
+        <div class="social-row">
+            <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://tiktok.com"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+        <p style="color:#444; font-size:0.8rem; margin-top:1rem;">&copy; 2026 SUDSTUDY Legal Department. All rights reserved.</p>
+    </footer>
+</body>
+</html>
