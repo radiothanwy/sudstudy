@@ -4,384 +4,556 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SUDSTUDY - Leading educational services and programs in Sudan. Offering quality education, training programs, and academic support services.">
-    <meta name="keywords" content="SUDSTUDY, education Sudan, study programs, academic services, Sudan education, training programs">
-    <meta name="author" content="SUDSTUDY">
-    <meta property="og:title" content="SUDSTUDY Educational Services in Sudan">
-    <meta property="og:description" content="Leading educational services and programs in Sudan. Quality education and academic support services.">
-    <meta property="og:image" content="path/to/your/logo.png">
-	<link rel="icon" href="images/icon.png">
-    <meta property="og:url" content="https://sudstudy.com">
-    <link rel="canonical" href="https://sudstudy.com">
+    <meta name="description" content="SUDSTUDY - The Architecture of Human Potential. Narrative education and the Analogy Engine.">
+    <title>SUDSTUDY | The Analogy Engine Company</title>
 
-    <title>SUDSTUDY | Most Relevant Educational Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* [CRITICAL CSS INLINED HERE: e.g., styles for .header, .nav-container, .logo, .hero] */
-        /* For now, we rely on the main stylesheet for simplicity, but this is the primary speed boost area. */
+        /* =========================================
+           1. LUXURY IDENTITY VARIABLES
+           ========================================= */
         :root {
-            --primary-color: #494069;
-            --accent-color: #f5074a;
+            --bg-deep: #050511;
+            --bg-panel: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.6);
+            --gold-primary: #D4AF37;
+            --gold-hover: #F2D06B;
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --glass: blur(20px) saturate(180%);
+            --border-glass: 1px solid rgba(255, 255, 255, 0.08);
+            --glow: 0 0 30px rgba(212, 175, 55, 0.15);
+            --font-main: 'Changa', sans-serif;
+            --font-serif: 'Playfair Display', serif;
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background */
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px);
+            background-size: 550px 550px, 350px 350px;
+            opacity: 0.2; z-index: -1;
+        }
+
+        /* =========================================
+           2. HEADER & NAVIGATION
+           ========================================= */
         .header {
-             background: var(--primary-color);
-             padding: 1rem;
-             position: fixed;
-             width: 100%;
-             top: 0;
-             z-index: 1000;
+            position: fixed; top: 0; width: 100%; padding: 1.5rem 0; z-index: 1000;
+            transition: all 0.4s ease; border-bottom: 1px solid transparent;
+        }
+        .header.is-scrolled {
+            background: rgba(5, 5, 17, 0.95);
+            backdrop-filter: var(--glass);
+            padding: 1rem 0;
+            border-bottom: var(--border-glass);
+        }
+        .nav-container {
+            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        /* LOGO: Force LTR to prevent flipping in Arabic */
+        .logo {
+            font-size: 1.8rem; font-weight: 800; color: var(--text-main);
+            text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px;
+            direction: ltr !important; 
+        }
+        .logo span { color: var(--gold-primary); }
+
+        .nav-menu { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-link {
+            color: var(--text-muted); text-decoration: none; font-weight: 500;
+            font-size: 0.9rem; text-transform: uppercase; transition: color 0.3s;
+            position: relative;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--gold-primary); transition: width 0.3s ease;
+        }
+        .nav-link:hover { color: var(--gold-primary); }
+        .nav-link:hover::after { width: 100%; }
+        
+        [dir="rtl"] .nav-link::after { left: auto; right: 0; }
+
+        /* =========================================
+           3. HERO SECTION
+           ========================================= */
+        .hero {
+            height: 100vh; display: flex; align-items: center; padding: 0 2rem;
+            background: radial-gradient(circle at top right, rgba(212,175,55,0.05), transparent 50%);
+        }
+        .hero-container { max-width: 1300px; margin: 0 auto; width: 100%; }
+        
+        .hero-text h1 {
+            font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, #a0a0b0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-text h1 span {
+            font-family: var(--font-serif); font-style: italic; color: var(--gold-primary);
+            -webkit-text-fill-color: var(--gold-primary); display: block; font-size: 3.5rem; margin-top: 10px;
+        }
+        .hero-text p {
+            font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2.5rem;
+            max-width: 600px; border-left: 3px solid var(--gold-primary); padding-left: 20px;
+        }
+        [dir="rtl"] .hero-text p { border-left: none; border-right: 3px solid var(--gold-primary); padding-left: 0; padding-right: 20px; }
+
+        /* BUTTONS */
+        .btn {
+            padding: 1rem 2.5rem; text-transform: uppercase; font-weight: 700;
+            text-decoration: none; display: inline-block; transition: 0.3s; cursor: pointer; border: none;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+        .btn-primary { background: var(--gold-primary); color: var(--bg-deep); }
+        .btn-primary:hover { background: var(--gold-hover); transform: translateY(-3px); box-shadow: var(--glow); }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+        .btn-outline:hover { border-color: var(--gold-primary); color: var(--gold-primary); }
+
+        /* =========================================
+           4. IMPACT METRICS (HUD STRIP)
+           ========================================= */
+        .impact-strip {
+            background: var(--bg-panel); padding: 3rem 0;
+            border-top: var(--border-glass); border-bottom: var(--border-glass);
+        }
+        .impact-grid {
+            max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 2rem; text-align: center;
+        }
+        .metric-card { border-right: 1px solid rgba(255,255,255,0.05); }
+        .metric-card:last-child { border-right: none; }
+        [dir="rtl"] .metric-card { border-right: none; border-left: 1px solid rgba(255,255,255,0.05); }
+        [dir="rtl"] .metric-card:last-child { border-left: none; }
+        
+        .metric-value {
+            font-size: 2.5rem; font-weight: 800; color: var(--gold-primary);
+            font-family: var(--font-serif); display: block; margin-bottom: 0.5rem;
+        }
+        .metric-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
+
+        /* =========================================
+           5. STARS'UP SECTION
+           ========================================= */
+        .starsup-section {
+            padding: 8rem 0; background: linear-gradient(180deg, var(--bg-deep) 0%, #0e0e24 100%);
+        }
+        .section-header { text-align: center; margin-bottom: 5rem; }
+        .tag { color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; font-weight: 700; display: block; margin-bottom: 1rem; }
+        .section-title { font-size: 3rem; margin-bottom: 1rem; }
+        
+        .showcase-container {
+            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+        .showcase-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px; padding: 3rem; position: relative; backdrop-filter: blur(10px);
+        }
+
+        /* =========================================
+           6. PROGRAMS GRID
+           ========================================= */
+        .programs-section { padding: 8rem 0; }
+        .cards-grid {
+            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;
+        }
+        .program-card {
+            background: var(--bg-card); border: var(--border-glass); border-radius: 4px;
+            padding: 3rem; transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+        .program-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.05); }
+        .card-icon { font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 2rem; }
+        .card-title { font-size: 1.5rem; margin-bottom: 1rem; }
+        .card-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+
+        /* =========================================
+           7. GLOBAL PRESENCE GRID (NEW BENTO LAYOUT)
+           ========================================= */
+        .global-section { padding: 8rem 2rem; max-width: 1300px; margin: 0 auto; }
+        
+        .presence-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(2, 300px);
+            gap: 1.5rem; margin-top: 4rem;
         }
         
-        /* The main CSS for the rest of the page */
+        .presence-card {
+            position: relative; overflow: hidden; border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+        }
+        
+        /* Grid Spans */
+        .card-large { grid-column: span 3; }
+        .card-med { grid-column: span 2; }
+        .card-small { grid-column: span 1; }
+        
+        .presence-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%) brightness(0.6); transition: 0.6s ease;
+        }
+        .presence-card:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
+        
+        /* Scanner Effect */
+        .presence-card::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(212,175,55,0.1), transparent);
+            transform: skewX(-25deg); transition: 0.7s; pointer-events: none;
+        }
+        .presence-card:hover::after { left: 150%; }
+        
+        .presence-label {
+            position: absolute; bottom: 20px; left: 20px;
+            font-family: var(--font-serif); font-size: 1.8rem; color: #fff; z-index: 2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        [dir="rtl"] .presence-label { left: auto; right: 20px; }
+
+        /* =========================================
+           8. CONTACT & FOOTER
+           ========================================= */
+        .contact-section {
+            max-width: 900px; margin: 5rem auto; background: var(--bg-panel);
+            border: var(--border-glass); padding: 4rem; border-radius: 8px; text-align: center;
+        }
+        .input-group { margin-bottom: 1.5rem; }
+        .input-group input, .input-group textarea {
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem; color: white; font-family: var(--font-main);
+        }
+        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: var(--gold-primary); }
+
+        .footer { background: #000; padding: 5rem 0 2rem; border-top: var(--border-glass); font-size: 0.9rem; }
+        .footer-grid {
+            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
+            display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem;
+        }
+        .footer h5 { color: var(--text-main); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer a { color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 0.8rem; transition: color 0.3s; }
+        .footer a:hover { color: var(--gold-primary); }
+
+        /* SOCIAL ICONS */
+        .social-row { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .social-row a {
+            width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
+            color: var(--text-muted); margin-bottom: 0;
+            text-decoration: none;
+        }
+        .social-row a:hover { border-color: var(--gold-primary); color: var(--gold-primary); transform: translateY(-3px); }
+
+        /* WHATSAPP FAB (GOLD) */
+        .fab {
+            position: fixed; bottom: 30px; right: 30px; background: var(--gold-primary);
+            width: 60px; height: 60px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; color: var(--bg-deep);
+            font-size: 2rem; cursor: pointer; z-index: 999; animation: pulse 3s infinite;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+        [dir="rtl"] .fab { right: auto; left: 30px; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        @media (max-width: 900px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .impact-grid { grid-template-columns: repeat(2, 1fr); }
+            .showcase-container { grid-template-columns: 1fr; }
+            .presence-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .card-large, .card-med, .card-small { grid-column: span 1; height: 250px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .nav-menu { display: none; } 
+        }
     </style>
-    
-    <link href="css/styles.css" rel="stylesheet">
-    
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Changa" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Changa"></noscript>
-    
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
 </head>
 
 <body>
-    <header class="header sticky-header">
+    <div class="stars"></div>
+
+    <header class="header">
         <nav class="nav-container">
-            <div class="logo-lang-container">
-                <a href="#" class="logo">SUDSTUDY</a>
-                <button class="language-switch" data-lang="en">
-                    <i class="fas fa-language"></i>
-                    <span class="lang-text"></span>
-                </button>
-            </div>
-            <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </div>
+            <a href="#" class="logo">SUD<span>STUDY</span></a>
             <ul class="nav-menu">
-                <li class="nav-item lang-en"><a href="#overview">Overview</a></li>
-                <li class="nav-item lang-ar" style="display: none;"><a href="#overview">البداية</a></li>
-                <li class="nav-item lang-en"><a href="#achievements">Impact</a></li>
-                <li class="nav-item lang-ar" style="display: none;"><a href="#achievements">اعمالنا</a></li>
-                <li class="nav-item lang-en"><a href="#programs">Programs</a></li>
-                <li class="nav-item lang-ar" style="display: none;"><a href="#programs">برامجنا</a></li>
-                <li class="nav-item lang-en"><a href="#services">Services</a></li>
-                <li class="nav-item lang-ar" style="display: none;"><a href="#services">خدماتنا</a></li>
-                <li class="nav-item lang-en"><a href="#about-contact">About Us / Contact</a></li>
-                <li class="nav-item lang-ar" style="display: none;"><a href="#about-contact">تعرف علينا / تواصل معنا</a></li>
+                <li><a href="#vision" class="nav-link lang-en">Vision</a><a href="#vision" class="nav-link lang-ar" style="display:none">الرؤية</a></li>
+                <li><a href="#impact" class="nav-link lang-en">Impact</a><a href="#impact" class="nav-link lang-ar" style="display:none">التأثير</a></li>
+                <li><a href="#starsup" class="nav-link lang-en" style="color:var(--gold-primary)">Stars'Up</a><a href="#starsup" class="nav-link lang-ar" style="display:none; color:var(--gold-primary)">ستارز أب</a></li>
+                <li><a href="#global" class="nav-link lang-en">Presence</a><a href="#global" class="nav-link lang-ar" style="display:none">تواجُدنا</a></li>
+                <li><button onclick="toggleLang()" style="background:transparent; border:1px solid var(--gold-primary); color:var(--gold-primary); padding:6px 14px; cursor:pointer; font-family:inherit; font-weight:600;">AR</button></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="lang-en">Education Where It's Most Relevant</h1>
-            <h1 class="lang-ar" style="display: none;">تعليم حقيقي يناسبك</h1>
-            <p class="lang-en">Brighter futures for/from Brighter brains </p>
-            <p class="lang-ar" style="display: none;">مستقبل أفتح لـ/بعقول ألمع</p>
-            <a href="#programs" class="btn lang-en">Explore Our Programs</a>
-            <a href="#programs" class="btn lang-ar" style="display: none;">اكتشف برامجنا</a>
-        </div>
-    </section>
-
-    <section id="achievements" style="background: var(--light-bg);">
-        <div class="container">
-            <h2 class="section-title lang-en">Our Impact</h2>
-            <h2 class="section-title lang-ar" style="display: none;">تأثيرنا</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3 data-final="20000">20,000+</h3>
-                    <p class="lang-en">Students Reached</p>
-                    <p class="lang-ar" style="display: none;"> طالب تم الوصول اليهم </p>
-                </div>
-                <div class="stat-card">
-                    <h3 data-final="120">120+</h3>
-                    <p class="lang-en">institution Partnered</p>
-                    <p class="lang-ar" style="display: none;">مؤسسة تعليمية شركاؤنا</p>
-                </div>
-                <div class="stat-card">
-                    <h3 data-final="6">6</h3>
-                    <p class="lang-en">Countries</p>
-                    <p class="lang-ar" style="display: none;">دول</p>
-                </div>
-                <div class="stat-card highlight-stat">
-                    <h3 data-final="95">95%</h3>
-                    <p class="lang-en">Success Rate</p>
-                    <p class="lang-ar" style="display: none;">معدل النجاح</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="programs">
-        <div class="container">
-            <h2 class="section-title lang-en">Our Programs</h2>
-            <h2 class="section-title lang-ar" style="display: none;">برامجنا</h2>
-            <div class="programs-grid">
-                <div class="program-card">
-                    <div class="image-container">
-                        <img src="images/paths.jpg" alt="Digital Learning" loading="lazy">
-                    </div>
-                    <div class="program-content">
-                        <h3 class="lang-en">Customized Educational Content</h3>
-                        <h3 class="lang-ar" style="display: none;">المحتوى العلمي المخصص</h3>
-                        <p class="lang-en">Refactoring the school subjects in terms of students preferences</p>
-                        <p class="lang-ar" style="display: none;">تشكيل المادة العلمية طبقا لمعطيات وتفضيلات الطلاب.</p>
-						<a href="programs/CEC/" target="_blank" class="btn btn-learn-more lang-en">Learn More</a>
-						<a href="programs/CEC/" target="_blank" class="btn btn-learn-more lang-ar" style="display: none;">اعرف المزيد</a>
-                    </div>
-                </div>
-                <div class="program-card">
-                    <div class="image-container">
-                        <img src="images/data-student-card.jpg" alt="Teacher Training" loading="lazy">
-                    </div>
-                    <div class="program-content">
-                        <h3 class="lang-en">Data Student</h3>
-                        <h3 class="lang-ar" style="display: none;">طلاب البيانات</h3>
-                        <p class="lang-en">Genius new way of learning like computers do!</p>
-                        <p class="lang-ar" style="display: none;">اتعلم زي الكمبيوتر ، بس بفاعلية اكبر</p>
-						<a href="programs/data student/data student.html" target="_blank" class="btn btn-learn-more lang-en">Learn More</a>
-						<a href="programs/data student/data student.html" target="_blank" class="btn btn-learn-more lang-ar" style="display: none;">اعرف المزيد</a>
-                    </div>
-                </div>
-                <div class="program-card">
-                    <div class="image-container">
-                        <img src="images/international-card.jpg" alt="Infrastructure" loading="lazy">
-                    </div>
-                    <div class="program-content">
-                        <h3 class="lang-en">international Students</h3>
-                        <h3 class="lang-ar" style="display: none;">الطلاب الدوليون</h3>
-                        <p class="lang-en">Discover the best oppertunities for studying abroad</p>
-                        <p class="lang-ar" style="display: none;">اكتشف افضل الفرص التعليمية المناسبة لميزانيتك وطموحاتك</p>
-						<a href="programs/international students/international students.html" target="_blank" class="btn btn-learn-more lang-en">Learn More</a>
-						<a href="programs/international students/international students.html" target="_blank" class="btn btn-learn-more lang-ar" style="display: none;">اعرف المزيد</a>
-                    </div>
+    <section id="vision" class="hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1 class="lang-en">The Architecture of <br><span>Human Potential</span></h1>
+                <h1 class="lang-ar" style="display:none">هندسة <br><span>الإمكانيات البشرية</span></h1>
+                
+                <p class="lang-en">We Create, Educate and Elvate. Decoding personal preferences —using our proprietary Analogy Engine to transform education into a narrative they already love.</p>
+                <p class="lang-ar" style="display:none">تعليم، تقويم وتقييم. نعيد تشكيل التعليم باستخدام محرك التناظر الخاص بنا، لتحويل المحتوى إلى قصص يعشقها مهتميها بالفعل.</p>
+                
+                <div style="display:flex; gap:1.5rem; margin-top:2rem;">
+                    <a href="#starsup" class="btn btn-primary lang-en">Discover Stars'Up</a>
+                    <a href="#starsup" class="btn btn-primary lang-ar" style="display:none">اكتشف ستارز أب</a>
+                    <a href="#contact" class="btn btn-outline lang-en">Partner With Us</a>
+                    <a href="#contact" class="btn btn-outline lang-ar" style="display:none">كن شريكاً</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="services">
-        <div class="services-container">
-            <h2 class="section-title lang-en">Our Services</h2>
-            <h2 class="section-title lang-ar" style="display: none;">خدماتنا</h2>
-
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-puzzle-piece"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3 class="service-title lang-en"> Curriculum Refactoring </h3>
-                        <h3 class="service-title lang-ar" style="display: none;">تخصيص المناهج الدراسية</h3>
-                        <p class="service-description lang-en">
-                            Refactoring curriculums to suit the preferences of students at all stages and levels.
-                        </p>
-                        <p class="service-description lang-ar" style="display: none;">
-                            اعادة تشكيل المواد الدراسية لتناسب معطيات الطلاب في كافة المراحل وعلى مختلف المستويات.
-                        </p>
-                    </div>
-                    <div class="particles"></div>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-earth-africa"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3 class="service-title lang-en">Educational opportunities</h3>
-                        <h3 class="service-title lang-ar" style="display: none;">الفرص التعليمية</h3>
-                        <p class="service-description lang-en">
-                            Customized programs for our students abroad to make the best out of thier resources.
-                        </p>
-                        <p class="service-description lang-ar" style="display: none;">
-                            البرامج المتاحة للطلاب الدارسين بالخارج طبقا لافضل المساقات الدراسية.
-                        </p>
-                    </div>
-                    <div class="particles"></div>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3 class="service-title lang-en">Valuating Choices</h3>
-                        <h3 class="service-title lang-ar" style="display: none;">تقييم خياراتك التعليمية</h3>
-                        <p class="service-description lang-en">
-                            Evaluate your choices for better future within your reach.
-                        </p>
-                        <p class="service-description lang-ar" style="display: none;">
-                            اختر افضل الفرص التعليمية المتاحة لك والمناسبة تماما لمعطياتك.
-                        </p>
-                    </div>
-                    <div class="particles"></div>
-                </div>
+    <section id="impact" class="impact-strip">
+        <div class="impact-grid">
+            <div class="metric-card">
+                <span class="metric-value" data-target="20000">0</span>
+                <span class="metric-label lang-en">Students Integrated</span>
+                <span class="metric-label lang-ar" style="display:none">طالب تم دمجهم</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value" data-target="120">0</span>
+                <span class="metric-label lang-en">Institution Nodes</span>
+                <span class="metric-label lang-ar" style="display:none">عقدة مؤسسية</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value" data-target="6">0</span>
+                <span class="metric-label lang-en">Global Markets</span>
+                <span class="metric-label lang-ar" style="display:none">أسواق عالمية</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value" data-target="95">0</span>
+                <span class="metric-label lang-en">Success Protocol %</span>
+                <span class="metric-label lang-ar" style="display:none">بروتوكول النجاح %</span>
             </div>
         </div>
     </section>
 
-    <section id="overview" class="countries-section">
-        <div class="container">
-            <h2 class="section-title lang-en">Where We Work</h2>
-            <h2 class="section-title lang-ar" style="display: none;">أين نعمل</h2>
-        <div class="countries-slider" id="countriesSlider">
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/egypt.jpg" alt="Egypt" loading="lazy">
-                </div>
-                <h3 class="lang-en">Egypt</h3>
-                <h3 class="lang-ar" style="display: none;">مصر</h3>
-                <p class="lang-en">Supporting education initiatives across Egypt</p>
-                <p class="lang-ar" style="display: none;">دعم المبادرات التعليمية في جميع أنحاء مصر</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/libya.jpg" alt="Libya" loading="lazy">
-                </div>
-                <h3 class="lang-en">Libya</h3>
-                <h3 class="lang-ar" style="display: none;">ليبيا</h3>
-                <p class="lang-en">Expanding educational opportunities in Libya</p>
-                <p class="lang-ar" style="display: none;">توسيع الفرص التعليمية في ليبيا</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/sudan.jpg" alt="Sudan" loading="lazy">
-                </div>
-                <h3 class="lang-en">Sudan</h3>
-                <h3 class="lang-ar" style="display: none;">السودان</h3>
-                <p class="lang-en">Enhancing learning resources in Sudan</p>
-                <p class="lang-ar" style="display: none;">تعزيز الموارد التعليمية في السودان</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/jordan.jpg" alt="Jordan" loading="lazy">
-                </div>
-                <h3 class="lang-en">Jordan</h3>
-                <h3 class="lang-ar" style="display: none;">الأردن</h3>
-                <p class="lang-en">Enhancing learning resources in Jordan</p>
-                <p class="lang-ar" style="display: none;">تعزيز الموارد التعليمية في الأردن</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/ghana.jpg" alt="Ghana" loading="lazy">
-                </div>
-                <h3 class="lang-en">Ghana</h3>
-                <h3 class="lang-ar" style="display: none;">غانا</h3>
-                <p class="lang-en">Developing educational programs in Ghana</p>
-                <p class="lang-ar" style="display: none;">تطوير البرامج التعليمية في غانا</p>
-            </div>
-            <div class="country-card">
-                <div class="image-container">
-                    <img src="images/nigeria.jpg" alt="Nigeria" loading="lazy">
-                </div>
-                <h3 class="lang-en">Nigeria</h3>
-                <h3 class="lang-ar" style="display: none;">نيجيريا</h3>
-                <p class="lang-en">Implementing educational solutions in Nigeria</p>
-                <p class="lang-ar" style="display: none;">تنفيذ الحلول التعليمية في نيجيريا</p>
-            </div>
+    <section id="starsup" class="starsup-section">
+        <div class="section-header">
+            <span class="tag lang-en">Flagship Initiative</span>
+            <span class="tag lang-ar" style="display:none">المبادرة الرائدة</span>
+            <h2 class="section-title">STARS'UP</h2>
         </div>
-        </div>
-    </section>
-
-    <section id="about-contact" style="background: var(--light-bg);">
-        <h2 class="section-title lang-en">Get in Touch</h2>
-        <h2 class="section-title lang-ar" style="display: none;">تواصل معنا</h2>
-
-        <div class="about-contact-container">
-            <div class="about-section fade-in">
-                <h3 class="lang-en">About Us</h3>
-                <h3 class="lang-ar" style="display: none;">من نحن</h3>
-
-                <p class="lang-en">
-                    We are a dedicated educational organization committed to transforming lives through quality education across Africa. Since our establishment, we have been working tirelessly to bridge educational gaps and create opportunities for students in underserved
-                    communities.
+        <div class="showcase-container">
+            <div class="showcase-card">
+                <p class="lang-en" style="font-size: 1.2rem; line-height: 1.8; color:white;">
+                    "Stars'Up is the ultimate proof of concept for SudStudy's methodology. We are applying our <strong>Analogy Engine</strong> to the world's biggest stage: The 2026 World Cup."
                 </p>
-                <p class="lang-ar" style="display: none;">
-                    نحن مؤسسة تعليمية مكرسة لتغيير الحياة من خلال التعليم الجيد في جميع أنحاء أفريقيا. منذ تأسيسنا، نعمل بلا كلل لسد الفجوات التعليمية وخلق الفرص للطلاب في المجتمعات المحرومة من الخدمات.
+                <p class="lang-ar" style="display:none; font-size: 1.2rem; line-height: 1.8; color:white;">
+                    "ستارز أب هو الدليل العملي لمنهجية سودستدي. نحن نطبق <strong>محرك التناظر</strong> الخاص بنا على أكبر مسرح في العالم: كأس العالم 2026."
                 </p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span class="lang-en">13 Rabaa buildings, Nasr st. Nasr city, Cairo, Egypt</span>
-                        <span class="lang-ar" style="display: none;">13 عمارات رابعة ، شارع النصر ، مدينة نصر ، القاهرة ، مصر</span>
+                <div style="margin-top:2rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:3rem;">
+                    <div>
+                        <h4 style="color:var(--gold-primary); font-size:2rem; margin-bottom:0.5rem;">2026</h4>
+                        <span style="color:var(--text-muted); text-transform:uppercase; font-size:0.8rem;">Vision</span>
                     </div>
-                    <div class="contact-item">
-                        <a href="mailto:info@sudstudy.com">
-                            <i class="fas fa-envelope"></i>
-                            <span>info@sudstudy.com</span>
-                        </a>
+                    <div>
+                        <h4 style="color:var(--gold-primary); font-size:2rem; margin-bottom:0.5rem;">Phygital</h4>
+                        <span style="color:var(--text-muted); text-transform:uppercase; font-size:0.8rem;">Format</span>
                     </div>
-                </div>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/trenleam" target="_blank" class="social-icon" title="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://x.com/trenleam" target="_blank" class="social-icon" title="Twitter">
-                        <i class="fa-brands fa-x"></i>
-                    </a>
-                    <a href="https://www.youtube.com/channel/UCWVgok3XI-rLuMP4xYLT5kQ" target="_blank" class="social-icon" title="YouTube">
-                        <i class="fab fa-youtube"></i>
-                    </a>
                 </div>
             </div>
+            <div class="showcase-text">
+                <h3 class="lang-en" style="font-size:2rem; margin-bottom:1rem;">From Content to Culture</h3>
+                <h3 class="lang-ar" style="display:none; font-size:2rem; margin-bottom:1rem;">من الفصل الدراسي إلى الثقافة</h3>
+                <p class="lang-en" style="color:var(--text-muted);">Stars'Up uses Anime and Sports Lore to bridge cultural divides, proving that our educational model scales to global entertainment.</p>
+                <p class="lang-ar" style="display:none; color:var(--text-muted);">تستخدم ستارز أب ثقافة الأنمي والرياضة لربط الثقافات، مما يثبت أن نموذجنا التعليمي قابل للتوسع عالمياً.</p>
+                <a href="#" class="btn btn-outline lang-en" style="margin-top:1rem;">View The Portfolio</a>
+                <a href="#" class="btn btn-outline lang-ar" style="margin-top:1rem; display:none;">شاهد الملف التعريفي</a>
+            </div>
+        </div>
+    </section>
 
-            <form class="contact-form fade-in" id="contactForm" autocomplete="on" action="https://formspree.io/f/movveqpz" method="POST">
-                <div class="form-group">
-                    <label for="name" class="lang-en">Name</label>
-                    <label for="name" class="lang-ar" style="display: none;">الاسم</label>
-                    <input type="text" id="name" name="name" required autocomplete="name">
-                </div>
+    <section id="programs" class="programs-section">
+        <div class="section-header">
+            <span class="tag lang-en">The Engine</span>
+            <span class="tag lang-ar" style="display:none">المحرك</span>
+            <h2 class="section-title lang-en">Our Methodology</h2>
+            <h2 class="section-title lang-ar" style="display:none">منهجيتنا</h2>
+        </div>
+        <div class="cards-grid">
+            <div class="program-card">
+                <i class="fas fa-brain card-icon"></i>
+                <h3 class="card-title lang-en">The Analogy Engine (CEC)</h3>
+                <h3 class="card-title lang-ar" style="display:none">محرك التناظر (CEC)</h3>
+                <p class="card-desc lang-en">Refactoring complex academic subjects into the student's preferred "Language"—whether that's Gaming or Anime.</p>
+                <p class="card-desc lang-ar" style="display:none">إعادة صياغة المواد الأكاديمية المعقدة لتناسب "لغة" الطالب المفضلة - سواء كانت ألعاباً أو أنمي.</p>
+            </div>
+            <div class="program-card">
+                <i class="fas fa-laptop-code card-icon"></i>
+                <h3 class="card-title lang-en">Algorithmic Learning</h3>
+                <h3 class="card-title lang-ar" style="display:none">التعلم الخوارزمي</h3>
+                <p class="card-desc lang-en">Treating the student's brain like a neural network. We optimize input methods to maximize retention.</p>
+                <p class="card-desc lang-ar" style="display:none">التعامل مع عقل الطالب كشبكة عصبية. نقوم بتحسين طرق الإدخال لتعظيم الاستيعاب.</p>
+            </div>
+            <div class="program-card">
+                <i class="fas fa-globe-africa card-icon"></i>
+                <h3 class="card-title lang-en">Global Pathways</h3>
+                <h3 class="card-title lang-ar" style="display:none">المسارات العالمية</h3>
+                <p class="card-desc lang-en">The ultimate matchmaking algorithm. We connect students to cultural ecosystems where they will thrive.</p>
+                <p class="card-desc lang-ar" style="display:none">خوارزمية التوفيق المثالية. نربط الطلاب بالأنظمة البيئية الثقافية التي سيزدهرون فيها.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="global" class="global-section">
+        <div class="section-header" style="text-align:center">
+            <span class="tag" style="color:var(--gold-primary); letter-spacing:3px; text-transform:uppercase; font-size:0.8rem;">Operational Map</span>
+            <h2 class="section-title lang-en">Strategic Presence</h2>
+            <h2 class="section-title lang-ar" style="display:none;">التواجد الاستراتيجي</h2>
+        </div>
+        
+        <div class="presence-grid">
+            <div class="presence-card card-large">
+                <img src="images/egypt.jpg" alt="Egypt">
+                <span class="presence-label">Egypt / HQ</span>
+            </div>
+            <div class="presence-card card-med">
+                <img src="images/sudan.jpg" alt="Sudan">
+                <span class="presence-label">Sudan</span>
+            </div>
+            <div class="presence-card card-small">
+                <img src="images/ghana.jpg" alt="Ghana">
+                <span class="presence-label">Ghana</span>
+            </div>
+            <div class="presence-card card-med">
+                <img src="images/nigeria.jpg" alt="Nigeria">
+                <span class="presence-label">Nigeria</span>
+            </div>
+            <div class="presence-card card-large">
+                <img src="images/jordan.jpg" alt="Jordan">
+                <span class="presence-label">Jordan Hub</span>
+            </div>
+            <div class="presence-card card-small">
+                <img src="images/world.jpg" alt="Global">
+                <span class="presence-label">R&D</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="contact-section">
+            <h2 class="lang-en">Initialize Partnership</h2>
+            <h2 class="lang-ar" style="display:none">ابدأ الشراكة</h2>
+            <p style="color:var(--text-muted); margin-bottom:2rem;">Whether for Education Refactoring or Brand Lore Integration.</p>
             
-                <div class="form-group">
-                    <label for="email" class="lang-en">Email</label>
-                    <label for="email" class="lang-ar" style="display: none;">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" required autocomplete="email">
+            <form action="https://formspree.io/f/movveqpz" method="POST">
+                <div class="input-group">
+                    <input type="text" name="name" placeholder="Name / Organization" required>
                 </div>
-            
-                <div class="form-group">
-                    <label for="message" class="lang-en">Message</label>
-                    <label for="message" class="lang-ar" style="display: none;">الرسالة</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Official Email" required>
                 </div>
-            
-                <button type="submit" class="btn lang-en">Send Message</button>
-                <button type="submit" class="btn lang-ar" style="display: none;">إرسال الرسالة</button>
+                <div class="input-group">
+                    <textarea name="message" rows="4" placeholder="Brief Protocol..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%">Execute</button>
             </form>
         </div>
     </section>
 
-    <div class="whatsapp-fab">
-        <div class="fab-content">
-            <div class="fab-button">
-                <i class="fab fa-whatsapp"></i>
-            </div>
-            <div class="fab-message lang-en">Need help? Chat with us!</div>
-            <div class="fab-message lang-ar" style="display: none;">تحتاج مساعدة؟ تواصل معنا!</div>
-        </div>
-    </div>
     <footer class="footer">
-        <div class="container">
-            <div class="footer-links">
-                <a href="/privacy-policy.html" class="lang-en">Privacy Policy</a>
-                <a href="/privacy-policy.html" class="lang-ar" style="display: none;">سياسة الخصوصية</a>
-                <span class="separator lang-en">|</span>
-                <span class="separator lang-ar" style="display: none;">|</span>
-                <a href="/terms-of-service.html" class="lang-en">Terms of Service</a>
-                <a href="/terms-of-service.html" class="lang-ar" style="display: none;">شروط الخدمة</a>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="margin-bottom:1rem;">SUD<span>STUDY</span></a>
+                <p class="lang-en">The holding entity for the Analogy Engine, Stars'Up, and the future of narrative education.</p>
+                <p class="lang-ar" style="display:none">الكيان القابض لمحرك التناظر، ستارز أب، ومستقبل التعليم السردي.</p>
+                
+                <div class="social-row">
+                    <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://tiktok.com"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
             </div>
-
-            <p class="copyright lang-en">&copy; 2017-
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> SUDSTUDY. All rights reserved.</p>
-            <p class="copyright lang-ar" style="display: none;">© 2017-
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> SUDSTUDY. جميع الحقوق محفوظة.</p>
+            <div class="footer-col">
+                <h5 class="lang-en">Ecosystem</h5>
+                <h5 class="lang-ar" style="display:none">النظام البيئي</h5>
+                <a href="#starsup">Stars'Up Initiative</a>
+                <a href="#programs">CEC Program</a>
+                <a href="#programs">Data Student</a>
+            </div>
+            <div class="footer-col">
+                <h5 class="lang-en">Legal</h5>
+                <h5 class="lang-ar" style="display:none">قانوني</h5>
+                <a href="privacy-policy.html">Privacy Protocol</a>
+                <a href="terms-of-service.html">Terms of Engagement</a>
+                <a href="mailto:info@sudstudy.com">info@sudstudy.com</a>
+            </div>
+        </div>
+        <div style="text-align:center; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.05); margin-top:3rem; color:#555;">
+            &copy; 2026 SUDSTUDY. All rights reserved.
         </div>
     </footer>
-    <script src="js/main.js" defer></script>
-</body>
 
+    <div class="fab" onclick="window.open('https://wa.me/+201096485440')">
+        <i class="fa-brands fa-whatsapp"></i>
+    </div>
+
+    <script>
+        let currentLang = 'en';
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const html = document.documentElement;
+            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            document.querySelectorAll('.lang-en').forEach(el => el.style.display = currentLang === 'en' ? 'block' : 'none');
+            document.querySelectorAll('.lang-ar').forEach(el => el.style.display = currentLang === 'ar' ? 'block' : 'none');
+        }
+
+        // Header Scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) header.classList.add('is-scrolled');
+            else header.classList.remove('is-scrolled');
+        });
+
+        // Impact Counters Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = +el.getAttribute('data-target');
+                    const duration = 2000; 
+                    const step = Math.ceil(target / (duration / 16));
+                    let current = 0;
+                    
+                    const timer = setInterval(() => {
+                        current += step;
+                        if(current >= target) {
+                            el.textContent = target.toLocaleString() + (target > 1000 ? '+' : '%');
+                            if(target === 95) el.textContent = "95%"; 
+                            clearInterval(timer);
+                        } else {
+                            el.textContent = current.toLocaleString();
+                        }
+                    }, 16);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.metric-value').forEach(el => observer.observe(el));
+    </script>
+</body>
 </html>
