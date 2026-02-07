@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 2026 Protocol | The Creative Bridge</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #e0e0e0;
+            --accent-cyan: #f5007a;
+            --accent-gold: #ffd700;
+            --glow: 0 0 20px rgba(0, 242, 255, 0.3);
+            --deep-glow: 0 0 50px rgba(0, 242, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Helvetica Neue', Arial, sans-serif; /* Replace with your brand font */
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3 {
+            font-weight: 200;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .highlight-cyan { color: var(--accent-cyan); text-shadow: var(--glow); }
+        .highlight-gold { color: var(--accent-gold); text-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+
+        /* --- Animations --- */
+        @keyframes flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.02); }
+            100% { opacity: 0.3; transform: scale(1); }
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Sections --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 242, 255, 0.05) 50%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* The "Bridge" Effect */
+        .bridge-lines {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 60vh;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0,
+                transparent 40px,
+                rgba(0, 242, 255, 0.05) 40px,
+                rgba(0, 242, 255, 0.05) 41px
+            );
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            mask-image: linear-gradient(to top, black, transparent);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: rise 1.5s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            opacity: 0.8;
+            animation: rise 2s ease-out;
+        }
+
+        /* CONTENT SECTIONS */
+        .section {
+            padding: 100px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.02);
+            padding: 40px;
+            border-left: 1px solid var(--accent-cyan);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            background: rgba(0, 242, 255, 0.05);
+            transform: translateY(-5px);
+            box-shadow: var(--deep-glow);
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        /* DATA SECTION */
+        .data-bar {
+            margin: 40px 0;
+        }
+        .bar-container {
+            width: 100%;
+            height: 2px;
+            background: #333;
+            margin-top: 10px;
+            position: relative;
+        }
+        .bar-fill {
+            height: 100%;
+            background: var(--accent-gold);
+            box-shadow: 0 0 10px var(--accent-gold);
+            width: 0; /* Animated later via JS or default width */
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 80px 0;
+            font-size: 0.9rem;
+            opacity: 0.5;
+            letter-spacing: 0.1em;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 40px;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            transition: 0.3s;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: var(--glow);
+        }
+
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="bridge-lines"></div>
+        <div class="container">
+            <h1>The <span class="highlight-cyan">Analogy Engine</span></h1>
+            <p>From Fiction to Frictionless Reality. <br> The Protocol for World Cup 2026.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>01. The Vision</h2>
+            <p style="margin-top:20px; font-size: 1.1em; color: #aaa;">
+                We are Content Procreators. <span class="highlight-gold">Cultural Translators</span>. 
+                We take the static obsession of Anime and translate it into the kinetic reality of the World Cup.
+                We function as the "Ultimate Creative Bridge"—transporting audience preference from where they are (Fiction) 
+                to where they need to be (Reality) instantly.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>02. The Value Matrix</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Actualization</h3>
+                    <p><strong>For IP Holders:</strong> We do not just review content. We <em>live</em> it. By treating anime characters as philosophical archetypes, we revitalize dormant IP. Our events are not meetups; they are "Idol Culture" manifestations where digital obsession becomes physical reality.</p>
+                </div>
+
+                <div class="card">
+                    <h3>The Backbone</h3>
+                    <p><strong>For Strategic Partners:</strong> Every protagonist needs an engine. Whether it is the <span class="highlight-cyan">Reliability</span> of financial infrastructure or the <span class="highlight-cyan">Kando</span> of mobility , we integrate your brand as the essential tool that powers the hero's journey.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Curation as Art</h3>
+                    <p><strong>For Platforms:</strong> In an ocean of content, curation is the only luxury. We use our unique poetic format to polish hidden gems, turning indie titles into intellectual status symbols.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>03. The Bridge Data</h2>
+            <div class="data-bar">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>Global Anime Audience</span>
+                    <span class="highlight-cyan">~600 Million</span>
+                </div>
+                <div class="bar-container"><div class="bar-fill" style="width: 40%; background: var(--accent-cyan);"></div></div>
+            </div>
+
+            <div class="data-bar">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>World Cup Reach</span>
+                    <span class="highlight-gold">~5 Billion</span>
+                </div>
+                <div class="bar-container"><div class="bar-fill" style="width: 100%;"></div></div>
+            </div>
+            
+            <p style="margin-top:30px; font-size: 0.9em; opacity: 0.7;">
+                <strong>The Opportunity:</strong> The bridge between these two massive demographics is currently unbuilt. We are that bridge.
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>THE JOURNEY BEGINS NOW</p>
+        <a href="mailto:halim@sudstudy.com" class="cta-button">Initiate Contact</a>
+    </footer>
+
+</body>
+</html>
