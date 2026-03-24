@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudstudy | Tactical Briefing</title>
+    <style>
+        :root {
+            --bg-color: #0f172a; --card-bg: #1e293b; --primary: #3b82f6; --text-main: #f8fafc; --text-muted: #94a3b8;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-main);
+            margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+        .container {
+            background: var(--card-bg); padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 500px; width: 100%; border-top: 4px solid var(--primary);
+        }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; color: var(--primary);}
+        .lang-toggle { background: none; border: 1px solid var(--primary); color: var(--primary); padding: 5px 15px; border-radius: 20px; cursor: pointer; margin-bottom: 15px;}
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--text-muted);}
+        input, select {
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a;
+            color: white; font-size: 16px; box-sizing: border-box; transition: all 0.3s;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        button.submit-btn {
+            width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s;
+        }
+        button.submit-btn:hover { background: #2563eb; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <button class="lang-toggle" onclick="toggleLanguage()" id="langBtn">عربي / English</button>
+        <h1 id="title">Tactical Briefing</h1>
+        <p style="color: var(--text-muted); font-size: 14px;" id="subtitle">Set up your ultimate learning playbook.</p>
+    </div>
+
+    <form id="sudstudyForm" action="https://script.google.com/macros/s/AKfycbxOP5cfQJmU91_f50invxU29eyf3Mi8AxqDn7u1fEH1ONNfbE6s5X4R4uhSmk7YH6XiLw/exec" method="POST">
+        <div class="form-group">
+            <label id="lbl-name">Player Name</label>
+            <input type="text" name="studentName" required placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label id="lbl-whatsapp">WhatsApp Number</label>
+            <input type="tel" name="whatsapp" required placeholder="+20 123 456 7890">
+        </div>
+        <div class="form-group">
+            <label id="lbl-topic">Target Opponent (Subject & Topic)</label>
+            <input type="text" name="targetTopic" required placeholder="e.g., Physics: Kirchhoff's Laws">
+        </div>
+        <div class="form-group">
+            <label id="lbl-manager">Choose Your Manager</label>
+            <select name="teacherPersona" required>
+                <option value="Cristiano Ronaldo">Cristiano Ronaldo (The Machine)</option>
+                <option value="Lionel Messi">Lionel Messi (The Genius)</option>
+                <option value="Mohamed Salah">Mohamed Salah (The Swift King)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label id="lbl-position">Your Pitch Position</label>
+            <select name="fieldPosition" required>
+                <option value="Striker">Striker (Attacking, Fast)</option>
+                <option value="Midfielder">Midfielder (Strategic, Vision)</option>
+                <option value="Defender">Defender (Analytical, Solid)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label id="lbl-trait">Your Dominant Trait</label>
+            <select name="dominantTrait" required>
+                <option value="Physical">Physical (Energetic, Hands-on)</option>
+                <option value="Mental">Mental (Analytical, Logical)</option>
+                <option value="Spiritual">Spiritual (Creative, Intuitive)</option>
+            </select>
+        </div>
+        <input type="hidden" name="academicClass" value="Standard">
+        <input type="hidden" name="culturalArchetype" value="The Hustler">
+
+        <button type="submit" class="submit-btn" id="btn-submit">Generate Playbook</button>
+    </form>
+</div>
+
+<script>
+    let isEnglish = true;
+    const dict = {
+        en: { title: "Tactical Briefing", sub: "Set up your ultimate learning playbook.", name: "Player Name", wa: "WhatsApp Number", topic: "Target Opponent (Subject)", manager: "Choose Your Manager", pos: "Your Pitch Position", trait: "Your Dominant Trait", btn: "Generate Playbook", dir: "ltr" },
+        ar: { title: "الخطة التكتيكية", sub: "قم بإعداد خطة التعلم الخاصة بك.", name: "اسم اللاعب", wa: "رقم الواتساب", topic: "الخصم المستهدف (المادة)", manager: "اختر مدربك", pos: "موقعك في الملعب", trait: "سمتك الغالبة", btn: "توليد الخطة", dir: "rtl" }
+    };
+
+    function toggleLanguage() {
+        isEnglish = !isEnglish;
+        const lang = isEnglish ? dict.en : dict.ar;
+        document.documentElement.dir = lang.dir;
+        document.getElementById('title').innerText = lang.title;
+        document.getElementById('subtitle').innerText = lang.sub;
+        document.getElementById('lbl-name').innerText = lang.name;
+        document.getElementById('lbl-whatsapp').innerText = lang.wa;
+        document.getElementById('lbl-topic').innerText = lang.topic;
+        document.getElementById('lbl-manager').innerText = lang.manager;
+        document.getElementById('lbl-position').innerText = lang.pos;
+        document.getElementById('lbl-trait').innerText = lang.trait;
+        document.getElementById('btn-submit').innerText = lang.btn;
+    }
+</script>
+</body>
+</html>
