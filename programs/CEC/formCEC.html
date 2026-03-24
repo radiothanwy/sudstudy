@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -31,6 +32,7 @@
             font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s;
         }
         button.submit-btn:hover { background: #2563eb; transform: translateY(-2px); }
+        button.submit-btn:disabled { background: #475569; cursor: not-allowed; transform: none; }
     </style>
 </head>
 <body>
@@ -42,7 +44,7 @@
         <p style="color: var(--text-muted); font-size: 14px;" id="subtitle">Set up your ultimate learning playbook.</p>
     </div>
 
-    <form id="sudstudyForm" action="https://script.google.com/macros/s/AKfycbxOP5cfQJmU91_f50invxU29eyf3Mi8AxqDn7u1fEH1ONNfbE6s5X4R4uhSmk7YH6XiLw/exec" method="POST">
+    <form id="sudstudyForm">
         <div class="form-group">
             <label id="lbl-name">Player Name</label>
             <input type="text" name="studentName" required placeholder="Enter your name">
@@ -87,10 +89,11 @@
 </div>
 
 <script>
+    // --- UI & Language Logic ---
     let isEnglish = true;
     const dict = {
-        en: { title: "Tactical Briefing", sub: "Set up your ultimate learning playbook.", name: "Player Name", wa: "WhatsApp Number", topic: "Target Opponent (Subject)", manager: "Choose Your Manager", pos: "Your Pitch Position", trait: "Your Dominant Trait", btn: "Generate Playbook", dir: "ltr" },
-        ar: { title: "الخطة التكتيكية", sub: "قم بإعداد خطة التعلم الخاصة بك.", name: "اسم اللاعب", wa: "رقم الواتساب", topic: "الخصم المستهدف (المادة)", manager: "اختر مدربك", pos: "موقعك في الملعب", trait: "سمتك الغالبة", btn: "توليد الخطة", dir: "rtl" }
+        en: { title: "Tactical Briefing", sub: "Set up your ultimate learning playbook.", name: "Player Name", wa: "WhatsApp Number", topic: "Target Opponent (Subject)", manager: "Choose Your Manager", pos: "Your Pitch Position", trait: "Your Dominant Trait", btn: "Generate Playbook", loading: "Processing...", success: "Playbook Sent to Tutor!", dir: "ltr" },
+        ar: { title: "الخطة التكتيكية", sub: "قم بإعداد خطة التعلم الخاصة بك.", name: "اسم اللاعب", wa: "رقم الواتساب", topic: "الخصم المستهدف (المادة)", manager: "اختر مدربك", pos: "موقعك في الملعب", trait: "سمتك الغالبة", btn: "توليد الخطة", loading: "جاري المعالجة...", success: "تم الإرسال للمدرب!", dir: "rtl" }
     };
 
     function toggleLanguage() {
@@ -107,6 +110,48 @@
         document.getElementById('lbl-trait').innerText = lang.trait;
         document.getElementById('btn-submit').innerText = lang.btn;
     }
+
+    // --- Invisible Form Submission Logic (Bypasses CAPTCHA) ---
+    // PASTE YOUR GOOGLE SCRIPT WEB APP URL HERE
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOP5cfQJmU91_f50invxU29eyf3Mi8AxqDn7u1fEH1ONNfbE6s5X4R4uhSmk7YH6XiLw/exec"; 
+
+    document.getElementById('sudstudyForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // This stops the hard redirect and CAPTCHA
+        
+        const btn = document.getElementById('btn-submit');
+        const lang = isEnglish ? dict.en : dict.ar;
+        
+        // UI Feedback: Show loading state
+        btn.innerText = lang.loading;
+        btn.disabled = true;
+
+        const formData = new FormData(this);
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            // UI Feedback: Success
+            btn.innerText = lang.success;
+            btn.style.background = "#10b981"; // Turn green
+            this.reset(); // Clear the form
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                btn.innerText = lang.btn;
+                btn.style.background = "var(--primary)";
+                btn.disabled = false;
+            }, 3000);
+        })
+        .catch(error => {
+            console.error('Submission Error:', error);
+            btn.innerText = "Error. Try Again.";
+            btn.style.background = "#ef4444"; // Turn red
+            btn.disabled = false;
+        });
+    });
 </script>
 </body>
 </html>
