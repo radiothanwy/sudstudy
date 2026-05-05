@@ -4,34 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SUDSTUDY - The Architecture of Human Potential. Narrative education and the Analogy Engine.">
-    <title>SUDSTUDY | The Analogy Engine Company</title>
+    <meta name="description" content="SUDSTUDY - Tailoring Business Environments & Academic Pathways. The Analogy Engine.">
+    <title>SUDSTUDY | The Global Transition Bridge</title>
         
-    <meta property="og:image" content="images/icon.png">
-	<link rel="icon" href="images/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --bg-deep: #050511;
             --bg-panel: #0a0a1a;
-            --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-card: rgba(20, 20, 40, 0.7);
             --gold-primary: #D4AF37;
             --gold-hover: #F2D06B;
             --text-main: #ffffff;
             --text-muted: #a0a0b0;
             --glass: blur(20px) saturate(180%);
             --border-glass: 1px solid rgba(255, 255, 255, 0.08);
-            --glow: 0 0 30px rgba(212, 175, 55, 0.15);
+            --glow: 0 0 30px rgba(212, 175, 55, 0.2);
             --font-main: 'Changa', sans-serif;
             --font-serif: 'Playfair Display', serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; } /* Removed default smooth-scroll to control via JS */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-deep);
@@ -41,28 +38,31 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Background */
-        .stars {
+        /* Ambient Dynamic 3D Text Bridge Canvas */
+        #bridgeCanvas {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        .overlay-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px);
-            background-size: 550px 550px, 350px 350px;
-            opacity: 0.2; z-index: -1;
+            background: radial-gradient(circle at center, rgba(5,5,17,0.4) 0%, var(--bg-deep) 100%);
+            z-index: -1; pointer-events: none;
         }
 
         /* =========================================
-           2. HEADER & NAVIGATION
+           HEADER & NAVIGATION
            ========================================= */
         .header {
             position: fixed; top: 0; width: 100%; padding: 1.5rem 0; z-index: 1000;
             transition: all 0.4s ease; border-bottom: 1px solid transparent;
         }
         .header.is-scrolled {
-            background: rgba(5, 5, 17, 0.95);
-            backdrop-filter: var(--glass);
-            padding: 1rem 0;
-            border-bottom: var(--border-glass);
+            background: rgba(5, 5, 17, 0.95); backdrop-filter: var(--glass);
+            padding: 1rem 0; border-bottom: var(--border-glass);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
         }
         .nav-container {
             max-width: 1300px; margin: 0 auto; padding: 0 2rem;
@@ -71,12 +71,11 @@
         .logo {
             font-size: 1.8rem; font-weight: 800; color: var(--text-main);
             text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
-            display: flex; align-items: center; gap: 10px;
-            direction: ltr !important; 
+            display: flex; align-items: center; gap: 10px; direction: ltr !important; 
         }
         .logo span { color: var(--gold-primary); }
 
-        .nav-menu { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-menu { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
         .nav-link {
             color: var(--text-muted); text-decoration: none; font-weight: 500;
             font-size: 0.9rem; text-transform: uppercase; transition: color 0.3s;
@@ -90,31 +89,48 @@
         .nav-link:hover::after { width: 100%; }
         [dir="rtl"] .nav-link::after { left: auto; right: 0; }
 
+        /* Language Toggle */
+        .lang-toggle-wrapper { display: flex; align-items: center; gap: 8px; margin-left: 1rem; }
+        [dir="rtl"] .lang-toggle-wrapper { margin-left: 0; margin-right: 1rem; }
+        .lang-label { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); transition: 0.3s; }
+        .lang-label.active { color: var(--gold-primary); }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(212, 175, 55, 0.5); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--gold-primary); transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: rgba(212, 175, 55, 0.2); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .mobile-nav-toggle { display: none; color: var(--gold-primary); font-size: 1.5rem; cursor: pointer; background: none; border: none;}
+
         /* =========================================
-           3. HERO SECTION
+           HERO SECTION
            ========================================= */
         .hero {
-            height: 100vh; display: flex; align-items: center; padding: 0 2rem;
-            background: linear-gradient(circle at top right left , rgba(212,175,55,0.05), transparent 60%), url('images/hero.png') center/cover no-repeat;
+            min-height: 100vh; display: flex; align-items: center; padding: 6rem 2rem 0;
+            position: relative;
         }
-        .hero-container { max-width: 1300px; margin: 0 auto; width: 100%; }
+        .hero-container { max-width: 1300px; margin: 0 auto; width: 100%; position: relative; z-index: 10;}
         
         .hero-text h1 {
             font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #fff, #a0a0b0);
+            background: linear-gradient(to right, #ffffff, #a0a0b0);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .hero-text h1 span {
             font-family: var(--font-serif); font-style: italic; color: var(--gold-primary);
-            -webkit-text-fill-color: var(--gold-primary); display: block; font-size: 3.5rem; margin-top: 10px;
+            -webkit-text-fill-color: var(--gold-primary); display: block; font-size: 3.8rem; margin-top: 10px;
         }
-        .hero-text p {
-            font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2.5rem;
-            max-width: 600px; border-left: 3px solid var(--gold-primary); padding-left: 20px;
+        .slogan {
+            font-size: 1.8rem; font-family: var(--font-serif); font-style: italic; color: var(--gold-primary);
+            margin-bottom: 1.5rem; font-weight: 700;
         }
-        [dir="rtl"] .hero-text p { border-left: none; border-right: 3px solid var(--gold-primary); padding-left: 0; padding-right: 20px; }
+        .hero-text p.desc {
+            font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem;
+            max-width: 650px; border-left: 3px solid var(--gold-primary); padding-left: 20px; background: rgba(5,5,17,0.4); padding: 15px 20px; border-radius: 0 8px 8px 0;
+        }
+        [dir="rtl"] .hero-text p.desc { border-left: none; border-right: 3px solid var(--gold-primary); border-radius: 8px 0 0 8px; }
 
-        /* BUTTONS */
         .btn {
             padding: 1rem 2.5rem; text-transform: uppercase; font-weight: 700;
             text-decoration: none; display: inline-block; transition: 0.3s; cursor: pointer; border: none;
@@ -122,140 +138,80 @@
         }
         .btn-primary { background: var(--gold-primary); color: var(--bg-deep); }
         .btn-primary:hover { background: var(--gold-hover); transform: translateY(-3px); box-shadow: var(--glow); }
-        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
-        .btn-outline:hover { border-color: var(--gold-primary); color: var(--gold-primary); }
+        .btn-outline { background: rgba(5,5,17,0.6); border: 1px solid var(--gold-primary); color: #fff; }
+        .btn-outline:hover { background: var(--gold-primary); color: var(--bg-deep); }
 
         /* =========================================
-           4. IMPACT METRICS
+           THE TRANSITION BOTTLENECK
            ========================================= */
-        .impact-strip {
-            background: var(--bg-panel); padding: 3rem 0;
+        .bottleneck-section {
+            padding: 8rem 2rem; background: rgba(10, 10, 26, 0.7);
             border-top: var(--border-glass); border-bottom: var(--border-glass);
+            backdrop-filter: var(--glass); position: relative;
         }
-        .impact-grid {
-            max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 2rem; text-align: center;
-        }
-        .metric-card { border-right: 1px solid rgba(255,255,255,0.05); }
-        .metric-card:last-child { border-right: none; }
-        [dir="rtl"] .metric-card { border-right: none; border-left: 1px solid rgba(255,255,255,0.05); }
-        [dir="rtl"] .metric-card:last-child { border-left: none; }
-        
-        .metric-value {
-            font-size: 2.5rem; font-weight: 800; color: var(--gold-primary);
-            font-family: var(--font-serif); display: block; margin-bottom: 0.5rem;
-        }
-        .metric-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
-
-        /* =========================================
-           5. STARS'UP SECTION
-           ========================================= */
-        .starsup-section {
-            padding: 8rem 0; background: linear-gradient(180deg, var(--bg-deep) 0%, #0e0e24 100%);
-        }
-        .section-header { text-align: center; margin-bottom: 5rem; }
+        .bottleneck-container { max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
         .tag { color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; font-weight: 700; display: block; margin-bottom: 1rem; }
         .section-title { font-size: 3rem; margin-bottom: 1rem; }
         
-        .showcase-container {
-            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .data-content p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.5rem; text-align: justify; }
+        
+        .stat-boxes { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .stat-box {
+            background: var(--bg-card); padding: 2rem; border-radius: 8px; border: var(--border-glass);
+            border-left: 4px solid var(--gold-primary); transition: transform 0.3s;
         }
-        .showcase-card {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 20px; padding: 3rem; position: relative; backdrop-filter: blur(10px);
-        }
+        [dir="rtl"] .stat-box { border-left: var(--border-glass); border-right: 4px solid var(--gold-primary); }
+        .stat-box:hover { transform: translateX(10px); background: rgba(255,255,255,0.08); }
+        [dir="rtl"] .stat-box:hover { transform: translateX(-10px); }
+        .stat-big { font-size: 3rem; font-weight: 800; color: var(--gold-primary); display: block; line-height: 1; margin-bottom: 0.5rem; }
+        .stat-text { font-size: 1rem; color: #fff; }
 
         /* =========================================
-           6. PROGRAMS GRID
+           IMPACT METRICS
            ========================================= */
-        .programs-section { padding: 8rem 0; }
+        .impact-strip { background: transparent; padding: 4rem 0; }
+        .impact-grid {
+            max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 2rem; text-align: center; padding: 0 2rem;
+        }
+        .metric-value { font-size: 3.5rem; font-weight: 800; color: var(--gold-primary); font-family: var(--font-serif); display: block; margin-bottom: 0.5rem; }
+        .metric-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 600;}
+
+        /* =========================================
+           PROGRAMS / METHODOLOGY GRID
+           ========================================= */
+        .programs-section { padding: 6rem 0; position: relative;}
         .cards-grid {
             max-width: 1300px; margin: 0 auto; padding: 0 2rem;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;
         }
         .program-card {
-            background: var(--bg-card); border: var(--border-glass); border-radius: 4px;
+            background: var(--bg-card); border: var(--border-glass); border-radius: 8px;
             padding: 3rem; transition: all 0.4s ease; position: relative; overflow: hidden;
+            backdrop-filter: var(--glass);
         }
-        .program-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.05); }
+        .program-card:hover { transform: translateY(-10px); box-shadow: var(--glow); border-color: rgba(212, 175, 55, 0.5); }
         .card-icon { font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 2rem; }
-        .card-title { font-size: 1.5rem; margin-bottom: 1rem; }
-        .card-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+        .card-title { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
+        .card-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
 
         /* =========================================
-           7. GLOBAL PRESENCE GRID (INTERACTIVE)
-           ========================================= */
-        .global-section { padding: 8rem 2rem; max-width: 1300px; margin: 0 auto; }
-        
-        .presence-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-template-rows: repeat(2, 300px);
-            gap: 1.5rem; margin-top: 4rem;
-        }
-        
-        .presence-card {
-            position: relative; overflow: hidden; border-radius: 4px;
-            border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
-        }
-        
-        .card-large { grid-column: span 3; }
-        .card-med { grid-column: span 2; }
-        .card-small { grid-column: span 1; }
-        
-        .presence-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%) brightness(0.6); transition: 0.6s ease;
-        }
-        
-        /* HOVER: REVEAL TEXT */
-        .presence-card:hover img {
-            filter: grayscale(0%) brightness(0.4) blur(3px); /* Darken & Blur */
-            transform: scale(1.05);
-        }
-        
-        /* THE NARRATIVE TEXT (Hidden by default) */
-        .presence-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: all 0.4s ease;
-            background: rgba(0,0,0,0.4);
-            text-align: center; padding: 2rem;
-        }
-        
-        .presence-card:hover .presence-overlay { opacity: 1; }
-        
-        .presence-label {
-            font-family: var(--font-serif); font-size: 1.8rem; color: #fff; 
-            margin-bottom: 10px; transform: translateY(20px); transition: 0.4s;
-        }
-        
-        .presence-desc {
-            color: var(--gold-primary); font-size: 0.9rem; text-transform: uppercase;
-            letter-spacing: 2px; transform: translateY(20px); transition: 0.5s; font-weight: 700;
-        }
-        
-        .presence-card:hover .presence-label, 
-        .presence-card:hover .presence-desc {
-            transform: translateY(0);
-        }
-
-        /* =========================================
-           8. CONTACT & FOOTER
+           CONTACT & FOOTER
            ========================================= */
         .contact-section {
-            max-width: 900px; margin: 5rem auto; background: var(--bg-panel);
-            border: var(--border-glass); padding: 4rem; border-radius: 8px; text-align: center;
+            max-width: 900px; margin: 5rem auto; background: rgba(10,10,26,0.85); backdrop-filter: var(--glass);
+            border: var(--border-glass); padding: 4rem; border-radius: 12px; text-align: center;
         }
         .input-group { margin-bottom: 1.5rem; }
         .input-group input, .input-group textarea {
             width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            padding: 1rem; color: white; font-family: var(--font-main);
+            padding: 1.2rem; color: white; font-family: var(--font-main); border-radius: 4px;
         }
-        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: var(--gold-primary); }
+        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: var(--gold-primary); box-shadow: 0 0 10px rgba(212,175,55,0.2);}
 
-        .footer { background: #000; padding: 5rem 0 2rem; border-top: var(--border-glass); font-size: 0.9rem; }
+        .footer { background: rgba(2,2,5,0.9); padding: 5rem 0 2rem; border-top: 1px solid rgba(212,175,55,0.2); font-size: 0.9rem; position: relative;}
         .footer-grid {
             max-width: 1300px; margin: 0 auto; padding: 0 2rem;
             display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem;
@@ -264,54 +220,61 @@
         .footer a { color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 0.8rem; transition: color 0.3s; }
         .footer a:hover { color: var(--gold-primary); }
 
-        /* UPDATED SOCIAL ICONS */
-        .social-row { display: flex; gap: 1rem; margin-top: 1.5rem; }
-        .social-row a {
-            width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.2);
-            display: flex; align-items: center; justify-content: center; border-radius: 50%;
-            color: var(--text-muted); margin-bottom: 0; text-decoration: none;
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-text h1 { font-size: 3.5rem; }
+            .hero-text h1 span { font-size: 2.8rem; }
+            .data-grid { grid-template-columns: 1fr; gap: 2rem;}
         }
-        .social-row a:hover { border-color: var(--gold-primary); color: var(--gold-primary); transform: translateY(-3px); }
-
-        /* FAB */
-        .fab {
-            position: fixed; bottom: 30px; right: 30px; background: var(--gold-primary);
-            width: 60px; height: 60px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; color: var(--bg-deep);
-            font-size: 2rem; cursor: pointer; z-index: 999; animation: pulse 3s infinite;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-        }
-        [dir="rtl"] .fab { right: auto; left: 30px; }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
-
         @media (max-width: 900px) {
-            .hero-text h1 { font-size: 2.5rem; }
+            .nav-menu {
+                position: absolute; top: 100%; left: 0; width: 100%;
+                background: rgba(5, 5, 17, 0.98); backdrop-filter: var(--glass);
+                flex-direction: column; padding: 2rem; gap: 1.5rem; 
+                border-bottom: 1px solid var(--gold-primary);
+                transform: translateY(-150%); opacity: 0; transition: 0.4s ease; z-index: -1;
+            }
+            .nav-menu.active { transform: translateY(0); opacity: 1; z-index: 999;}
+            .mobile-nav-toggle { display: block; }
             .impact-grid { grid-template-columns: repeat(2, 1fr); }
-            .showcase-container { grid-template-columns: 1fr; }
-            .presence-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-            .card-large, .card-med, .card-small { grid-column: span 1; height: 250px; }
             .footer-grid { grid-template-columns: 1fr; }
-            .nav-menu { display: none; } 
+        }
+        @media (max-width: 600px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-text h1 span { font-size: 2rem; }
+            .slogan { font-size: 1.2rem; }
+            .impact-grid { grid-template-columns: 1fr; gap: 3rem;}
         }
     </style>
 </head>
 
 <body>
-    <div class="stars"></div>
+    <!-- 3D ADAPTIVE TEXT BRIDGE CANVAS -->
+    <canvas id="bridgeCanvas"></canvas>
+    <div class="overlay-gradient"></div>
 
     <header class="header">
         <nav class="nav-container">
             <a href="#" class="logo">SUD<span>STUDY</span></a>
-            <ul class="nav-menu">
+            
+            <button class="mobile-nav-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#vision" class="nav-link lang-en">Vision</a><a href="#vision" class="nav-link lang-ar" style="display:none">الرؤية</a></li>
-                <li><a href="#impact" class="nav-link lang-en">Impact</a><a href="#impact" class="nav-link lang-ar" style="display:none">التأثير</a></li>
-                <li><a href="#starsup" class="nav-link lang-en" style="color:var(--gold-primary)">Stars'Up</a><a href="#starsup" class="nav-link lang-ar" style="display:none; color:var(--gold-primary)">ستارز أب</a></li>
-                <li><a href="#global" class="nav-link lang-en">Presence</a><a href="#global" class="nav-link lang-ar" style="display:none">تواجُدنا</a></li>
-                <li><button onclick="toggleLang()" style="background:transparent; border:1px solid var(--gold-primary); color:var(--gold-primary); padding:6px 14px; cursor:pointer; font-family:inherit; font-weight:600;">AR</button></li>
+                <li><a href="#bottleneck" class="nav-link lang-en">The Transition</a><a href="#bottleneck" class="nav-link lang-ar" style="display:none">المرحلة الانتقالية</a></li>
+                <li><a href="#programs" class="nav-link lang-en">Our Engine</a><a href="#programs" class="nav-link lang-ar" style="display:none">المحرك</a></li>
+                <li><a href="#contact" class="nav-link lang-en" style="color:var(--gold-primary)">Partner</a><a href="#contact" class="nav-link lang-ar" style="display:none; color:var(--gold-primary)">شراكة</a></li>
+                
+                <li>
+                    <div class="lang-toggle-wrapper">
+                        <span class="lang-label en active">EN</span>
+                        <label class="switch">
+                            <input type="checkbox" id="langSwitch" onchange="toggleLang()">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="lang-label ar">AR</span>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
@@ -322,20 +285,62 @@
                 <h1 class="lang-en">The Architecture of <br><span>Human Potential</span></h1>
                 <h1 class="lang-ar" style="display:none">هندسة <br><span>الإمكانيات البشرية</span></h1>
                 
-                <p class="lang-en">We Create, Educate and Elvate. Decoding personal preferences —using our proprietary Analogy Engine to transform education into a narrative they already love.</p>
-                <p class="lang-ar" style="display:none">تعليم، تقويم وتقييم. نعيد تشكيل التعليم باستخدام محرك التناظر الخاص بنا، لتحويل المحتوى إلى قصص يعشقها مهتميها بالفعل.</p>
+                <div class="slogan lang-en">"Wherever | Whoever you are, it feels relevant. It feels home."</div>
+                <div class="slogan lang-ar" style="display:none">"أينما|ايما كنت، يبدو الأمر مألوفاً. يبدو وكأنك في وطنك."</div>
+
+                <p class="desc lang-en">We tailor the business environment to investor preferences and craft customized educational pathways. Overcoming the ultimate bottleneck—the transition period—by mapping your core values and translating foreign procedures into a familiar narrative.</p>
+                <p class="desc lang-ar" style="display:none">نقوم بتصميم بيئة الأعمال لتناسب تفضيلات المستثمرين وصياغة مسارات تعليمية مخصصة. نتغلب على العقبة الأكبر - الفترة الانتقالية - من خلال تحديد قيمك الأساسية وترجمة الإجراءات الأجنبية إلى سرد مألوف لديك.</p>
                 
-                <div style="display:flex; gap:1.5rem; margin-top:2rem;">
-                    <a href="#starsup" class="btn btn-primary lang-en">Discover Stars'Up</a>
-                    <a href="#starsup" class="btn btn-primary lang-ar" style="display:none">اكتشف ستارز أب</a>
-                    <a href="#contact" class="btn btn-outline lang-en">Partner With Us</a>
-                    <a href="#contact" class="btn btn-outline lang-ar" style="display:none">كن شريكاً</a>
+                <div style="display:flex; gap:1.5rem; margin-top:2rem; flex-wrap: wrap;">
+                    <a href="#bottleneck" class="btn btn-primary lang-en">Explore The Transition</a>
+                    <a href="#bottleneck" class="btn btn-primary lang-ar" style="display:none">اكتشف المرحلة الانتقالية</a>
+                    <a href="#contact" class="btn btn-outline lang-en">Consult With Us</a>
+                    <a href="#contact" class="btn btn-outline lang-ar" style="display:none">استشرنا الآن</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="impact" class="impact-strip">
+    <section id="bottleneck" class="bottleneck-section">
+        <div class="bottleneck-container">
+            <div class="section-header">
+                <span class="tag lang-en">The Market Reality</span>
+                <span class="tag lang-ar" style="display:none">واقع السوق</span>
+                <h2 class="section-title lang-en">The Transition Bottleneck</h2>
+                <h2 class="section-title lang-ar" style="display:none">عقبة المرحلة الانتقالية</h2>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-content">
+                    <p class="lang-en">Global expansion and international study face a massive human bottleneck. Historically, international assignments have maintained a persistent 40% failure rate over the past four decades. The root cause is rarely technical; assignments break down at the human and cultural layer. The financial risk is staggering, with a single failed global assignment costing up to $1.25 million.</p>
+                    <p class="lang-ar" style="display:none">يواجه التوسع العالمي والدراسة بالخارج عقبة بشرية هائلة. تاريخياً، حافظت المهام الدولية على معدل فشل مستمر بنسبة 40% على مدار العقود الأربعة الماضية. نادراً ما يكون السبب الجذري تقنياً؛ بل تنهار المهام على المستوى البشري والثقافي. المخاطر المالية صادمة، حيث تكلف المهمة العالمية الفاشلة الواحدة ما يصل إلى 1.25 مليون دولار.</p>
+                    
+                    <p class="lang-en">Similarly, in the educational sector, international students face immense culture shock. Studies show that 41% experience substantial levels of stress that hinder academic adaptation. However, targeted social support and cultural integration directly predict academic success. <strong>SudStudy eliminates this friction.</strong></p>
+                    <p class="lang-ar" style="display:none">وبالمثل، يواجه الطلاب الدوليون صدمة ثقافية هائلة. تشير الدراسات إلى أن 41% منهم يعانون من مستويات كبيرة من الضغط النفسي الذي يعيق التكيف الأكاديمي. ومع ذلك، فإن الدعم الاجتماعي المستهدف والاندماج الثقافي يتنبآن بشكل مباشر بالنجاح الأكاديمي. <strong>سدستادي تقضي على هذا العائق تماماً.</strong></p>
+                </div>
+                
+                <div class="stat-boxes">
+                    <div class="stat-box">
+                        <span class="stat-big">40%</span>
+                        <span class="stat-text lang-en">Historical Expatriate Failure Rate due to cultural friction.</span>
+                        <span class="stat-text lang-ar" style="display:none">معدل الفشل التاريخي للمغتربين بسبب الاحتكاك الثقافي.</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-big">$1.25M</span>
+                        <span class="stat-text lang-en">Maximum estimated cost of a single failed corporate assignment.</span>
+                        <span class="stat-text lang-ar" style="display:none">الحد الأقصى للتكلفة المقدرة لفشل مهمة دولية واحدة للشركات.</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-big">41%</span>
+                        <span class="stat-text lang-en">Of international students face severe acculturative stress.</span>
+                        <span class="stat-text lang-ar" style="display:none">من الطلاب الدوليين يواجهون ضغوطاً نفسية حادة بسبب التكيف.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="impact-strip">
         <div class="impact-grid">
             <div class="metric-card">
                 <span class="metric-value" data-target="20000">0</span>
@@ -360,123 +365,34 @@
         </div>
     </section>
 
-    <section id="starsup" class="starsup-section">
-        <div class="section-header">
-            <span class="tag lang-en">Flagship Initiative</span>
-            <span class="tag lang-ar" style="display:none">المبادرة الرائدة</span>
-            <h2 class="section-title">STARS'UP</h2>
-        </div>
-        <div class="showcase-container">
-            <div class="showcase-card">
-                <p class="lang-en" style="font-size: 1.2rem; line-height: 1.8; color:white;">
-                    "Stars'Up is the ultimate proof of concept for SudStudy's methodology. We are applying our <strong>Analogy Engine</strong> to the world's biggest stage: The 2026 World Cup."
-                </p>
-                <p class="lang-ar" style="display:none; font-size: 1.2rem; line-height: 1.8; color:white;">
-                    "ستارز أب هو الدليل العملي لمنهجية سدستادي. نحن نطبق <strong>محرك التناظر</strong> الخاص بنا على أكبر مسرح في العالم: كأس العالم 2026."
-                </p>
-                <div style="margin-top:2rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:3rem;">
-                    <div>
-                        <h4 style="color:var(--gold-primary); font-size:2rem; margin-bottom:0.5rem;">2026</h4>
-                        <span style="color:var(--text-muted); text-transform:uppercase; font-size:0.8rem;">Vision</span>
-                    </div>
-                    <div>
-                        <h4 style="color:var(--gold-primary); font-size:2rem; margin-bottom:0.5rem;">Phygital</h4>
-                        <span style="color:var(--text-muted); text-transform:uppercase; font-size:0.8rem;">Format</span>
-                    </div>
-                </div>
-            </div>
-            <div class="showcase-text">
-                <h3 class="lang-en" style="font-size:2rem; margin-bottom:1rem;">From Content to Culture</h3>
-                <h3 class="lang-ar" style="display:none; font-size:2rem; margin-bottom:1rem;">من المحتوى إلى الثقافة</h3>
-                <p class="lang-en" style="color:var(--text-muted);">Stars'Up uses Anime and Sports Lore to bridge cultural divides, proving that our educational model scales to global entertainment.</p>
-                <p class="lang-ar" style="display:none; color:var(--text-muted);">تستخدم ستارز أب ثقافة الأنمي والرياضة لربط الثقافات، مما يثبت أن نموذجنا التعليمي قابل للتوسع عالمياً.</p>
-                <a href="https://tsunadesenjue.biz" class="btn btn-outline lang-en" style="margin-top:1rem;">View The Portfolio</a>
-                <a href="https://tsunadesenjue.biz" class="btn btn-outline lang-ar" style="margin-top:1rem; display:none;">شاهد الملف التعريفي</a>
-            </div>
-        </div>
-    </section>
-
     <section id="programs" class="programs-section">
         <div class="section-header">
-            <span class="tag lang-en">The Engine</span>
-            <span class="tag lang-ar" style="display:none">المحرك</span>
-            <h2 class="section-title lang-en">Our Methodology</h2>
-            <h2 class="section-title lang-ar" style="display:none">منهجيتنا</h2>
+            <span class="tag lang-en">Our Solution</span>
+            <span class="tag lang-ar" style="display:none">الحل الذي نقدمه</span>
+            <h2 class="section-title lang-en">The Analogy Engine</h2>
+            <h2 class="section-title lang-ar" style="display:none">محرك التناظر</h2>
         </div>
         <div class="cards-grid">
             <div class="program-card">
+                <i class="fas fa-briefcase card-icon"></i>
+                <h3 class="card-title lang-en">Business Profiling</h3>
+                <h3 class="card-title lang-ar" style="display:none">تحليل بيئة الأعمال</h3>
+                <p class="card-desc lang-en">Tailoring the business environment to investor preferences by offering consultancies that match core values, ensuring the greatest corporate transitioning period.</p>
+                <p class="card-desc lang-ar" style="display:none">تصميم بيئة الأعمال لتناسب تفضيلات المستثمرين عبر استشارات تتوافق مع القيم الأساسية، لضمان أفضل فترة انتقالية للشركات.</p>
+            </div>
+            <div class="program-card">
+                <i class="fas fa-graduation-cap card-icon"></i>
+                <h3 class="card-title lang-en">Academic Matchmaking</h3>
+                <h3 class="card-title lang-ar" style="display:none">التوفيق الأكاديمي</h3>
+                <p class="card-desc lang-en">Finding the true core of a student's preferences. We don't just recommend universities; we connect you to cultural ecosystems where you will thrive without feeling like a foreigner.</p>
+                <p class="card-desc lang-ar" style="display:none">اكتشاف الجوهر الحقيقي لتفضيلات الطالب. نحن لا نوصي بالجامعات فحسب، بل نربطك بأنظمة ثقافية تزدهر فيها دون الشعور بالغربة.</p>
+            </div>
+            <div class="program-card">
                 <i class="fas fa-brain card-icon"></i>
-                <h3 class="card-title lang-en">The Analogy Engine (CEC)</h3>
-                <h3 class="card-title lang-ar" style="display:none">محرك التناظر (CEC)</h3>
-                <p class="card-desc lang-en">Refactoring complex academic subjects into the student's preferred "Language"—whether that's Gaming or Anime.</p>
-                <p class="card-desc lang-ar" style="display:none">إعادة صياغة المواد الأكاديمية المعقدة لتناسب "لغة" الطالب المفضلة - سواء كانت ألعاباً أو أنمي.</p>
-            </div>
-            <div class="program-card">
-                <i class="fas fa-laptop-code card-icon"></i>
-                <h3 class="card-title lang-en">Algorithmic Learning</h3>
-                <h3 class="card-title lang-ar" style="display:none">التعلم الخوارزمي</h3>
-                <p class="card-desc lang-en">Treating the student's brain like a neural network. We optimize input methods to maximize retention.</p>
-                <p class="card-desc lang-ar" style="display:none">التعامل مع عقل الطالب كشبكة عصبية. نقوم بتحسين طرق الإدخال لتعظيم الاستيعاب.</p>
-            </div>
-            <div class="program-card">
-                <i class="fas fa-globe-africa card-icon"></i>
-                <h3 class="card-title lang-en">Global Pathways</h3>
-                <h3 class="card-title lang-ar" style="display:none">المسارات العالمية</h3>
-                <p class="card-desc lang-en">The ultimate matchmaking algorithm. We connect students to cultural ecosystems where they will thrive.</p>
-                <p class="card-desc lang-ar" style="display:none">خوارزمية التوفيق المثالية. نربط الطلاب بالأنظمة البيئية الثقافية التي سيزدهرون فيها.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="global" class="global-section">
-        <div class="section-header" style="text-align:center">
-            <span class="tag" style="color:var(--gold-primary); letter-spacing:3px; text-transform:uppercase; font-size:0.8rem;">Operational Map</span>
-            <h2 class="section-title lang-en">Strategic Presence</h2>
-            <h2 class="section-title lang-ar" style="display:none;">التواجد الاستراتيجي</h2>
-        </div>
-        
-        <div class="presence-grid">
-            <div class="presence-card card-large">
-                <img src="images/egypt.jpg" alt="Egypt">
-                <div class="presence-overlay">
-                    <span class="presence-label">Egypt / HQ</span>
-                    <span class="presence-desc">The Narrative Command Center</span>
-                </div>
-            </div>
-            <div class="presence-card card-med">
-                <img src="images/sudan.jpg" alt="Sudan">
-                <div class="presence-overlay">
-                    <span class="presence-label">Sudan</span>
-                    <span class="presence-desc">Origin Node: Cultural Retrieval</span>
-                </div>
-            </div>
-            <div class="presence-card card-small">
-                <img src="images/ghana.jpg" alt="Ghana">
-                <div class="presence-overlay">
-                    <span class="presence-label">Ghana</span>
-                    <span class="presence-desc">West African Lore Uplink</span>
-                </div>
-            </div>
-            <div class="presence-card card-med">
-                <img src="images/nigeria.jpg" alt="Nigeria">
-                <div class="presence-overlay">
-                    <span class="presence-label">Nigeria</span>
-                    <span class="presence-desc">Market Penetration: Youth Density</span>
-                </div>
-            </div>
-            <div class="presence-card card-large">
-                <img src="images/jordan.jpg" alt="Jordan">
-                <div class="presence-overlay">
-                    <span class="presence-label">Jordan Hub</span>
-                    <span class="presence-desc">Levant Strategic Integration</span>
-                </div>
-            </div>
-            <div class="presence-card card-small">
-                <img src="images/cup.jpg" alt="Global">
-                <div class="presence-overlay">
-                    <span class="presence-label">R&D</span>
-                    <span class="presence-desc">The Stars'Up Algorithm</span>
-                </div>
+                <h3 class="card-title lang-en">Cognitive Translation</h3>
+                <h3 class="card-title lang-ar" style="display:none">الترجمة المعرفية</h3>
+                <p class="card-desc lang-en">Refactoring complex academic subjects and foreign business regulations into your preferred "Language"—creating immediate familiarity and mastery.</p>
+                <p class="card-desc lang-ar" style="display:none">إعادة صياغة المواد الأكاديمية المعقدة ولوائح الأعمال الأجنبية لتناسب "لغتك" المفضلة - مما يخلق ألفة وإتقاناً فورياً.</p>
             </div>
         </div>
     </section>
@@ -484,8 +400,9 @@
     <section id="contact">
         <div class="contact-section">
             <h2 class="lang-en">Initialize Partnership</h2>
-            <h2 class="lang-ar" style="display:none">ابدأ معنا</h2>
-            <p style="color:var(--text-muted); margin-bottom:2rem;">Whether for Education Refactoring or Brand Lore Integration.</p>
+            <h2 class="lang-ar" style="display:none">ابدأ الشراكة</h2>
+            <p style="color:var(--text-muted); margin-bottom:2rem;" class="lang-en">Whether for Enterprise Expansion, Educational Profiling, or Global Asset Relocation.</p>
+            <p style="color:var(--text-muted); margin-bottom:2rem; display:none;" class="lang-ar">سواء لتوسيع نطاق الشركات، أو التوجيه الأكاديمي، أو نقل الأصول عالمياً.</p>
             
             <form action="https://formspree.io/f/movveqpz" method="POST">
                 <div class="input-group">
@@ -495,9 +412,9 @@
                     <input type="email" name="email" placeholder="Official Email" required>
                 </div>
                 <div class="input-group">
-                    <textarea name="message" rows="4" placeholder="Brief Protocol..." required></textarea>
+                    <textarea name="message" rows="4" placeholder="Brief Protocol / Requirements..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%">Execute</button>
+                <button type="submit" class="btn btn-primary" style="width:100%">Execute Request</button>
             </form>
         </div>
     </section>
@@ -506,27 +423,18 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <a href="#" class="logo" style="margin-bottom:1rem;">SUD<span>STUDY</span></a>
-                <p class="lang-en">The holding entity for the Analogy Engine, Stars'Up, and the future of narrative education.</p>
-                <p class="lang-ar" style="display:none">الكيان القابض لمحرك التناظر، ستارز أب، ومستقبل التعليم السردي.</p>
-                
-                <div class="social-row">
-                    <a href="https://www.facebook.com/MnE3dady/"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.youtube.com/@radiothanawy"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="https://tiktok.com/@aho_anime"><i class="fa-brands fa-tiktok"></i></a>
-                </div>
+                <p class="lang-en">The holding entity for the Analogy Engine, and the future of global cultural integration.</p>
+                <p class="lang-ar" style="display:none">الكيان القابض لمحرك التناظر، ومستقبل الاندماج الثقافي العالمي.</p>
             </div>
             <div class="footer-col">
                 <h5 class="lang-en">Ecosystem</h5>
                 <h5 class="lang-ar" style="display:none">النظام البيئي</h5>
-                <a href="#starsup">Stars'Up Initiative</a>
-                <a href="#programs">CEC Program</a>
-                <a href="#programs">Data Student</a>
+                <a href="#bottleneck">Transition Protocol</a>
+                <a href="#programs">Analogy Engine (CEC)</a>
             </div>
             <div class="footer-col">
-                <h5 class="lang-en">Legal</h5>
-                <h5 class="lang-ar" style="display:none">قانوني</h5>
-                <a href="privacy-policy.html">Privacy Protocol</a>
-                <a href="terms-of-service.html">Terms of Engagement</a>
+                <h5 class="lang-en">Legal & Contact</h5>
+                <h5 class="lang-ar" style="display:none">قانوني وتواصل</h5>
                 <a href="mailto:info@sudstudy.com">info@sudstudy.com</a>
             </div>
         </div>
@@ -535,94 +443,206 @@
         </div>
     </footer>
 
-    <div class="fab" onclick="window.open('https://wa.me/+201096485440')">
-        <i class="fa-brands fa-whatsapp"></i>
-    </div>
-<script>
-        // 1. LANGUAGE LOGIC
-        let currentLang = 'en';
+    <!-- JS LOGIC -->
+    <script>
+        // ==========================================
+        // 1. THE ADAPTIVE 3D TEXT BRIDGE ENGINE
+        // ==========================================
+        const canvas = document.getElementById('bridgeCanvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, cx, cy;
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            cx = w / 2;
+            cy = h / 2 + 100; // Offset downwards
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // The exact character set requested
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789∑∫π∞√ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
+        function getChar(index) { return chars[Math.abs(Math.floor(index)) % chars.length]; }
+
+        let scrollOffset = 0;
+        let targetScrollOffset = 0;
+        let lastScroll = window.scrollY;
+
+        // Listen for scroll to reverse/accelerate flow
+        window.addEventListener('scroll', () => {
+            let currentScroll = window.scrollY;
+            let delta = currentScroll - lastScroll;
+            targetScrollOffset += delta * 0.05; 
+            lastScroll = currentScroll;
+        });
+
+        // 3D Perspective Projection Math
+        const focalLength = 800;
+        function project(x, y, z) {
+            const scale = focalLength / (focalLength + z);
+            return { x: cx + x * scale, y: cy + y * scale, scale: scale };
+        }
+
+        // Main Render Loop
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = 'rgba(212, 175, 55, 0.45)'; // Brand Gold, slightly transparent
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Smooth interpolation for scroll speed
+            scrollOffset += (targetScrollOffset - scrollOffset) * 0.1;
+            // Constant slow idle movement if not scrolling
+            targetScrollOffset += 0.05; 
+
+            // Helper: Draw a straight 3D line made of characters
+            const drawLine = (startX, startY, startZ, endX, endY, endZ, density, dir) => {
+                const dx = endX - startX, dy = endY - startY, dz = endZ - startZ;
+                const length = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                const steps = Math.floor(length / density);
+                
+                for (let i = 0; i <= steps; i++) {
+                    let t = (i / steps);
+                    let rawIndex = i * 3.14; // randomish stable index
+                    t = (t + (scrollOffset * dir * 0.005)) % 1;
+                    if (t < 0) t += 1;
+
+                    const x = startX + dx * t, y = startY + dy * t, z = startZ + dz * t;
+                    if (z < -focalLength + 50) continue; 
+                    
+                    const p = project(x, y, z);
+                    if (p.scale > 0 && p.scale < 5) {
+                        ctx.font = `bold ${Math.max(12 * p.scale, 4)}px "Courier New"`;
+                        ctx.globalAlpha = Math.min(p.scale * 0.8, 0.9);
+                        ctx.fillText(getChar(rawIndex), p.x, p.y);
+                    }
+                }
+            };
+
+            // Helper: Draw a 3D Quadratic Curve (Suspension Cables) made of characters
+            const drawCurve = (startX, startY, startZ, midX, midY, midZ, endX, endY, endZ, density, dir) => {
+                 const steps = 150;
+                 for (let i = 0; i <= steps; i+= (150/density)) {
+                    let t = (i / steps);
+                    let rawIndex = i * 2.71;
+                    t = (t + (scrollOffset * dir * 0.003)) % 1;
+                    if (t < 0) t += 1;
+
+                    // Quadratic Bezier Formula
+                    const x = (1-t)*(1-t)*startX + 2*(1-t)*t*midX + t*t*endX;
+                    const y = (1-t)*(1-t)*startY + 2*(1-t)*t*midY + t*t*endY;
+                    const z = (1-t)*(1-t)*startZ + 2*(1-t)*t*midZ + t*t*endZ;
+
+                    if (z < -focalLength + 50) continue;
+                    
+                    const p = project(x, y, z);
+                    if (p.scale > 0 && p.scale < 5) {
+                        ctx.font = `bold ${Math.max(14 * p.scale, 4)}px "Courier New"`;
+                        ctx.globalAlpha = Math.min(p.scale * 0.9, 1);
+                        ctx.fillText(getChar(rawIndex), p.x, p.y);
+                    }
+                 }
+            };
+
+            // BRIDGE ARCHITECTURE PARAMETERS
+            const dW = 350;        // Deck Width (Half)
+            const dY = 150;        // Deck Y position
+            const tH = -700;       // Tower Top Y
+            const zStart = -600;   // Camera proximity
+            const tZ1 = 600;       // First Tower Z
+            const tZ2 = 3000;      // Second Tower Z
+            const zEnd = 5000;     // Horizon Z
+
+            // 1. Draw Deck (Lines flowing toward user)
+            for(let offset of [-dW, -dW/2, 0, dW/2, dW]) {
+                drawLine(offset, dY, zStart, offset, dY, zEnd, 50, 1);
+            }
+
+            // 2. Draw Towers (Lines flowing downwards)
+            for(let z of [tZ1, tZ2]) {
+                for(let x of [-dW, dW]) {
+                    // Vertical pillars
+                    drawLine(x, dY + 200, z, x, tH, z, 35, -1);
+                    // Horizontal Crossbeams
+                    drawLine(-dW, tH + 200, z, dW, tH + 200, z, 40, 1);
+                    drawLine(-dW, dY - 150, z, dW, dY - 150, z, 40, -1);
+                }
+            }
+
+            // 3. Draw Suspension Cables (Parabolas flowing upwards/forwards)
+            // Main span between towers
+            drawCurve(-dW, tH, tZ1, -dW, dY+100, (tZ1+tZ2)/2, -dW, tH, tZ2, 45, 1); // Left
+            drawCurve(dW, tH, tZ1, dW, dY+100, (tZ1+tZ2)/2, dW, tH, tZ2, 45, 1);   // Right
+
+            // Front anchor cables
+            drawCurve(-dW, dY, zStart-200, -dW, dY-100, (zStart+tZ1)/2, -dW, tH, tZ1, 40, -1);
+            drawCurve(dW, dY, zStart-200, dW, dY-100, (zStart+tZ1)/2, dW, tH, tZ1, 40, -1);
+
+            // Back anchor cables
+            drawCurve(-dW, tH, tZ2, -dW, dY-100, (tZ2+zEnd)/2, -dW, dY, zEnd, 40, 1);
+            drawCurve(dW, tH, tZ2, dW, dY-100, (tZ2+zEnd)/2, dW, dY, zEnd, 40, 1);
+
+            requestAnimationFrame(draw);
+        }
+        draw(); // Start Engine
+
+        // ==========================================
+        // UI & LANGUAGE LOGIC
+        // ==========================================
         function toggleLang() {
-            currentLang = currentLang === 'en' ? 'ar' : 'en';
-            const html = document.documentElement;
-            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            const isAr = document.getElementById('langSwitch').checked;
+            const currentLang = isAr ? 'ar' : 'en';
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             
             document.querySelectorAll('.lang-en').forEach(el => el.style.display = currentLang === 'en' ? 'block' : 'none');
             document.querySelectorAll('.lang-ar').forEach(el => el.style.display = currentLang === 'ar' ? 'block' : 'none');
+            
+            document.querySelector('.lang-label.en').classList.toggle('active', currentLang === 'en');
+            document.querySelector('.lang-label.ar').classList.toggle('active', currentLang === 'ar');
         }
 
-        // 2. SCROLL HEADER
+        function toggleMobileMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+
         window.addEventListener('scroll', () => {
             const header = document.querySelector('.header');
             if (window.scrollY > 50) header.classList.add('is-scrolled');
             else header.classList.remove('is-scrolled');
         });
 
-        // 3. UNIVERSAL SMOOTH SCROLL (No '#' in URL for Footer or Nav)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault(); // Stop the hash from entering URL
+                e.preventDefault(); 
                 const targetId = this.getAttribute('href');
-                if (targetId === '#') return; // Ignore empty links
-                
+                if (targetId === '#') return; 
+                document.getElementById('navMenu').classList.remove('active');
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    // Offset for fixed header
-                    const headerOffset = 80;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
+                    window.scrollTo({ top: targetElement.getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
                 }
             });
         });
 
-        // 4. ANIMATED COUNTERS
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const el = entry.target;
                     const target = +el.getAttribute('data-target');
-                    const duration = 2000; 
-                    const step = Math.ceil(target / (duration / 16));
+                    const step = Math.ceil(target / (2000 / 16));
                     let current = 0;
-                    
                     const timer = setInterval(() => {
                         current += step;
                         if(current >= target) {
                             el.textContent = target.toLocaleString() + (target > 1000 ? '+' : '%');
-                            if(target === 95) el.textContent = "95%";
-							else if(target === 6) el.textContent = "6"; 
-							else if(target === 120) el.textContent = "120"; 
+                            if(target === 95) el.textContent = "95%"; else if(target === 6) el.textContent = "6"; else if(target === 120) el.textContent = "120"; 
                             clearInterval(timer);
-                        } else {
-                            el.textContent = current.toLocaleString();
-                        }
+                        } else { el.textContent = current.toLocaleString(); }
                     }, 16);
                     observer.unobserve(el);
                 }
             });
         }, { threshold: 0.5 });
-
         document.querySelectorAll('.metric-value').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
