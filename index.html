@@ -1,621 +1,824 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SUDSTUDY - Tailoring Business Environments & Academic Pathways. The Analogy Engine.">
-    <title>SUDSTUDY | The Global Transition Bridge</title>
-        
+    <title>SUDSTUDY | The Analogy Engine</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: '#050511',
+                        panel: '#0a0a1a',
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            hover: '#F2D06B',
+                            dark: '#997a00'
+                        }
+                    },
+                    fontFamily: {
+                        main: ['Changa', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        outfit: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         :root {
             --bg-deep: #050511;
-            --bg-panel: #0a0a1a;
-            --bg-card: rgba(20, 20, 40, 0.7);
             --gold-primary: #D4AF37;
-            --gold-hover: #F2D06B;
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
-            --glass: blur(20px) saturate(180%);
+            --glass: blur(16px) saturate(180%);
             --border-glass: 1px solid rgba(255, 255, 255, 0.08);
             --glow: 0 0 30px rgba(212, 175, 55, 0.2);
-            --font-main: 'Changa', sans-serif;
-            --font-serif: 'Playfair Display', serif;
+            
+            /* Ladder Cards Variables */
+            --ladder-height: 440px;
+            --rope-attach-y: 20px;
+            --banner-top-y: 70px;
+            --banner-bottom-y: 280px;
+            --spring-easing: cubic-bezier(0.4, 1.8, 0.5, 0.9);
+            --anim-duration: 0.75s;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-deep);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            line-height: 1.7;
+            color: #ffffff;
+            font-family: 'Changa', sans-serif;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Ambient Dynamic 3D Text Bridge Canvas */
-        #bridgeCanvas {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -2;
-            pointer-events: none;
-        }
-        
-        .overlay-gradient {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(5,5,17,0.4) 0%, var(--bg-deep) 100%);
-            z-index: -1; pointer-events: none;
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #a0a0b0, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
         }
 
-        /* =========================================
-           HEADER & NAVIGATION
-           ========================================= */
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .header {
-            position: fixed; top: 0; width: 100%; padding: 1.5rem 0; z-index: 1000;
-            transition: all 0.4s ease; border-bottom: 1px solid transparent;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(0px);
+            background: linear-gradient(to bottom, rgba(5,5,17,0.9) 0%, transparent 100%);
         }
         .header.is-scrolled {
-            background: rgba(5, 5, 17, 0.95); backdrop-filter: var(--glass);
-            padding: 1rem 0; border-bottom: var(--border-glass);
+            background: rgba(5, 5, 17, 0.85);
+            backdrop-filter: var(--glass);
+            border-bottom: var(--border-glass);
             box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
         }
-        .nav-container {
-            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo {
-            font-size: 1.8rem; font-weight: 800; color: var(--text-main);
-            text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
-            display: flex; align-items: center; gap: 10px; direction: ltr !important; 
-        }
-        .logo span { color: var(--gold-primary); }
 
-        .nav-menu { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
         .nav-link {
-            color: var(--text-muted); text-decoration: none; font-weight: 500;
-            font-size: 0.9rem; text-transform: uppercase; transition: color 0.3s;
-            position: relative; cursor: pointer;
+            position: relative;
+            color: #a0a0b0;
+            transition: color 0.3s ease;
         }
         .nav-link::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
-            background: var(--gold-primary); transition: width 0.3s ease;
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0%; height: 2px;
+            background: var(--gold-primary);
+            transition: width 0.3s ease;
         }
+        /* Language Toggle - FIXED FOR RTL */
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(212, 175, 55, 0.5); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: #D4AF37; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: rgba(212, 175, 55, 0.2); }
+        input:checked + .slider:before { transform: translateX(20px); }
+        
+        /* The RTL Specific Fix */
+        [dir="rtl"] .slider:before { left: auto; right: 3px; }
+        [dir="rtl"] input:checked + .slider:before { transform: translateX(-20px); }
         .nav-link:hover { color: var(--gold-primary); }
         .nav-link:hover::after { width: 100%; }
         [dir="rtl"] .nav-link::after { left: auto; right: 0; }
 
+        /* Mobile Menu Animation */
+        #mobileMenu {
+            transform-origin: top center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: scaleY(0);
+            visibility: hidden;
+        }
+        #mobileMenu.active {
+            opacity: 1;
+            transform: scaleY(1);
+            visibility: visible;
+        }
+
         /* Language Toggle */
-        .lang-toggle-wrapper { display: flex; align-items: center; gap: 8px; margin-left: 1rem; }
-        [dir="rtl"] .lang-toggle-wrapper { margin-left: 0; margin-right: 1rem; }
-        .lang-label { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); transition: 0.3s; }
-        .lang-label.active { color: var(--gold-primary); }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(212, 175, 55, 0.5); transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--gold-primary); transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: rgba(212, 175, 55, 0.2); }
         input:checked + .slider:before { transform: translateX(20px); }
+        [dir="rtl"] input:checked + .slider:before { transform: translateX(-20px); }
 
-        .mobile-nav-toggle { display: none; color: var(--gold-primary); font-size: 1.5rem; cursor: pointer; background: none; border: none;}
+        .hero-video-wrapper {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .hero-video-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(5,5,17,0.3) 0%, var(--bg-deep) 100%);
+        }
+        .hero-content {
+            perspective: 1000px;
+        }
+        .hero-text-3d {
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
 
-        /* =========================================
-           HERO SECTION
-           ========================================= */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; padding: 6rem 2rem 0;
-            position: relative;
-        }
-        .hero-container { max-width: 1300px; margin: 0 auto; width: 100%; position: relative; z-index: 10;}
-        
-        .hero-text h1 {
-            font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #ffffff, #a0a0b0);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero-text h1 span {
-            font-family: var(--font-serif); font-style: italic; color: var(--gold-primary);
-            -webkit-text-fill-color: var(--gold-primary); display: block; font-size: 3.8rem; margin-top: 10px;
-        }
-        .slogan {
-            font-size: 1.8rem; font-family: var(--font-serif); font-style: italic; color: var(--gold-primary);
-            margin-bottom: 1.5rem; font-weight: 700;
-        }
-        .hero-text p.desc {
-            font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem;
-            max-width: 650px; border-left: 3px solid var(--gold-primary); padding-left: 20px; background: rgba(5,5,17,0.4); padding: 15px 20px; border-radius: 0 8px 8px 0;
-        }
-        [dir="rtl"] .hero-text p.desc { border-left: none; border-right: 3px solid var(--gold-primary); border-radius: 8px 0 0 8px; }
-
-        .btn {
-            padding: 1rem 2.5rem; text-transform: uppercase; font-weight: 700;
-            text-decoration: none; display: inline-block; transition: 0.3s; cursor: pointer; border: none;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-        .btn-primary { background: var(--gold-primary); color: var(--bg-deep); }
-        .btn-primary:hover { background: var(--gold-hover); transform: translateY(-3px); box-shadow: var(--glow); }
-        .btn-outline { background: rgba(5,5,17,0.6); border: 1px solid var(--gold-primary); color: #fff; }
-        .btn-outline:hover { background: var(--gold-primary); color: var(--bg-deep); }
-
-        /* =========================================
-           THE TRANSITION BOTTLENECK
-           ========================================= */
-        .bottleneck-section {
-            padding: 8rem 2rem; background: rgba(10, 10, 26, 0.7);
-            border-top: var(--border-glass); border-bottom: var(--border-glass);
-            backdrop-filter: var(--glass); position: relative;
-        }
-        .bottleneck-container { max-width: 1300px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 4rem; }
-        .tag { color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; font-weight: 700; display: block; margin-bottom: 1rem; }
-        .section-title { font-size: 3rem; margin-bottom: 1rem; }
-        
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-        .data-content p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1.5rem; text-align: justify; }
-        
-        .stat-boxes { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        .stat-box {
-            background: var(--bg-card); padding: 2rem; border-radius: 8px; border: var(--border-glass);
-            border-left: 4px solid var(--gold-primary); transition: transform 0.3s;
-        }
-        [dir="rtl"] .stat-box { border-left: var(--border-glass); border-right: 4px solid var(--gold-primary); }
-        .stat-box:hover { transform: translateX(10px); background: rgba(255,255,255,0.08); }
-        [dir="rtl"] .stat-box:hover { transform: translateX(-10px); }
-        .stat-big { font-size: 3rem; font-weight: 800; color: var(--gold-primary); display: block; line-height: 1; margin-bottom: 0.5rem; }
-        .stat-text { font-size: 1rem; color: #fff; }
-
-        /* =========================================
-           IMPACT METRICS
-           ========================================= */
-        .impact-strip { background: transparent; padding: 4rem 0; }
-        .impact-grid {
-            max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 2rem; text-align: center; padding: 0 2rem;
-        }
-        .metric-value { font-size: 3.5rem; font-weight: 800; color: var(--gold-primary); font-family: var(--font-serif); display: block; margin-bottom: 0.5rem; }
-        .metric-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 600;}
-
-        /* =========================================
-           PROGRAMS / METHODOLOGY GRID
-           ========================================= */
-        .programs-section { padding: 6rem 0; position: relative;}
-        .cards-grid {
-            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;
-        }
-        .program-card {
-            background: var(--bg-card); border: var(--border-glass); border-radius: 8px;
-            padding: 3rem; transition: all 0.4s ease; position: relative; overflow: hidden;
+        .data-card {
+            background: rgba(20, 20, 40, 0.4);
             backdrop-filter: var(--glass);
+            border: var(--border-glass);
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
         }
-        .program-card:hover { transform: translateY(-10px); box-shadow: var(--glow); border-color: rgba(212, 175, 55, 0.5); }
-        .card-icon { font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 2rem; }
-        .card-title { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
-        .card-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+        .data-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 2px; height: 100%;
+            background: var(--gold-primary);
+            transform: scaleY(0);
+            transition: transform 0.4s ease;
+            transform-origin: bottom;
+        }
+        [dir="rtl"] .data-card::before { left: auto; right: 0; }
+        .data-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.1);
+        }
+        .data-card:hover::before { transform: scaleY(1); }
 
-        /* =========================================
-           CONTACT & FOOTER
-           ========================================= */
-        .contact-section {
-            max-width: 900px; margin: 5rem auto; background: rgba(10,10,26,0.85); backdrop-filter: var(--glass);
-            border: var(--border-glass); padding: 4rem; border-radius: 12px; text-align: center;
+        .ladder-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            height: var(--ladder-height);
+            margin: 0 auto;
+            cursor: pointer;
+            outline: none; 
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Outfit', sans-serif;
         }
-        .input-group { margin-bottom: 1.5rem; }
-        .input-group input, .input-group textarea {
-            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            padding: 1.2rem; color: white; font-family: var(--font-main); border-radius: 4px;
-        }
-        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: var(--gold-primary); box-shadow: 0 0 10px rgba(212,175,55,0.2);}
 
-        .footer { background: rgba(2,2,5,0.9); padding: 5rem 0 2rem; border-top: 1px solid rgba(212,175,55,0.2); font-size: 0.9rem; position: relative;}
-        .footer-grid {
-            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
-            display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem;
+        .ladder-structure { position: absolute; inset: 0; z-index: 1; }
+        .rail {
+            position: absolute; top: 0; bottom: 0; width: 14px;
+            background: linear-gradient(90deg, #1e293b 0%, #334155 50%, #0f172a 100%);
+            border-radius: 7px;
+            box-shadow: inset 1px 0 2px rgba(255,255,255,0.1), inset -2px 0 4px rgba(0,0,0,0.8), 0 0 15px rgba(0,0,0,0.5);
         }
-        .footer h5 { color: var(--text-main); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
-        .footer a { color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 0.8rem; transition: color 0.3s; }
-        .footer a:hover { color: var(--gold-primary); }
+        .rail.left { left: 30px; }
+        .rail.right { right: 30px; }
+        .rungs {
+            position: absolute; top: 40px; bottom: 40px; left: 44px; right: 44px;
+            background-image: repeating-linear-gradient(to bottom, transparent, transparent 45px, #334155 45px, #475569 47px, #1e293b 49px, transparent 49px, transparent 60px);
+            opacity: 0.6;
+        }
+        .tie-bar {
+            position: absolute; top: var(--rope-attach-y); left: 20px; right: 20px; height: 16px;
+            background: linear-gradient(180deg, #334155 0%, #0f172a 100%);
+            border-radius: 8px; z-index: 2; border-top: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+        }
+        .rope {
+            position: absolute; top: calc(var(--rope-attach-y) + 8px); width: 3px; height: 260px;
+            background: var(--theme-color); z-index: 3; transform-origin: top center;
+            transform: scaleY(1); transition: transform var(--anim-duration) var(--spring-easing), box-shadow 0.3s ease;
+            border-radius: 2px; box-shadow: 0 0 8px var(--theme-color), 0 0 15px var(--theme-color); opacity: 0.4;
+        }
+        .rope.left { left: 45px; }
+        .rope.right { right: 45px; }
+        .tie-knot {
+            position: absolute; top: calc(var(--rope-attach-y) - 2px); width: 14px; height: 20px;
+            background: #1e293b; border: 2px solid #475569; border-radius: 4px; z-index: 4;
+        }
+        .tie-knot.left { left: 40px; }
+        .tie-knot.right { right: 40px; }
+        
+        .banner-wrapper {
+            position: absolute; top: var(--banner-top-y); left: 5px; right: 5px; z-index: 10;
+            transform: translateY(210px); transition: transform var(--anim-duration) var(--spring-easing); will-change: transform;
+        }
+        .banner-content {
+            position: relative; background: rgba(15, 15, 25, 0.85); backdrop-filter: blur(16px);
+            border-radius: 24px; padding: 1.75rem; border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            transform-style: preserve-3d; background-image: radial-gradient(circle at top left, var(--theme-glow), transparent 60%);
+        }
+        .banner-knot {
+            position: absolute; top: -12px; width: 16px; height: 16px; background: #0f172a;
+            border: 2px solid var(--theme-color); border-radius: 50%; z-index: 11;
+            box-shadow: 0 0 10px var(--theme-color); transform: translateZ(20px);
+        }
+        .banner-knot.left { left: 34px; }
+        .banner-knot.right { right: 34px; }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-text h1 { font-size: 3.5rem; }
-            .hero-text h1 span { font-size: 2.8rem; }
-            .data-grid { grid-template-columns: 1fr; gap: 2rem;}
+        /* Interactions */
+        .ladder-wrapper:hover .banner-wrapper, .ladder-wrapper:focus-within .banner-wrapper { transform: translateY(0); }
+        .ladder-wrapper:hover .rope, .ladder-wrapper:focus-within .rope { transform: scaleY(0.1923); opacity: 1; box-shadow: 0 0 15px var(--theme-color), 0 0 30px var(--theme-color); }
+        .ladder-wrapper:hover .banner-content, .ladder-wrapper:focus-within .banner-content {
+            border-color: var(--theme-color);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px var(--theme-glow);
         }
-        @media (max-width: 900px) {
-            .nav-menu {
-                position: absolute; top: 100%; left: 0; width: 100%;
-                background: rgba(5, 5, 17, 0.98); backdrop-filter: var(--glass);
-                flex-direction: column; padding: 2rem; gap: 1.5rem; 
-                border-bottom: 1px solid var(--gold-primary);
-                transform: translateY(-150%); opacity: 0; transition: 0.4s ease; z-index: -1;
-            }
-            .nav-menu.active { transform: translateY(0); opacity: 1; z-index: 999;}
-            .mobile-nav-toggle { display: block; }
-            .impact-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr; }
+        
+        .icon-container { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); transform: translateZ(30px); }
+        .ladder-wrapper:hover .icon-container { background: var(--theme-color); color: #fff; box-shadow: 0 0 20px var(--theme-glow); transform: translateZ(40px) scale(1.1) rotate(-5deg); }
+        .content-3d { transform: translateZ(20px); }
+        
+        .input-glass {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            transition: all 0.3s ease;
         }
-        @media (max-width: 600px) {
-            .hero-text h1 { font-size: 2.5rem; }
-            .hero-text h1 span { font-size: 2rem; }
-            .slogan { font-size: 1.2rem; }
-            .impact-grid { grid-template-columns: 1fr; gap: 3rem;}
+        .input-glass:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .footer-glow:hover {
+            text-shadow: 0 0 10px var(--gold-primary);
+            color: var(--gold-primary);
         }
     </style>
 </head>
+<body class="antialiased selection:bg-gold-primary selection:text-deep">
 
-<body>
-    <!-- 3D ADAPTIVE TEXT BRIDGE CANVAS -->
-    <canvas id="bridgeCanvas"></canvas>
-    <div class="overlay-gradient"></div>
-
-    <header class="header">
-        <nav class="nav-container">
-            <a href="#" class="logo">SUD<span>STUDY</span></a>
+    <header id="mainHeader" class="header fixed top-0 w-full z-50 py-5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center relative">
             
-            <button class="mobile-nav-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-extrabold tracking-widest text-white uppercase flex items-center gap-2" style="direction: ltr;">
+                SUD<span class="text-gold-primary">STUDY</span>
+            </a>
 
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#vision" class="nav-link lang-en">Vision</a><a href="#vision" class="nav-link lang-ar" style="display:none">رؤية</a></li>
-                <li><a href="#bottleneck" class="nav-link lang-en">The Transition</a><a href="#bottleneck" class="nav-link lang-ar" style="display:none">المرحلة الانتقالية</a></li>
-                <li><a href="#programs" class="nav-link lang-en">Our Engine</a><a href="#programs" class="nav-link lang-ar" style="display:none">محركنا</a></li>
-                <li><a href="#contact" class="nav-link lang-en" style="color:var(--gold-primary)">Partner</a><a href="#contact" class="nav-link lang-ar" style="display:none; color:var(--gold-primary)">تشاركنا؟</a></li>
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#vision" class="nav-link text-sm font-semibold tracking-wider uppercase lang-en">Vision</a>
+                <a href="#vision" class="nav-link text-sm font-semibold tracking-wider uppercase lang-ar hidden">الرؤية</a>
                 
-                <li>
-                    <div class="lang-toggle-wrapper">
-                        <span class="lang-label en active">EN</span>
-                        <label class="switch">
-                            <input type="checkbox" id="langSwitch" onchange="toggleLang()">
-                            <span class="slider round"></span>
-                        </label>
-                        <span class="lang-label ar">AR</span>
-                    </div>
-                </li>
-            </ul>
-        </nav>
+                <a href="#bottleneck" class="nav-link text-sm font-semibold tracking-wider uppercase lang-en">The Transition</a>
+                <a href="#bottleneck" class="nav-link text-sm font-semibold tracking-wider uppercase lang-ar hidden">المرحلة الانتقالية</a>
+                
+                <a href="#programs" class="nav-link text-sm font-semibold tracking-wider uppercase lang-en">Our Engine</a>
+                <a href="#programs" class="nav-link text-sm font-semibold tracking-wider uppercase lang-ar hidden">محركنا</a>
+                
+                <a href="#contact" class="nav-link text-gold-primary text-sm font-semibold tracking-wider uppercase lang-en">Partner</a>
+                <a href="#contact" class="nav-link text-gold-primary text-sm font-semibold tracking-wider uppercase lang-ar hidden">شراكة</a>
+
+                <!-- Language Toggle -->
+                <div class="flex items-center gap-2 ml-4 ltr:ml-4 rtl:mr-4">
+                    <span class="text-xs font-bold transition-colors lang-label-en text-gold-primary">EN</span>
+                    <label class="switch">
+                        <input type="checkbox" id="langSwitch" onchange="toggleLang()">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="text-xs font-bold text-gray-500 transition-colors lang-label-ar">AR</span>
+                </div>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="menuBtn" class="md:hidden text-gold-primary text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Nav Overlay -->
+        <div id="mobileMenu" class="absolute top-full left-0 w-full bg-panel/95 backdrop-blur-xl border-b border-gold-primary/30 p-6 flex flex-col gap-6 shadow-2xl">
+            <a href="#vision" class="nav-link text-lg font-semibold lang-en">Vision</a>
+            <a href="#vision" class="nav-link text-lg font-semibold lang-ar hidden">الرؤية</a>
+            
+            <a href="#bottleneck" class="nav-link text-lg font-semibold lang-en">The Transition</a>
+            <a href="#bottleneck" class="nav-link text-lg font-semibold lang-ar hidden">المرحلة الانتقالية</a>
+            
+            <a href="#programs" class="nav-link text-lg font-semibold lang-en">Our Engine</a>
+            <a href="#programs" class="nav-link text-lg font-semibold lang-ar hidden">محركنا</a>
+            
+            <a href="#contact" class="text-gold-primary text-lg font-semibold lang-en">Partner</a>
+            <a href="#contact" class="text-gold-primary text-lg font-semibold lang-ar hidden">شراكة</a>
+
+            <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+                <span class="text-sm font-bold lang-label-en text-gold-primary">EN</span>
+                <label class="switch">
+                    <input type="checkbox" id="langSwitchMobile" onchange="syncLangToggle(this)">
+                    <span class="slider"></span>
+                </label>
+                <span class="text-sm font-bold text-gray-500 lang-label-ar">AR</span>
+            </div>
+        </div>
     </header>
 
-    <section id="vision" class="hero">
-        <div class="hero-container">
-            <div class="hero-text">
-                <h1 class="lang-en">The Architecture of <br><span>Human Potential</span></h1>
-                <h1 class="lang-ar" style="display:none">هندسة<br><span>الإمكانيات البشرية</span></h1>
-                
-                <div class="slogan lang-en">"Wherever | Whoever you are, it feels relevant. It feels home."</div>
-                <div class="slogan lang-ar" style="display:none">"أينما | ايما كنت، سيبدو الأمر مألوفاً دائما. وكأنك في عالمك."</div>
-
-                <p class="desc lang-en">We tailor YOUR environment to YOUR preferences and craft customized educational pathways. Overcoming the ultimate bottleneck—the transition period—by mapping your core values and translating foreign procedures into a familiar narrative.</p>
-                <p class="desc lang-ar" style="display:none">نعيد تشكيل بيئتك لتناسب تفضيلاتك ، لاصحاب الاعمال وطلاب التعليم، نكون مسارات مخصصة، تتغلب على عقبتك الأكبر - الفترة الانتقالية - من حيثما انت ، الى حيثما تريد من خلال تحديد قيمك الأساسية وترجمة الإجراءات الغريبة عنك إلى سرد مألوف لديك.</p>
-                
-                <div style="display:flex; gap:1.5rem; margin-top:2rem; flex-wrap: wrap;">
-                    <a href="#bottleneck" class="btn btn-primary lang-en">Explore The Transition</a>
-                    <a href="#bottleneck" class="btn btn-primary lang-ar" style="display:none">استكشف المرحلة الانتقالية</a>
-                    <a href="#contact" class="btn btn-outline lang-en">Consult With Us</a>
-                    <a href="#contact" class="btn btn-outline lang-ar" style="display:none">تشاور معنا الآن</a>
-                </div>
-            </div>
+    <section id="vision" class="relative min-h-screen flex items-center pt-20">
+        <!-- eo Background -->
+        <div class="hero-eo-wrapper">
+            <!-- Fallback poster if eo is missing -->
+            <video src="/images/HeroVid.mp4" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover" poster="https://placehold.co/1920x1080/050511/D4AF37?text=SUDSTUDY"></video>
         </div>
-    </section>
 
-    <section id="bottleneck" class="bottleneck-section">
-        <div class="bottleneck-container">
-            <div class="section-header">
-                <span class="tag lang-en">The Reality</span>
-                <span class="tag lang-ar" style="display:none">واقعك الحالي</span>
-                <h2 class="section-title lang-en">The Transition Bottleneck</h2>
-                <h2 class="section-title lang-ar" style="display:none">حيث انت ×× حيث تريد..</h2>
-            </div>
-            
-            <div class="data-grid">
-                <div class="data-content">
-                    <p class="lang-en"> YOUR expansion and YOUR education face a massive human bottleneck. Historically, international assignments have maintained a persistent 40% failure rate over the past four decades. The root cause is rarely technical; assignments break down at the human and cultural layer. The financial risk is staggering, with a single failed global assignment costing up to $1.25 million.</p>
-                    <p class="lang-ar" style="display:none">توسعك خارجيا او تطورك يقع تحت عقبة بشرية هائلة. تاريخياً، معدل الفشل يصل الى 40% من حجم الانفاق المخصص لها على مدار العقود الأربعة الماضية. نادراً ما يكون السبب الجذري تقنياً؛ بل يقف تقدمك على المستوى البشري والثقافي. المخاطر المالية صادمة، حيث تكلف الهدر في كل مهمة تتعلق بهذا الحاجز ما يصل إلى 1.25 مليون دولار.</p>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 hero-content">
+            <div id="heroText" class="hero-text-3d max-w-4xl">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6">
+                    <span class="text-gradient block lang-en">The Architecture</span>
+                    <span class="text-gradient block lang-ar hidden">هندسة</span>
+                    <span class="font-serif italic text-gold-primary block mt-2 lang-en">of Human Potential.</span>
+                    <span class="font-serif italic text-gold-primary block mt-2 lang-ar hidden">الإمكانيات البشرية.</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl font-serif italic text-gold-primary font-bold mb-6 lang-en">
+                    "Transition to where you WANT with whatever you HAVE."
+                </p>
+                <p class="text-xl md:text-2xl font-serif italic text-gold-primary font-bold mb-6 lang-ar hidden">
+                    "انتقل إلى حيث تريد بكل ما تملك."
+                </p>
+
+                <p class="text-lg md:text-xl text-gray-300 max-w-2xl mb-10 border-l-4 border-gold-primary pl-6 py-2 bg-black/30 rounded-r-lg lang-en leading-relaxed">
+                    We tailor YOUR environment to YOUR preferences. Overcoming the ultimate bottleneck—the transition period—by mapping your core values and translating foreign procedures into a familiar narrative.
+                </p>
+                <p class="text-lg md:text-xl text-gray-300 max-w-2xl mb-10 border-r-4 border-gold-primary pr-6 py-2 bg-black/30 rounded-l-lg lang-ar hidden leading-relaxed" style="border-left:none;">
+                    نحن نصمم بيئتك لتناسب تفضيلاتك. نتغلب على العقبة الأكبر - الفترة الانتقالية - من خلال تحديد قيمك الأساسية وترجمة الإجراءات الغريبة إلى سرد مألوف.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#bottleneck" class="bg-gold-primary text-deep font-bold px-8 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 clip-btn lang-en">Explore The Transition</a>
+                    <a href="#bottleneck" class="bg-gold-primary text-deep font-bold px-8 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 clip-btn lang-ar hidden">استكشف المرحلة الانتقالية</a>
                     
-                    <p class="lang-en">Similarly, in the educational sector, international students face immense culture shock. Studies show that 41% experience substantial levels of stress that hinder academic adaptation. However, targeted social support and cultural integration directly predict academic success. <strong>SudStudy eliminates this friction.</strong></p>
-                    <p class="lang-ar" style="display:none">وبالمثل، يواجه الطلاب الدوليون صدمة ثقافية هائلة. تشير الدراسات إلى أن 41% منهم يعانون من مستويات كبيرة من الضغط النفسي الذي يعيق التكيف الأكاديمي. ومع ذلك، فإن الدعم الاجتماعي المستهدف والاندماج الثقافي يتنبآن بشكل مباشر بالنجاح الأكاديمي. <strong>سدستادي تقضي على هذا العائق تماماً.</strong></p>
+                    <a href="#contact" class="border border-gold-primary bg-black/40 text-white font-bold px-8 py-4 uppercase tracking-widest hover:bg-gold-primary hover:text-deep transition-all duration-300 lang-en">Consult With Us</a>
+                    <a href="#contact" class="border border-gold-primary bg-black/40 text-white font-bold px-8 py-4 uppercase tracking-widest hover:bg-gold-primary hover:text-deep transition-all duration-300 lang-ar hidden">استشرنا الآن</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bottleneck" class="py-32 relative bg-panel/80 backdrop-blur-md border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            
+            <div class="text-center mb-20 reveal">
+                <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-en">The Reality & The Friction</span>
+                <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-ar hidden">الواقع والاحتكاك</span>
+                <h2 class="text-4xl md:text-5xl font-bold lang-en text-gradient">Why Transitions Fail</h2>
+                <h2 class="text-4xl md:text-5xl font-bold lang-ar hidden text-gradient">لماذا تفشل التحولات</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1: Trial & Error -->
+                <div class="data-card p-8 rounded-xl reveal">
+                    <div class="text-gold-primary text-4xl mb-6"><i class="fas fa-hourglass-half"></i></div>
+                    <h3 class="text-2xl font-bold mb-4 text-white lang-en">The Trial & Error Trap</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-white lang-ar hidden">فخ التجربة والخطأ</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed lang-en">
+                        Learning a new skill or adapting to a new system usually involves a painful trial-and-error phase. Real-world corporate data shows this phase consumes up to <strong class="text-white">40% of training budgets</strong> and extends integration time by 6-8 months, leading directly to a 30% increase in early-stage burnout.
+                    </p>
+                    <p class="text-gray-400 mb-6 leading-relaxed lang-ar hidden">
+                        يتضمن تعلم مهارة جديدة عادة مرحلة مؤلمة من التجربة والخطأ. تظهر بيانات الشركات أن هذه المرحلة تستهلك ما يصل إلى <strong class="text-white">40% من ميزانيات التدريب</strong> وتطيل وقت الاندماج بمقدار 6-8 أشهر، مما يؤدي إلى زيادة الإرهاق بنسبة 30%.
+                    </p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <span class="text-4xl font-serif text-gold-primary font-bold">40%</span>
+                        <span class="text-sm text-gray-500 uppercase tracking-widest block mt-1 lang-en">Budget Drain</span>
+                        <span class="text-sm text-gray-500 uppercase tracking-widest block mt-1 lang-ar hidden">استنزاف الميزانية</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Cognitive Limits -->
+                <div class="data-card p-8 rounded-xl reveal" style="transition-delay: 100ms;">
+                    <div class="text-gold-primary text-4xl mb-6"><i class="fas fa-brain"></i></div>
+                    <h3 class="text-2xl font-bold mb-4 text-white lang-en">Cognitive Limits</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-white lang-ar hidden">الحدود المعرفية</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed lang-en">
+                        Neuroscientific research reveals that human cognitive load maxes out rapidly. The average attention span has fragmented, and standard foreign material fails to anchor in long-term memory <strong class="text-white">70% of the time</strong> without personalized associative learning to bridge the gap.
+                    </p>
+                    <p class="text-gray-400 mb-6 leading-relaxed lang-ar hidden">
+                        تكشف الأبحاث العصبية أن الحمل المعرفي البشري يصل إلى أقصاه بسرعة. تفشل المواد الأجنبية القياسية في الترسخ في الذاكرة طويلة المدى بنسبة <strong class="text-white">70% من الوقت</strong> دون تعلم ارتباطي مخصص.
+                    </p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <span class="text-4xl font-serif text-gold-primary font-bold">70%</span>
+                        <span class="text-sm text-gray-500 uppercase tracking-widest block mt-1 lang-en">Retention Failure</span>
+                        <span class="text-sm text-gray-500 uppercase tracking-widest block mt-1 lang-ar hidden">فشل الاحتفاظ بالمعلومات</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: The New Environment -->
+                <div class="data-card p-8 rounded-xl reveal" style="transition-delay: 200ms;">
+                    <div class="text-gold-primary text-4xl mb-6"><i class="fas fa-globe"></i></div>
+                    <h3 class="text-2xl font-bold mb-4 text-white lang-en">The Environment Barrier</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-white lang-ar hidden">حاجز البيئة الجديدة</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed lang-en">
+                        Whether an investor entering a foreign market, an expat relocating, or a student studying abroad, the starting period is crucial. <strong class="text-white">41% of international students</strong> suffer severe acculturative stress, and corporate global assignments have a massive failure cost.
+                    </p>
+                    <p class="text-gray-400 mb-6 leading-relaxed lang-ar hidden">
+                        سواء كان مستثمراً يدخل سوقاً أجنبياً، أو مغترباً، أو طالباً، فإن فترة البداية حاسمة. يعاني <strong class="text-white">41% من الطلاب الدوليين</strong> من ضغوط التكيف، ولمهام الشركات العالمية تكلفة فشل هائلة.
+                    </p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <span class="text-4xl font-serif text-gold-primary font-bold">$1.25M</span>
+                        <span class="text-sm text-gray-500 uppercase tracking-widest block mt-1 lang-en">Cost per failed assign.</span>
+                        <span class="text-sm text-gray-500 uppercase tracking-widest block mt-1 lang-ar hidden">تكلفة المهمة الفاشلة</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 relative overflow-hidden bg-deep">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-5xl mx-auto px-6 text-center reveal">
+            <h2 class="text-5xl md:text-7xl font-bold font-serif italic text-white mb-8">
+                <span class="lang-en">We don't fight for real estate in your mind.</span>
+                <span class="lang-ar hidden">نحن لا نصارع من أجل مساحة في عقلك.</span>
+            </h2>
+            <p class="text-3xl md:text-5xl font-bold text-gradient mb-12">
+                <span class="lang-en">We repaint it with <br> YOUR OWN COLORS.</span>
+                <span class="lang-ar hidden">نحن نعيد طلاءها <br> بألوانك الخاصة.</span>
+            </p>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed lang-en">
+                Introducing the <strong>Analogy Engine</strong>. We provide the ultimate personalized experience, analyzing your preferences to build a system that fits YOU. Acquire skills faster, thrive in new environments, and make the foreign feel profoundly familiar.
+            </p>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed lang-ar hidden">
+                نقدم لكم <strong>محرك التناظر</strong>. نقدم التجربة المخصصة المطلقة، ونحلل تفضيلاتك لبناء نظام يناسبك. اكتسب المهارات بشكل أسرع، وازدهر في البيئات الجديدة، واجعل الغريب يبدو مألوفاً للغاية.
+            </p>
+            <div class="mt-12 flex justify-center">
+                <a href="engine-presentation.html" target="_blank" class="bg-gold-primary text-deep font-bold px-10 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 rounded-lg lang-en">See How It Works</a>
+                <a href="engine-presentation.html" target="_blank" class="bg-gold-primary text-deep font-bold px-10 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 rounded-lg lang-ar hidden">شاهد كيف يعمل</a>
+            </div>            
+        </div>
+        
+    </section>
+
+    <section class="py-20 border-y border-white/5 bg-panel relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+                <div class="reveal">
+                    <span class="metric-val text-5xl md:text-6xl font-serif font-bold text-gold-primary block mb-2" data-target="20000" data-suffix="+">0</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-en">Individuals Integrated</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-ar hidden">أفراد تم دمجهم</span>
+                </div>
+                <div class="reveal" style="transition-delay: 100ms;">
+                    <span class="metric-val text-5xl md:text-6xl font-serif font-bold text-gold-primary block mb-2" data-target="120" data-suffix="">0</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-en">Institution Nodes</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-ar hidden">عقد مؤسسية</span>
+                </div>
+                <div class="reveal" style="transition-delay: 200ms;">
+                    <span class="metric-val text-5xl md:text-6xl font-serif font-bold text-gold-primary block mb-2" data-target="6" data-suffix="">0</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-en">Global Markets</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-ar hidden">أسواق عالمية</span>
+                </div>
+                <div class="reveal" style="transition-delay: 300ms;">
+                    <span class="metric-val text-5xl md:text-6xl font-serif font-bold text-gold-primary block mb-2" data-target="95" data-suffix="%">0</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-en">Success Protocol</span>
+                    <span class="text-sm font-bold tracking-widest text-gray-400 uppercase lang-ar hidden">بروتوكول النجاح</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="programs" class="py-32 relative bg-deep">
+        <div class="text-center mb-24 reveal">
+            <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-en">Where We Operate</span>
+            <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-ar hidden">مجالات عملنا</span>
+            <h2 class="text-4xl md:text-5xl font-bold lang-en text-gradient">The 4 Pillars of Transition</h2>
+            <h2 class="text-4xl md:text-5xl font-bold lang-ar hidden text-gradient">ركائز التحول الأربعة</h2>
+            <p class="text-gray-400 mt-6 max-w-2xl mx-auto lang-en">Hover over the tracks below to hoist the operational methodology. Experience frictionless exploration.</p>
+            <p class="text-gray-400 mt-6 max-w-2xl mx-auto lang-ar hidden">مرر فوق المسارات أدناه لرفع منهجية التشغيل. استكشف بسلاسة.</p>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <!-- Card 1: Education (Gold Theme) -->
+            <div class="ladder-wrapper reveal" tabindex="0" style="--theme-color: #D4AF37; --theme-glow: rgba(212, 175, 55, 0.15);">
+                <div class="ladder-structure">
+                    <div class="tie-knot left"></div><div class="tie-knot right"></div>
+                    <div class="rail left"></div><div class="rungs"></div><div class="rail right"></div>
+                    <div class="tie-bar"></div>
+                </div>
+                <div class="rope left"></div><div class="rope right"></div>
+                
+                <div class="banner-wrapper">
+                    <div class="banner-content">
+                        <div class="banner-knot left"></div><div class="banner-knot right"></div>
+                        <div class="flex items-start justify-between mb-5 content-3d">
+                            <div class="icon-container w-14 h-14 rounded-2xl text-yellow-400 flex items-center justify-center text-3xl">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-full lang-en">Education</span>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-full lang-ar hidden">تعليم</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-en">Custom Curricula</h3>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-ar hidden">مناهج مخصصة</h3>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-en">We map school subjects directly to students' interests (e.g., learning physics through football or anime), accelerating academic absorption.</p>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-ar hidden">نربط المواد الدراسية مباشرة باهتمامات الطلاب لتسريع الاستيعاب الأكاديمي.</p>
+                        <a href="#" target="_blank" class="flex items-center text-sm font-bold text-yellow-400 track-btn group">
+                            <span class="lang-en">Deploy Protocol</span><span class="lang-ar hidden">تفعيل البروتوكول</span>
+                            <i class="fas fa-arrow-right ml-2 ltr:ml-2 rtl:mr-2 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Culture (Azure/Blue Theme) -->
+            <div class="ladder-wrapper reveal" tabindex="0" style="--theme-color: #3b82f6; --theme-glow: rgba(59, 130, 246, 0.15); transition-delay: 100ms;">
+                <div class="ladder-structure">
+                    <div class="tie-knot left"></div><div class="tie-knot right"></div>
+                    <div class="rail left"></div><div class="rungs"></div><div class="rail right"></div>
+                    <div class="tie-bar"></div>
+                </div>
+                <div class="rope left"></div><div class="rope right"></div>
+                
+                <div class="banner-wrapper">
+                    <div class="banner-content">
+                        <div class="banner-knot left"></div><div class="banner-knot right"></div>
+                        <div class="flex items-start justify-between mb-5 content-3d">
+                            <div class="icon-container w-14 h-14 rounded-2xl text-blue-400 flex items-center justify-center text-3xl">
+                                <i class="fas fa-mask"></i>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full lang-en">Culture</span>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full lang-ar hidden">ثقافة</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-en">Expat Integration</h3>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-ar hidden">دمج المغتربين</h3>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-en">Tailored entertainment & programming in hubs like Cairo & Dubai, giving expats the flavor of home through the lens of their new city.</p>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-ar hidden">ترفيه مخصص في مدن مثل القاهرة ودبي، يمنح المغتربين نكهة الوطن من خلال عدسة مدينتهم الجديدة.</p>
+                        <a href="#" target="_blank" class="flex items-center text-sm font-bold text-blue-400 track-btn group">
+                            <span class="lang-en">Deploy Protocol</span><span class="lang-ar hidden">تفعيل البروتوكول</span>
+                            <i class="fas fa-arrow-right ml-2 ltr:ml-2 rtl:mr-2 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Sports (Crimson/Red Theme) -->
+            <div class="ladder-wrapper reveal" tabindex="0" style="--theme-color: #ef4444; --theme-glow: rgba(239, 68, 68, 0.15); transition-delay: 200ms;">
+                <div class="ladder-structure">
+                    <div class="tie-knot left"></div><div class="tie-knot right"></div>
+                    <div class="rail left"></div><div class="rungs"></div><div class="rail right"></div>
+                    <div class="tie-bar"></div>
+                </div>
+                <div class="rope left"></div><div class="rope right"></div>
+                
+                <div class="banner-wrapper">
+                    <div class="banner-content">
+                        <div class="banner-knot left"></div><div class="banner-knot right"></div>
+                        <div class="flex items-start justify-between mb-5 content-3d">
+                            <div class="icon-container w-14 h-14 rounded-2xl text-red-400 flex items-center justify-center text-3xl">
+                                <i class="fas fa-running"></i>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-red-500/10 border border-red-500/20 text-red-400 rounded-full lang-en">Sports</span>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-red-500/10 border border-red-500/20 text-red-400 rounded-full lang-ar hidden">رياضة</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-en">Fan & Player Nexus</h3>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-ar hidden">تواصل اللاعبين والجماهير</h3>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-en">Customizing a player's new club environment to their preferences, while restructuring fan experiences to build deeply rooted personas.</p>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-ar hidden">تخصيص بيئة النادي الجديد للاعب حسب تفضيلاته، وإعادة هيكلة تجارب المعجبين لبناء هويات عميقة.</p>
+                        <a href="#" target="_blank" class="flex items-center text-sm font-bold text-red-400 track-btn group">
+                            <span class="lang-en">Deploy Protocol</span><span class="lang-ar hidden">تفعيل البروتوكول</span>
+                            <i class="fas fa-arrow-right ml-2 ltr:ml-2 rtl:mr-2 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Business (Emerald Theme) -->
+            <div class="ladder-wrapper reveal" tabindex="0" style="--theme-color: #10b981; --theme-glow: rgba(16, 185, 129, 0.15); transition-delay: 300ms;">
+                <div class="ladder-structure">
+                    <div class="tie-knot left"></div><div class="tie-knot right"></div>
+                    <div class="rail left"></div><div class="rungs"></div><div class="rail right"></div>
+                    <div class="tie-bar"></div>
+                </div>
+                <div class="rope left"></div><div class="rope right"></div>
+                
+                <div class="banner-wrapper">
+                    <div class="banner-content">
+                        <div class="banner-knot left"></div><div class="banner-knot right"></div>
+                        <div class="flex items-start justify-between mb-5 content-3d">
+                            <div class="icon-container w-14 h-14 rounded-2xl text-emerald-400 flex items-center justify-center text-3xl">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full lang-en">Business</span>
+                            <span class="text-[10px] font-bold px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full lang-ar hidden">أعمال</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-en">Market Synchronization</h3>
+                        <h3 class="text-xl font-bold text-white mb-2 content-3d lang-ar hidden">مزامنة السوق</h3>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-en">Offering optimal transition periods for foreign investors so the new environment speaks directly to them, maximizing existing assets.</p>
+                        <p class="text-sm text-gray-400 mb-6 leading-relaxed content-3d lang-ar hidden">تقديم فترات انتقال مثالية للمستثمرين الأجانب بحيث تتحدث البيئة الجديدة معهم مباشرة.</p>
+                        <a href="#" target="_blank" class="flex items-center text-sm font-bold text-emerald-400 track-btn group">
+                            <span class="lang-en">Deploy Protocol</span><span class="lang-ar hidden">تفعيل البروتوكول</span>
+                            <i class="fas fa-arrow-right ml-2 ltr:ml-2 rtl:mr-2 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="py-32 relative bg-panel border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6 reveal">
+            <div class="bg-black/40 backdrop-blur-xl border border-white/10 p-10 md:p-16 rounded-3xl shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gold-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4 lang-en text-gradient">Initialize Partnership</h2>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4 lang-ar hidden text-gradient">ابدأ الشراكة</h2>
+                    <p class="text-gray-400 lang-en">For Enterprise Expansion, Educational Profiling, or Relocation.</p>
+                    <p class="text-gray-400 lang-ar hidden">لتوسيع نطاق الشركات، التوجيه الأكاديمي، أو الانتقال.</p>
                 </div>
                 
-                <div class="stat-boxes">
-                    <div class="stat-box">
-                        <span class="stat-big">40%</span>
-                        <span class="stat-text lang-en">Historical Expatriate Failure Rate due to cultural friction.</span>
-                        <span class="stat-text lang-ar" style="display:none">معدل الفشل التاريخي للمغتربين بسبب الاحتكاك الثقافي.</span>
+                <form action="https://formspree.io/f/movveqpz" method="POST" class="space-y-6 relative z-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <input type="text" name="name" class="input-glass w-full p-4 rounded-xl" placeholder="Name / Organization" required>
+                        </div>
+                        <div>
+                            <input type="email" name="email" class="input-glass w-full p-4 rounded-xl" placeholder="Official Email" required>
+                        </div>
                     </div>
-                    <div class="stat-box">
-                        <span class="stat-big">$1.25M</span>
-                        <span class="stat-text lang-en">Maximum estimated cost of a single failed corporate assignment.</span>
-                        <span class="stat-text lang-ar" style="display:none">الحد الأقصى للتكلفة المقدرة لفشل مهمة دولية واحدة للشركات.</span>
+                    <div>
+                        <textarea name="message" rows="5" class="input-glass w-full p-4 rounded-xl resize-none" placeholder="Brief Protocol / Requirements..." required></textarea>
                     </div>
-                    <div class="stat-box">
-                        <span class="stat-big">41%</span>
-                        <span class="stat-text lang-en">Of international students face severe acculturative stress.</span>
-                        <span class="stat-text lang-ar" style="display:none">من الطلاب الدوليين يواجهون ضغوطاً نفسية حادة بسبب التكيف.</span>
-                    </div>
+                    <button type="submit" class="w-full bg-gold-primary text-deep font-bold text-lg py-4 rounded-xl hover:bg-gold-hover hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
+                        <span class="lang-en">Execute Request</span>
+                        <span class="lang-ar hidden">تنفيذ الطلب</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-deep pt-20 pb-10 border-t border-gold-primary/20 relative overflow-hidden">
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-4xl h-1 bg-gold-primary/50 shadow-[0_0_50px_rgba(212,175,55,0.8)]"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 reveal">
+                
+                <div class="md:col-span-2">
+                    <a href="#" class="text-3xl font-extrabold tracking-widest text-white uppercase flex items-center gap-2 mb-6" style="direction: ltr;">
+                        SUD<span class="text-gold-primary">STUDY</span>
+                    </a>
+                    <p class="text-gray-400 max-w-sm leading-relaxed lang-en">The holding entity for the Analogy Engine. We architect the future of global cultural and cognitive integration.</p>
+                    <p class="text-gray-400 max-w-sm leading-relaxed lang-ar hidden">الكيان القابض لمحرك التناظر. نحن نصمم مستقبل الاندماج الثقافي والمعرفي العالمي.</p>
+                </div>
+                
+                <div>
+                    <h5 class="text-white font-bold tracking-widest uppercase mb-6 lang-en">Ecosystem</h5>
+                    <h5 class="text-white font-bold tracking-widest uppercase mb-6 lang-ar hidden">النظام البيئي</h5>
+                    <ul class="space-y-4">
+                        <li><a href="#vision" class="text-gray-400 footer-glow transition-all lang-en">The Vision</a><a href="#vision" class="text-gray-400 footer-glow transition-all lang-ar hidden">الرؤية</a></li>
+                        <li><a href="#bottleneck" class="text-gray-400 footer-glow transition-all lang-en">Transition Protocol</a><a href="#bottleneck" class="text-gray-400 footer-glow transition-all lang-ar hidden">بروتوكول الانتقال</a></li>
+                        <li><a href="#programs" class="text-gray-400 footer-glow transition-all lang-en">Analogy Engine</a><a href="#programs" class="text-gray-400 footer-glow transition-all lang-ar hidden">محرك التناظر</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-bold tracking-widest uppercase mb-6 lang-en">Connect</h5>
+                    <h5 class="text-white font-bold tracking-widest uppercase mb-6 lang-ar hidden">تواصل معنا</h5>
+                    <ul class="space-y-4">
+                        <li><a href="mailto:info@sudstudy.com" class="text-gray-400 footer-glow transition-all flex items-center gap-3"><i class="fas fa-envelope text-gold-primary"></i> info@sudstudy.com</a></li>
+                        <li><a href="#" class="text-gray-400 footer-glow transition-all flex items-center gap-3"><i class="fab fa-linkedin text-gold-primary"></i> LinkedIn HQ</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="impact-strip">
-        <div class="impact-grid">
-            <div class="metric-card">
-                <span class="metric-value" data-target="20000">0</span>
-                <span class="metric-label lang-en">Individuals Integrated</span>
-                <span class="metric-label lang-ar" style="display:none"> تم دمجهم</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-value" data-target="120">0</span>
-                <span class="metric-label lang-en">Institution Nodes</span>
-                <span class="metric-label lang-ar" style="display:none">نقطة مؤسسية</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-value" data-target="6">0</span>
-                <span class="metric-label lang-en">Global Markets</span>
-                <span class="metric-label lang-ar" style="display:none">أسواق عالمية</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-value" data-target="95">0</span>
-                <span class="metric-label lang-en">Success Protocol %</span>
-                <span class="metric-label lang-ar" style="display:none">بروتوكول النجاح %</span>
-            </div>
-        </div>
-    </section>
-
-    <section id="programs" class="programs-section">
-        <div class="section-header">
-            <span class="tag lang-en">Our Solution</span>
-            <span class="tag lang-ar" style="display:none">الحل الذي نقدمه</span>
-            <h2 class="section-title lang-en">The Analogy Engine</h2>
-            <h2 class="section-title lang-ar" style="display:none">محرك التناظر</h2>
-        </div>
-        <div class="cards-grid">
-            <div class="program-card">
-                <i class="fas fa-briefcase card-icon"></i>
-                <h3 class="card-title lang-en">Business Profiling</h3>
-                <h3 class="card-title lang-ar" style="display:none">تحليل بيئة الأعمال</h3>
-                <p class="card-desc lang-en">Tailoring the business environment to investor preferences by offering consultancies that match core values, ensuring the greatest corporate transitioning period.</p>
-                <p class="card-desc lang-ar" style="display:none">تصميم بيئة الأعمال لتناسب تفضيلات المستثمرين عبر استشارات تتوافق مع القيم الأساسية، لضمان أفضل فترة انتقالية للشركات.</p>
-            </div>
-            <div class="program-card">
-                <i class="fas fa-graduation-cap card-icon"></i>
-                <h3 class="card-title lang-en">Academic Matchmaking</h3>
-                <h3 class="card-title lang-ar" style="display:none">التوفيق الأكاديمي</h3>
-                <p class="card-desc lang-en">Finding the true core of a student's preferences. We don't just recommend universities; we connect you to cultural ecosystems where you will thrive without feeling like a foreigner.</p>
-                <p class="card-desc lang-ar" style="display:none">اكتشاف الجوهر الحقيقي لتفضيلات الطالب. نحن لا نوصي بالجامعات فحسب، بل نربطك بأنظمة ثقافية تزدهر فيها دون الشعور بالغربة.</p>
-            </div>
-            <div class="program-card">
-                <i class="fas fa-brain card-icon"></i>
-                <h3 class="card-title lang-en">Cognitive Translation</h3>
-                <h3 class="card-title lang-ar" style="display:none">الترجمة المعرفية</h3>
-                <p class="card-desc lang-en">Refactoring complex academic subjects and foreign business regulations into your preferred "Language"—creating immediate familiarity and mastery.</p>
-                <p class="card-desc lang-ar" style="display:none">إعادة صياغة المواد الأكاديمية المعقدة ولوائح الأعمال الأجنبية لتناسب "لغتك" المفضلة - مما يخلق ألفة وإتقاناً فورياً.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="contact-section">
-            <h2 class="lang-en">Initialize Partnership</h2>
-            <h2 class="lang-ar" style="display:none">ابدأ الشراكة</h2>
-            <p style="color:var(--text-muted); margin-bottom:2rem;" class="lang-en">Whether for Enterprise Expansion, Educational Profiling, or Global Asset Relocation.</p>
-            <p style="color:var(--text-muted); margin-bottom:2rem; display:none;" class="lang-ar">سواء لتوسيع نطاق الشركات، أو التوجيه الأكاديمي، أو نقل الأصول عالمياً.</p>
             
-            <form action="https://formspree.io/f/movveqpz" method="POST">
-                <div class="input-group">
-                    <input type="text" name="name" placeholder="Name / Organization" required>
-                </div>
-                <div class="input-group">
-                    <input type="email" name="email" placeholder="Official Email" required>
-                </div>
-                <div class="input-group">
-                    <textarea name="message" rows="4" placeholder="Brief Protocol / Requirements..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%">Execute Request</button>
-            </form>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <a href="#" class="logo" style="margin-bottom:1rem;">SUD<span>STUDY</span></a>
-                <p class="lang-en">The holding entity for the Analogy Engine, and the future of global cultural integration.</p>
-                <p class="lang-ar" style="display:none">الكيان القابض لمحرك التناظر، ومستقبل الاندماج الثقافي العالمي.</p>
+            <div class="text-center pt-8 border-t border-white/5 text-gray-500 text-sm">
+                &copy; <span id="year"></span> SUDSTUDY. All rights reserved.
             </div>
-            <div class="footer-col">
-                <h5 class="lang-en">Ecosystem</h5>
-                <h5 class="lang-ar" style="display:none">النظام البيئي</h5>
-                <a href="#bottleneck">Transition Protocol</a>
-                <a href="#programs">Analogy Engine (CEC)</a>
-            </div>
-            <div class="footer-col">
-                <h5 class="lang-en">Legal & Contact</h5>
-                <h5 class="lang-ar" style="display:none">قانوني وتواصل</h5>
-                <a href="mailto:info@sudstudy.com">info@sudstudy.com</a>
-            </div>
-        </div>
-        <div style="text-align:center; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.05); margin-top:3rem; color:#555;">
-            &copy; 2026 SUDSTUDY. All rights reserved.
         </div>
     </footer>
 
-    <!-- JS LOGIC -->
     <script>
-        // ==========================================
-        // 1. THE ADAPTIVE 3D TEXT BRIDGE ENGINE
-        // ==========================================
-        const canvas = document.getElementById('bridgeCanvas');
-        const ctx = canvas.getContext('2d');
-        let w, h, cx, cy;
+        // Set Current Year
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-        function resize() {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-            cx = w / 2;
-            cy = h / 2 + 100; // Offset downwards
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        // The exact character set requested
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789∑∫π∞√ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
-        function getChar(index) { return chars[Math.abs(Math.floor(index)) % chars.length]; }
-
-        let scrollOffset = 0;
-        let targetScrollOffset = 0;
-        let lastScroll = window.scrollY;
-
-        // Listen for scroll to reverse/accelerate flow
-        window.addEventListener('scroll', () => {
-            let currentScroll = window.scrollY;
-            let delta = currentScroll - lastScroll;
-            targetScrollOffset += delta * 0.05; 
-            lastScroll = currentScroll;
-        });
-
-        // 3D Perspective Projection Math
-        const focalLength = 800;
-        function project(x, y, z) {
-            const scale = focalLength / (focalLength + z);
-            return { x: cx + x * scale, y: cy + y * scale, scale: scale };
-        }
-
-        // Main Render Loop
-        function draw() {
-            ctx.clearRect(0, 0, w, h);
-            ctx.fillStyle = 'rgba(212, 175, 55, 0.45)'; // Brand Gold, slightly transparent
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            // Smooth interpolation for scroll speed
-            scrollOffset += (targetScrollOffset - scrollOffset) * 0.1;
-            // Constant slow idle movement if not scrolling
-            targetScrollOffset += 0.05; 
-
-            // Helper: Draw a straight 3D line made of characters
-            const drawLine = (startX, startY, startZ, endX, endY, endZ, density, dir) => {
-                const dx = endX - startX, dy = endY - startY, dz = endZ - startZ;
-                const length = Math.sqrt(dx*dx + dy*dy + dz*dz);
-                const steps = Math.floor(length / density);
-                
-                for (let i = 0; i <= steps; i++) {
-                    let t = (i / steps);
-                    let rawIndex = i * 3.14; // randomish stable index
-                    t = (t + (scrollOffset * dir * 0.005)) % 1;
-                    if (t < 0) t += 1;
-
-                    const x = startX + dx * t, y = startY + dy * t, z = startZ + dz * t;
-                    if (z < -focalLength + 50) continue; 
-                    
-                    const p = project(x, y, z);
-                    if (p.scale > 0 && p.scale < 5) {
-                        ctx.font = `bold ${Math.max(12 * p.scale, 4)}px "Courier New"`;
-                        ctx.globalAlpha = Math.min(p.scale * 0.8, 0.9);
-                        ctx.fillText(getChar(rawIndex), p.x, p.y);
-                    }
-                }
-            };
-
-            // Helper: Draw a 3D Quadratic Curve (Suspension Cables) made of characters
-            const drawCurve = (startX, startY, startZ, midX, midY, midZ, endX, endY, endZ, density, dir) => {
-                 const steps = 150;
-                 for (let i = 0; i <= steps; i+= (150/density)) {
-                    let t = (i / steps);
-                    let rawIndex = i * 2.71;
-                    t = (t + (scrollOffset * dir * 0.003)) % 1;
-                    if (t < 0) t += 1;
-
-                    // Quadratic Bezier Formula
-                    const x = (1-t)*(1-t)*startX + 2*(1-t)*t*midX + t*t*endX;
-                    const y = (1-t)*(1-t)*startY + 2*(1-t)*t*midY + t*t*endY;
-                    const z = (1-t)*(1-t)*startZ + 2*(1-t)*t*midZ + t*t*endZ;
-
-                    if (z < -focalLength + 50) continue;
-                    
-                    const p = project(x, y, z);
-                    if (p.scale > 0 && p.scale < 5) {
-                        ctx.font = `bold ${Math.max(14 * p.scale, 4)}px "Courier New"`;
-                        ctx.globalAlpha = Math.min(p.scale * 0.9, 1);
-                        ctx.fillText(getChar(rawIndex), p.x, p.y);
-                    }
-                 }
-            };
-
-            // BRIDGE ARCHITECTURE PARAMETERS
-            const dW = 350;        // Deck Width (Half)
-            const dY = 150;        // Deck Y position
-            const tH = -700;       // Tower Top Y
-            const zStart = -600;   // Camera proximity
-            const tZ1 = 600;       // First Tower Z
-            const tZ2 = 3000;      // Second Tower Z
-            const zEnd = 5000;     // Horizon Z
-
-            // 1. Draw Deck (Lines flowing toward user)
-            for(let offset of [-dW, -dW/2, 0, dW/2, dW]) {
-                drawLine(offset, dY, zStart, offset, dY, zEnd, 50, 1);
-            }
-
-            // 2. Draw Towers (Lines flowing downwards)
-            for(let z of [tZ1, tZ2]) {
-                for(let x of [-dW, dW]) {
-                    // Vertical pillars
-                    drawLine(x, dY + 200, z, x, tH, z, 35, -1);
-                    // Horizontal Crossbeams
-                    drawLine(-dW, tH + 200, z, dW, tH + 200, z, 40, 1);
-                    drawLine(-dW, dY - 150, z, dW, dY - 150, z, 40, -1);
-                }
-            }
-
-            // 3. Draw Suspension Cables (Parabolas flowing upwards/forwards)
-            // Main span between towers
-            drawCurve(-dW, tH, tZ1, -dW, dY+100, (tZ1+tZ2)/2, -dW, tH, tZ2, 45, 1); // Left
-            drawCurve(dW, tH, tZ1, dW, dY+100, (tZ1+tZ2)/2, dW, tH, tZ2, 45, 1);   // Right
-
-            // Front anchor cables
-            drawCurve(-dW, dY, zStart-200, -dW, dY-100, (zStart+tZ1)/2, -dW, tH, tZ1, 40, -1);
-            drawCurve(dW, dY, zStart-200, dW, dY-100, (zStart+tZ1)/2, dW, tH, tZ1, 40, -1);
-
-            // Back anchor cables
-            drawCurve(-dW, tH, tZ2, -dW, dY-100, (tZ2+zEnd)/2, -dW, dY, zEnd, 40, 1);
-            drawCurve(dW, tH, tZ2, dW, dY-100, (tZ2+zEnd)/2, dW, dY, zEnd, 40, 1);
-
-            requestAnimationFrame(draw);
-        }
-        draw(); // Start Engine
-
-        // ==========================================
-        // UI & LANGUAGE LOGIC
-        // ==========================================
+        // 1. Language Toggle Logic
+        let isAr = false;
         function toggleLang() {
-            const isAr = document.getElementById('langSwitch').checked;
+            isAr = !isAr;
             const currentLang = isAr ? 'ar' : 'en';
+            
+            // Set Document Direction
             document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             
-            document.querySelectorAll('.lang-en').forEach(el => el.style.display = currentLang === 'en' ? 'block' : 'none');
-            document.querySelectorAll('.lang-ar').forEach(el => el.style.display = currentLang === 'ar' ? 'block' : 'none');
+            // Toggle Display Elements
+            document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', isAr));
+            document.querySelectorAll('.lang-ar').forEach(el => el.classList.toggle('hidden', !isAr));
             
-            document.querySelector('.lang-label.en').classList.toggle('active', currentLang === 'en');
-            document.querySelector('.lang-label.ar').classList.toggle('active', currentLang === 'ar');
+            // Update Toggle Visuals (Sync Desktop & Mobile toggles)
+            document.getElementById('langSwitch').checked = isAr;
+            document.getElementById('langSwitchMobile').checked = isAr;
+            
+            document.querySelectorAll('.lang-label-en').forEach(el => {
+                if(isAr) { el.classList.remove('text-gold-primary'); el.classList.add('text-gray-500'); }
+                else { el.classList.add('text-gold-primary'); el.classList.remove('text-gray-500'); }
+            });
+            document.querySelectorAll('.lang-label-ar').forEach(el => {
+                if(isAr) { el.classList.add('text-gold-primary'); el.classList.remove('text-gray-500'); }
+                else { el.classList.remove('text-gold-primary'); el.classList.add('text-gray-500'); }
+            });
         }
 
-        function toggleMobileMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+        function syncLangToggle(cb) {
+            if(cb.checked !== isAr) toggleLang();
+        }
 
+        // 2. Mobile Menu Logic
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        function closeMenu() {
+            mobileMenu.classList.remove('active');
+            menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            if(mobileMenu.classList.contains('active')){
+                menuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Close menu on click outside or on link
+        document.addEventListener('click', (e) => {
+            if(mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && e.target !== menuBtn){
+                closeMenu();
+            }
+        });
+        document.querySelectorAll('#mobileMenu .nav-link').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // 3. Header Scroll Effect & Reveal Animation
         window.addEventListener('scroll', () => {
-            const header = document.querySelector('.header');
+            const header = document.getElementById('mainHeader');
             if (window.scrollY > 50) header.classList.add('is-scrolled');
             else header.classList.remove('is-scrolled');
         });
 
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // 4. Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault(); 
                 const targetId = this.getAttribute('href');
                 if (targetId === '#') return; 
-                document.getElementById('navMenu').classList.remove('active');
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     window.scrollTo({ top: targetElement.getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
@@ -623,26 +826,112 @@
             });
         });
 
-        const observer = new IntersectionObserver((entries) => {
+        // 5. Impact Metrics Counter Animation
+        const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const el = entry.target;
                     const target = +el.getAttribute('data-target');
-                    const step = Math.ceil(target / (2000 / 16));
-                    let current = 0;
+                    const suffix = el.getAttribute('data-suffix');
+                    const duration = 2000; // ms
+                    const frameRate = 16;
+                    const totalFrames = Math.round(duration / frameRate);
+                    let frame = 0;
+                    
+                    // Ease out quad formula
+                    const easeOutQuad = t => t * (2 - t);
+
                     const timer = setInterval(() => {
-                        current += step;
-                        if(current >= target) {
-                            el.textContent = target.toLocaleString() + (target > 1000 ? '+' : '%');
-                            if(target === 95) el.textContent = "95%"; else if(target === 6) el.textContent = "6"; else if(target === 120) el.textContent = "120"; 
+                        frame++;
+                        const progress = easeOutQuad(frame / totalFrames);
+                        const current = Math.round(target * progress);
+                        
+                        el.textContent = current.toLocaleString() + suffix;
+                        
+                        if(frame === totalFrames) {
+                            el.textContent = target.toLocaleString() + suffix;
                             clearInterval(timer);
-                        } else { el.textContent = current.toLocaleString(); }
-                    }, 16);
-                    observer.unobserve(el);
+                        }
+                    }, frameRate);
+                    counterObserver.unobserve(el);
                 }
             });
         }, { threshold: 0.5 });
-        document.querySelectorAll('.metric-value').forEach(el => observer.observe(el));
+        document.querySelectorAll('.metric-val').forEach(el => counterObserver.observe(el));
+
+        // 6. Hero 3D Mouse Parallax Effect
+        const heroSection = document.getElementById('vision');
+        const heroText = document.getElementById('heroText');
+        
+        heroSection.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const xPos = (clientX / window.innerWidth - 0.5) * 20; // max 20deg tilt
+            const yPos = (clientY / window.innerHeight - 0.5) * -20;
+            
+            // Smoothly apply transform
+            heroText.style.transform = `rotateY(${xPos}deg) rotateX(${yPos}deg)`;
+        });
+        heroSection.addEventListener('mouseleave', () => {
+            heroText.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            heroText.style.transition = `transform 0.5s ease-out`;
+        });
+        heroSection.addEventListener('mouseenter', () => {
+            heroText.style.transition = `transform 0.1s ease-out`;
+        });
+
+        // 7. Ladder Cards 3D Interaction Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrappers = document.querySelectorAll('.ladder-wrapper');
+            
+            wrappers.forEach(wrapper => {
+                const bannerContent = wrapper.querySelector('.banner-content');
+                
+                // Mobile Touch
+                wrapper.addEventListener('touchstart', function(e) {
+                    wrappers.forEach(w => { if (w !== this) w.blur(); });
+                    this.focus();
+                }, {passive: true});
+
+                // 3D Tilt
+                wrapper.addEventListener('mousemove', (e) => {
+                    if (!wrapper.matches(':hover') && !wrapper.matches(':focus-within')) return;
+
+                    const rect = bannerContent.getBoundingClientRect();
+                    const x = e.clientX - rect.left; 
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const maxTiltX = 12; 
+                    const maxTiltY = 12;
+                    
+                    const percentX = (x - centerX) / centerX;
+                    const percentY = (y - centerY) / centerY;
+                    
+                    const rotateX = -(percentY * maxTiltX);
+                    const rotateY = (percentX * maxTiltY);
+                    
+                    bannerContent.style.transition = 'none';
+                    bannerContent.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+
+                wrapper.addEventListener('mouseleave', () => {
+                    bannerContent.style.transition = 'transform 0.5s cubic-bezier(0.4, 1.8, 0.5, 0.9), border-color 0.4s ease, box-shadow 0.4s ease';
+                    bannerContent.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                });
+                
+                wrapper.addEventListener('mouseenter', () => {
+                    bannerContent.style.transition = 'transform 0.2s ease-out, border-color 0.4s ease, box-shadow 0.4s ease';
+                });
+            });
+
+            document.addEventListener('touchstart', (e) => {
+                if (!e.target.closest('.ladder-wrapper')) {
+                    wrappers.forEach(w => w.blur());
+                }
+            }, {passive: true});
+        });
     </script>
 </body>
 </html>
