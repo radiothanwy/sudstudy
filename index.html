@@ -143,15 +143,6 @@
             visibility: visible;
         }
 
-        /* Language Toggle */
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(212, 175, 55, 0.5); transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--gold-primary); transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: rgba(212, 175, 55, 0.2); }
-        input:checked + .slider:before { transform: translateX(20px); }
-        [dir="rtl"] input:checked + .slider:before { transform: translateX(-20px); }
-
         .hero-video-wrapper {
             position: absolute;
             inset: 0;
@@ -228,7 +219,9 @@
             border-radius: 8px; z-index: 2; border-top: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
         }
         .rope {
-            position: absolute; top: calc(var(--rope-attach-y) + 8px); width: 3px; height: 260px;
+            position: absolute; top: calc(var(--rope-attach-y) + 8px); width: 3px; 
+            /* FIXED: Reduced length so CTA button is always visible without covering */
+            height: 160px; 
             background: var(--theme-color); z-index: 3; transform-origin: top center;
             transform: scaleY(1); transition: transform var(--anim-duration) var(--spring-easing), box-shadow 0.3s ease;
             border-radius: 2px; box-shadow: 0 0 8px var(--theme-color), 0 0 15px var(--theme-color); opacity: 0.4;
@@ -244,7 +237,9 @@
         
         .banner-wrapper {
             position: absolute; top: var(--banner-top-y); left: 5px; right: 5px; z-index: 10;
-            transform: translateY(210px); transition: transform var(--anim-duration) var(--spring-easing); will-change: transform;
+            /* FIXED: Reduced downward drop so CTA button remains fully visible inside the wrapper */
+            transform: translateY(120px); 
+            transition: transform var(--anim-duration) var(--spring-easing); will-change: transform;
         }
         .banner-content {
             position: relative; background: rgba(15, 15, 25, 0.85); backdrop-filter: blur(16px);
@@ -262,7 +257,8 @@
 
         /* Interactions */
         .ladder-wrapper:hover .banner-wrapper, .ladder-wrapper:focus-within .banner-wrapper { transform: translateY(0); }
-        .ladder-wrapper:hover .rope, .ladder-wrapper:focus-within .rope { transform: scaleY(0.1923); opacity: 1; box-shadow: 0 0 15px var(--theme-color), 0 0 30px var(--theme-color); }
+        /* FIXED: Updated scale to match the new shorter rope height so physics align perfectly */
+        .ladder-wrapper:hover .rope, .ladder-wrapper:focus-within .rope { transform: scaleY(0.26); opacity: 1; box-shadow: 0 0 15px var(--theme-color), 0 0 30px var(--theme-color); }
         .ladder-wrapper:hover .banner-content, .ladder-wrapper:focus-within .banner-content {
             border-color: var(--theme-color);
             box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px var(--theme-glow);
@@ -296,8 +292,8 @@
     <header id="mainHeader" class="header fixed top-0 w-full z-50 py-5">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center relative">
             
-            <!-- Logo -->
-            <a href="#" class="text-2xl font-extrabold tracking-widest text-white uppercase flex items-center gap-2" style="direction: ltr;">
+            <!-- FIXED: Isolated direction so Arabic layout doesn't distort logo layout -->
+            <a href="#" class="text-2xl font-extrabold tracking-widest text-white uppercase inline-flex items-center gap-2" dir="ltr">
                 SUD<span class="text-gold-primary">STUDY</span>
             </a>
 
@@ -357,11 +353,11 @@
         </div>
     </header>
 
-    <section id="vision" class="relative min-h-screen flex items-center pt-20">
+    <section id="vision" class="relative min-h-screen flex items-center pt-24 pb-20 md:pt-20 md:pb-0">
         <!-- eo Background -->
         <div class="hero-eo-wrapper">
-            <!-- Fallback poster if eo is missing -->
-            <video src="/images/HeroVid.mp4" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover" poster="https://placehold.co/1920x1080/050511/D4AF37?text=SUDSTUDY"></video>
+            <!-- FIXED: Added object-center to ensure the video scales correctly without stretching or cutting off weirdly on mobile screens -->
+            <video src="/images/HeroVid.mp4" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover object-center" poster="https://placehold.co/1920x1080/050511/D4AF37?text=SUDSTUDY"></video>
         </div>
 
         <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 hero-content">
@@ -398,17 +394,19 @@
         </div>
     </section>
 
-    <section id="bottleneck" class="py-32 relative bg-panel/80 backdrop-blur-md border-y border-white/5">
+    <!-- FIXED: Added responsive padding/spacing to relieve mobile crowdedness -->
+    <section id="bottleneck" class="py-24 md:py-32 relative bg-panel/80 backdrop-blur-md border-y border-white/5">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             
-            <div class="text-center mb-20 reveal">
+            <div class="text-center mb-16 md:mb-20 reveal">
                 <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-en">The Reality & The Friction</span>
                 <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-ar hidden">الواقع والاحتكاك</span>
                 <h2 class="text-4xl md:text-5xl font-bold lang-en text-gradient">Why Transitions Fail</h2>
                 <h2 class="text-4xl md:text-5xl font-bold lang-ar hidden text-gradient">لماذا تفشل التحولات</h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- FIXED: Increased gap on mobile to allow more breathing space -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
                 
                 <!-- Card 1: Trial & Error -->
                 <div class="data-card p-8 rounded-xl reveal">
@@ -468,11 +466,12 @@
         </div>
     </section>
 
-    <section class="py-32 relative overflow-hidden bg-deep">
+    <!-- FIXED: Added responsive padding/spacing to relieve mobile crowdedness -->
+    <section class="py-24 md:py-32 relative overflow-hidden bg-deep">
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div class="max-w-5xl mx-auto px-6 text-center reveal">
-            <h2 class="text-5xl md:text-7xl font-bold font-serif italic text-white mb-8">
+            <h2 class="text-4xl md:text-7xl font-bold font-serif italic text-white mb-8">
                 <span class="lang-en">We don't fight for real estate in your mind.</span>
                 <span class="lang-ar hidden">نحن لا نصارع من أجل مساحة في عقلك.</span>
             </h2>
@@ -494,7 +493,8 @@
         
     </section>
 
-    <section class="py-20 border-y border-white/5 bg-panel relative">
+    <!-- FIXED: Added responsive padding/spacing to relieve mobile crowdedness -->
+    <section class="py-16 md:py-20 border-y border-white/5 bg-panel relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
                 <div class="reveal">
@@ -521,8 +521,9 @@
         </div>
     </section>
 
-    <section id="programs" class="py-32 relative bg-deep">
-        <div class="text-center mb-24 reveal">
+    <!-- FIXED: Added responsive padding/spacing to relieve mobile crowdedness -->
+    <section id="programs" class="py-24 md:py-32 relative bg-deep">
+        <div class="text-center mb-16 md:mb-24 reveal">
             <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-en">Where We Operate</span>
             <span class="text-gold-primary text-sm font-bold tracking-widest uppercase mb-4 block lang-ar hidden">مجالات عملنا</span>
             <h2 class="text-4xl md:text-5xl font-bold lang-en text-gradient">The 4 Pillars of Transition</h2>
@@ -531,7 +532,8 @@
             <p class="text-gray-400 mt-6 max-w-2xl mx-auto lang-ar hidden">مرر فوق المسارات أدناه لرفع منهجية التشغيل. استكشف بسلاسة.</p>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- FIXED: Increased gap on mobile to allow more breathing space -->
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
             
             <!-- Card 1: Education (Gold Theme) -->
             <div class="ladder-wrapper reveal" tabindex="0" style="--theme-color: #D4AF37; --theme-glow: rgba(212, 175, 55, 0.15);">
@@ -660,7 +662,8 @@
         </div>
     </section>
 
-    <section id="contact" class="py-32 relative bg-panel border-t border-white/5">
+    <!-- FIXED: Added responsive padding/spacing to relieve mobile crowdedness -->
+    <section id="contact" class="py-24 md:py-32 relative bg-panel border-t border-white/5">
         <div class="max-w-4xl mx-auto px-6 reveal">
             <div class="bg-black/40 backdrop-blur-xl border border-white/10 p-10 md:p-16 rounded-3xl shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-gold-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
@@ -673,16 +676,17 @@
                 </div>
                 
                 <form action="https://formspree.io/f/movveqpz" method="POST" class="space-y-6 relative z-10">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
+                        <!-- FIXED: Added IDs for JS to update placeholders -->
                         <div>
-                            <input type="text" name="name" class="input-glass w-full p-4 rounded-xl" placeholder="Name / Organization" required>
+                            <input type="text" id="nameInput" name="name" class="input-glass w-full p-4 rounded-xl" placeholder="Name / Organization" required>
                         </div>
                         <div>
-                            <input type="email" name="email" class="input-glass w-full p-4 rounded-xl" placeholder="Official Email" required>
+                            <input type="email" id="emailInput" name="email" class="input-glass w-full p-4 rounded-xl" placeholder="Official Email" required>
                         </div>
                     </div>
                     <div>
-                        <textarea name="message" rows="5" class="input-glass w-full p-4 rounded-xl resize-none" placeholder="Brief Protocol / Requirements..." required></textarea>
+                        <textarea name="message" id="msgInput" rows="5" class="input-glass w-full p-4 rounded-xl resize-none" placeholder="Brief Protocol / Requirements..." required></textarea>
                     </div>
                     <button type="submit" class="w-full bg-gold-primary text-deep font-bold text-lg py-4 rounded-xl hover:bg-gold-hover hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
                         <span class="lang-en">Execute Request</span>
@@ -699,9 +703,12 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 reveal">
                 
                 <div class="md:col-span-2">
-                    <a href="#" class="text-3xl font-extrabold tracking-widest text-white uppercase flex items-center gap-2 mb-6" style="direction: ltr;">
-                        SUD<span class="text-gold-primary">STUDY</span>
-                    </a>
+                    <!-- FIXED: Added a flex container ensuring LTR isolation aligns correctly inside the RTL grid -->
+                    <div class="mb-6 flex justify-start rtl:justify-end">
+                        <a href="#" class="text-3xl font-extrabold tracking-widest text-white uppercase inline-flex items-center gap-2" dir="ltr">
+                            SUD<span class="text-gold-primary">STUDY</span>
+                        </a>
+                    </div>
                     <p class="text-gray-400 max-w-sm leading-relaxed lang-en">The holding entity for the Analogy Engine. We architect the future of global cultural and cognitive integration.</p>
                     <p class="text-gray-400 max-w-sm leading-relaxed lang-ar hidden">الكيان القابض لمحرك التناظر. نحن نصمم مستقبل الاندماج الثقافي والمعرفي العالمي.</p>
                 </div>
@@ -761,6 +768,21 @@
                 if(isAr) { el.classList.add('text-gold-primary'); el.classList.remove('text-gray-500'); }
                 else { el.classList.remove('text-gold-primary'); el.classList.add('text-gray-500'); }
             });
+
+            // FIXED: Update Form Placeholders based on language
+            const nameInput = document.getElementById('nameInput');
+            const emailInput = document.getElementById('emailInput');
+            const msgInput = document.getElementById('msgInput');
+            
+            if (isAr) {
+                if (nameInput) nameInput.placeholder = "الاسم / المؤسسة";
+                if (emailInput) emailInput.placeholder = "البريد الإلكتروني الرسمي";
+                if (msgInput) msgInput.placeholder = "نبذة عن البروتوكول / المتطلبات...";
+            } else {
+                if (nameInput) nameInput.placeholder = "Name / Organization";
+                if (emailInput) emailInput.placeholder = "Official Email";
+                if (msgInput) msgInput.placeholder = "Brief Protocol / Requirements...";
+            }
         }
 
         function syncLangToggle(cb) {
