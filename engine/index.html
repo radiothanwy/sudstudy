@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUDSTUDY | The Analogy Engine Demo</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Premium Fonts: Changa, Playfair, Outfit (Matching Main Site) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deep: '#050511',
+            panel: '#0a0a1a',
+            gold: {
+              primary: '#D4AF37',
+              hover: '#F2D06B',
+            }
+          },
+          fontFamily: {
+            main: ['Changa', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+          animation: {
+            'spin-slow': 'spin 12s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --primary-glow: rgba(212, 175, 55, 0.15); /* Gold default */
+      --accent-color: #D4AF37;
+      --head-glow-color: #D4AF37;
+    }
+    
+    body {
+      background-color: var(--bg-deep);
+      color: #fafafa;
+      overflow-x: hidden;
+      font-family: 'Changa', sans-serif;
+      transition: background-color 0.5s ease;
+    }
+
+    /* Ambient glow spheres behind content */
+    .glow-sphere {
+      filter: blur(140px);
+      transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Glassmorphism panels */
+    .glass-panel {
+      background: rgba(10, 10, 26, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: border 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    /* Gradient texts matching main site */
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent-color) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050511; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+    /* Custom slider track optimization */
+    input[type="range"]::-webkit-slider-thumb {
+      transition: transform 0.1s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.3);
+    }
+
+    /* Language Toggle Switch (Matched from main site) */
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(212, 175, 55, 0.5); transition: .4s; border-radius: 34px; }
+    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--accent-color); transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: rgba(212, 175, 55, 0.2); }
+    input:checked + .slider:before { transform: translateX(20px); }
+    [dir="rtl"] .slider:before { left: auto; right: 3px; }
+    [dir="rtl"] input:checked + .slider:before { transform: translateX(-20px); }
+  </style>
+</head>
+<body class="antialiased text-neutral-100 bg-[#050511]" id="main-body">
+
+  <!-- Ambient Background Glows -->
+  <div class="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full glow-sphere bg-yellow-600/10 -z-10 pointer-events-none" id="ambient-glow-1"></div>
+  <div class="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full glow-sphere bg-amber-800/10 -z-10 pointer-events-none" id="ambient-glow-2"></div>
+
+  <header class="w-full py-5 px-6 md:px-12 border-b border-white/5 flex justify-between items-center relative z-50 bg-[#050511]/80 backdrop-blur-md">
+    <div class="flex items-center gap-3" dir="ltr">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-all duration-500" style="background: linear-gradient(135deg, var(--accent-color) 0%, #050511 100%);" id="logo-block">
+        <i class="fa-solid fa-microchip text-white text-lg transition-transform duration-500" id="logo-icon"></i>
+      </div>
+      <span class="font-black text-xl tracking-widest text-white uppercase flex items-center gap-2">
+        SUD<span class="text-gold-primary" style="color: var(--accent-color)" id="dynamic-logo-text">STUDY</span>
+      </span>
+    </div>
+    
+    <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase text-neutral-400">
+      <a href="index.html" class="hover:text-gold-primary transition-colors flex items-center gap-2">
+        <i class="fas fa-arrow-left"></i> <span data-translate="nav-home">Back to Platform</span>
+      </a>
+      <a href="#methodology" class="hover:text-white transition-colors" data-translate="nav-method">Engine Logic</a>
+    </nav>
+
+    <div class="flex items-center gap-5">
+      <!-- Standardized SUDSTUDY Language Toggle -->
+      <div class="flex items-center gap-2 ltr:ml-4 rtl:mr-4 border-l border-white/10 pl-4 ltr:pl-4 rtl:pr-4" dir="ltr">
+        <span class="text-xs font-bold transition-colors text-gold-primary" id="lang-label-en" style="color: var(--accent-color)">EN</span>
+        <label class="switch">
+            <input type="checkbox" id="langSwitch" onchange="toggleLang()">
+            <span class="slider"></span>
+        </label>
+        <span class="text-xs font-bold text-gray-500 transition-colors" id="lang-label-ar">AR</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative min-h-[calc(100vh-80px)] w-full flex flex-col justify-center px-6 md:px-12 py-12 md:py-20 z-10 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      
+      <!-- COLUMN 1: Value Messaging & Environment Selectors -->
+      <div class="lg:col-span-5 flex flex-col justify-center space-y-8 transition-all duration-300" id="text-col">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 w-fit">
+          <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background-color: var(--accent-color)"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2" style="background-color: var(--accent-color)"></span>
+          </span>
+          <span class="text-xs font-semibold tracking-wide text-neutral-300 uppercase" id="badge-text" data-translate="badge-text">Interactive Customization Platform</span>
+        </div>
+
+        <div class="space-y-4">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]" id="hero-title">
+            <span data-translate="hero-title-1">Knowledge,</span> <br>
+            <span class="gradient-text font-serif italic" id="morphed-title-phrase" data-translate="morphed-title-phrase">Restructured</span> <br>
+            <span data-translate="hero-title-2">Around Your Passions.</span>
+          </h1>
+          <p class="text-neutral-400 text-sm md:text-base max-w-lg leading-relaxed" id="hero-subtitle" data-translate="hero-subtitle">
+            We adapt school courses, business environments, and training systems to match your personal context. Learn complex physics through sports vectors, or global markets through familiar logistics.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <span class="text-xs font-bold text-neutral-500 uppercase tracking-widest block" data-translate="lens-header">Choose Target Environment</span>
+          <div class="flex flex-wrap gap-3" id="lens-container">
+            <!-- Core / Standard Lens -->
+            <button class="lens-chip active px-5 py-3 rounded-2xl glass-panel text-white border-gold-primary bg-gold-primary/10 shadow-[0_0_20px_rgba(212,175,55,0.15)] flex items-center gap-2.5 text-sm font-semibold transition-all duration-300" data-lens="core">
+              <i class="fa-solid fa-shapes text-gold-primary"></i>
+              <span data-translate="lens-core">Core Standard</span>
+            </button>
+            
+            <!-- Sports / Football Lens -->
+            <button class="lens-chip px-5 py-3 rounded-2xl glass-panel text-neutral-400 hover:text-white flex items-center gap-2.5 text-sm font-semibold transition-all duration-300" data-lens="sports">
+              <i class="fa-solid fa-futbol text-orange-500"></i>
+              <span data-translate="lens-sports">Sports Dynamics</span>
+            </button>
+
+            <!-- Culture / Cinema Lens -->
+            <button class="lens-chip px-5 py-3 rounded-2xl glass-panel text-neutral-400 hover:text-white flex items-center gap-2.5 text-sm font-semibold transition-all duration-300" data-lens="culture">
+              <i class="fa-solid fa-mask text-blue-400"></i>
+              <span data-translate="lens-culture">Cultural Arts</span>
+            </button>
+
+            <!-- Business / Market Lens -->
+            <button class="lens-chip px-5 py-3 rounded-2xl glass-panel text-neutral-400 hover:text-white flex items-center gap-2.5 text-sm font-semibold transition-all duration-300" data-lens="business">
+              <i class="fa-solid fa-chart-line text-emerald-400"></i>
+              <span data-translate="lens-business">Market Logistics</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5 font-outfit">
+          <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
+            <span class="text-xs text-neutral-500 block font-medium" data-translate="metric-1-title">Standard Engagement</span>
+            <div class="text-xl font-bold mt-1 text-red-400/80">~ 28%</div>
+            <p class="text-[10px] text-neutral-400 mt-1 leading-snug" data-translate="metric-1-desc">Average integration rate in traditional rigid environments.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] shadow-lg transition-all duration-500" id="restructuring-metric-card">
+            <span class="text-xs text-neutral-500 block font-medium" data-translate="metric-2-title">SUDSTUDY Engagement</span>
+            <div class="text-xl font-bold mt-1 transition-colors duration-500" id="custom-retention-metric" style="color: var(--accent-color)">95.0%</div>
+            <p class="text-[10px] text-neutral-400 mt-1 leading-snug" data-translate="metric-2-desc">Success protocol rate inside our restyled dynamic engine.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 flex flex-col items-center justify-center relative w-full h-full min-h-[500px]">
+        <div class="w-full h-full glass-panel rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-white/10" id="restructuring-demo">
+          
+          <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-4 z-20">
+            <div class="flex items-center gap-3 font-outfit">
+              <span class="w-3 h-3 rounded-full bg-red-500/80 block"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500/80 block"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500/80 block"></span>
+              <span class="text-xs font-mono text-neutral-400 uppercase tracking-widest ml-2 flex items-center gap-2">
+                <i class="fa-solid fa-gear animate-spin-slow"></i> 
+                <span data-translate="engine-status">Engine status: </span>
+                <span class="font-bold transition-colors duration-500" id="engine-status-label" style="color: var(--accent-color)">CORE_STABLE</span>
+              </span>
+            </div>
+            <span class="text-[10px] font-mono text-neutral-500 bg-white/5 px-2.5 py-1 rounded-md" id="node-count-label">Nodes: 100</span>
+          </div>
+
+          <!-- Dynamic Environmental Canvas -->
+          <div class="relative w-full h-[340px] md:h-[400px] bg-black/40 rounded-2xl overflow-hidden border border-white/[0.03]">
+            
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+              <!-- Human Intellect SVG -->
+              <svg id="human-head-silhouette" class="w-[85%] h-[85%] transition-all duration-1000 ease-in-out opacity-20 hover:opacity-30" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="--glow-color: var(--accent-color);">
+                <defs>
+                  <radialGradient id="brain-glow" cx="50%" cy="40%" r="40%">
+                    <stop offset="0%" stop-color="var(--glow-color)" stop-opacity="0.45"/>
+                    <stop offset="100%" stop-color="var(--glow-color)" stop-opacity="0"/>
+                  </radialGradient>
+                  <filter id="svg-blur" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="8" result="blur" />
+                  </filter>
+                </defs>
+                <circle cx="210" cy="150" r="100" fill="url(#brain-glow)" filter="url(#svg-blur)"/>
+                <path d="M120,340 C110,310 115,280 135,260 C145,245 140,210 140,180 C140,105 180,50 240,50 C300,50 340,100 340,175 C340,210 330,230 315,260 C305,275 295,290 295,310 C295,325 310,335 315,350" stroke="var(--glow-color)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 4" class="opacity-70" />
+                <path d="M125,335 C115,305 120,275 140,255 C150,240 145,205 145,175 C145,110 185,55 245,55 C305,55 345,105 345,180 C345,215 335,235 320,265 C310,280 300,295 300,315 C300,330 315,340 320,355" stroke="var(--glow-color)" stroke-width="2.5" stroke-linecap="round" class="opacity-50" />
+                <line x1="240" y1="50" x2="210" y2="150" stroke="var(--glow-color)" stroke-width="0.75" class="opacity-20"/>
+                <line x1="145" y1="175" x2="210" y2="150" stroke="var(--glow-color)" stroke-width="0.75" class="opacity-20"/>
+                <line x1="345" y1="180" x2="210" y2="150" stroke="var(--glow-color)" stroke-width="0.75" class="opacity-20"/>
+                <line x1="300" y1="315" x2="210" y2="150" stroke="var(--glow-color)" stroke-width="0.75" class="opacity-20"/>
+                <circle cx="210" cy="150" r="5" fill="var(--glow-color)" class="opacity-90 animate-ping" style="animation-duration: 2.5s;"/>
+                <circle cx="210" cy="150" r="3.5" fill="var(--glow-color)"/>
+              </svg>
+            </div>
+
+            <canvas id="restructure-canvas" class="absolute inset-0 w-full h-full z-10"></canvas>
+
+            <div class="absolute bottom-4 left-4 right-4 z-20 glass-panel bg-black/80 rounded-xl p-4 border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-lg font-outfit" id="concept-overlay-card">
+              <div class="space-y-1">
+                <span class="text-[9px] font-mono uppercase tracking-widest font-semibold transition-colors duration-500" id="visualized-module-tag" style="color: var(--accent-color)">Module: STANDARD_CORE</span>
+                <h4 class="text-sm font-bold text-white tracking-tight" id="visualized-module-title">Standardized Framework</h4>
+                <p class="text-xs text-neutral-400" id="visualized-module-desc">Abstract particle nodes simulating standardized, theoretical laws inside a generic environment.</p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+                <span class="text-xs font-mono bg-white/5 border px-2 py-1 rounded-md transition-all duration-500" id="simulation-mode" style="color: var(--accent-color); border-color: var(--accent-color)">Uniform State</span>
+              </div>
+            </div>
+
+            <div class="absolute top-4 right-4 z-20 pointer-events-none text-right hidden md:block font-outfit">
+              <div class="text-[10px] font-mono text-neutral-500" data-translate="overlay-pace-cap">ADAPTATION PACE</div>
+              <div class="text-lg font-bold font-mono text-white tracking-wide" id="kinetic-energy-indicator">1.25 eV</div>
+            </div>
+            <div class="absolute top-4 left-4 z-20 pointer-events-none hidden md:block font-outfit">
+              <div class="text-[10px] font-mono text-neutral-500" data-translate="overlay-intensity-cap">RESTRUCTURING INTENSITY</div>
+              <div class="text-lg font-bold font-mono tracking-wide transition-colors duration-500" id="intensity-indicator" style="color: var(--accent-color)">0% (CORE)</div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-white/5 space-y-4 z-20 font-outfit">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-[11px] font-medium text-neutral-400">
+                  <span class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-gauge" style="color: var(--accent-color)"></i> 
+                    <span data-translate="slider-1-label">Learning Pace</span>
+                  </span>
+                  <span id="speed-slider-val" class="font-mono text-white">1x</span>
+                </div>
+                <input type="range" min="0.1" max="5.0" step="0.1" value="1.0" class="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer slider-sync" id="speed-slider">
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-[11px] font-medium text-neutral-400">
+                  <span class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-nodes" style="color: var(--accent-color)"></i> 
+                    <span data-translate="slider-2-label">Environment Variables</span>
+                  </span>
+                  <span id="focus-slider-val" class="font-mono text-white">100px</span>
+                </div>
+                <input type="range" min="30" max="200" step="5" value="100" class="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer slider-sync" id="focus-slider">
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-[11px] font-medium text-neutral-400">
+                  <span class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-bezier-curve" style="color: var(--accent-color)"></i> 
+                    <span data-translate="slider-3-label">Target Complexity</span>
+                  </span>
+                  <span id="complexity-slider-val" class="font-mono text-white">80</span>
+                </div>
+                <input type="range" min="20" max="200" step="5" value="80" class="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer slider-sync" id="complexity-slider">
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[10px] text-neutral-500 bg-white/[0.01] p-2 rounded-lg border border-white/[0.03]">
+              <span class="flex items-center gap-1">
+                <i class="fa-solid fa-info-circle" style="color: var(--accent-color)"></i> 
+                <span data-translate="sandbox-disclaimer">Click, hold, & drag inside the canvas to manually disrupt structural coordinates.</span>
+              </span>
+              <button class="hover:underline flex items-center gap-1 font-semibold transition-colors duration-300" id="reset-sliders-btn" style="color: var(--accent-color)">
+                <i class="fa-solid fa-rotate-left"></i> 
+                <span data-translate="slider-reset">Reset Presets</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="max-w-7xl mx-auto px-6 md:px-12 py-20 border-t border-white/5 relative z-10" id="methodology">
+    <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+      <span class="text-xs font-bold uppercase tracking-widest block" style="color: var(--accent-color)" data-translate="methodology-header">Structural Transformation</span>
+      <h2 class="text-4xl md:text-5xl font-black tracking-tight" data-translate="methodology-title">How We Reshape Environments</h2>
+      <p class="text-neutral-400 text-sm md:text-base leading-relaxed" data-translate="methodology-desc">
+        Traditional systems push a uniform, rigid block of data to all users. The Analogy Engine processes raw concepts and restructures them in real time into models and languages matching your core interests.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 font-outfit">
+      <!-- Card A: Standard Context -->
+      <div class="glass-panel rounded-2xl p-8 border-white/5 relative overflow-hidden group hover:border-red-500/20 transition-all duration-300">
+        <div class="absolute top-0 right-0 p-3 bg-red-500/10 text-red-400 text-xs font-mono rounded-bl-xl border-l border-b border-white/5" data-translate="card-standard-tag">
+          STANDARD LENS
+        </div>
+        <div class="space-y-6">
+          <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 text-xl font-bold">
+            <i class="fa-solid fa-book"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold tracking-tight mb-2" data-translate="card-standard-title">Theoretical Framework</h3>
+            <p class="text-neutral-400 text-sm leading-relaxed" data-translate="card-standard-desc">
+              Standard environments deliver rigid procedures and pure, abstract frameworks without reference to any field of immediate personal relevance. Users face high friction bridging the gap between abstract facts and real passions.
+            </p>
+          </div>
+          <div class="bg-black/40 rounded-xl p-4 border border-white/5 font-mono text-xs text-neutral-400 space-y-2">
+            <div class="text-red-400 font-semibold mb-1" data-translate="card-standard-code-header">Standard Input: Raw Data</div>
+            <div data-translate="card-standard-code-content">&ldquo;Foreign variables interacting in a static matrix requiring 10,000 hours of unguided trial-and-error to map mentally.&rdquo;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card B: Dynamic Restructured Context -->
+      <div class="glass-panel rounded-2xl p-8 shadow-lg relative overflow-hidden group transition-all duration-500" id="transformed-card-glow" style="border-color: rgba(212,175,55,0.2);">
+        <div class="absolute top-0 right-0 p-3 text-xs font-mono rounded-bl-xl border-l border-b border-white/5 transition-colors duration-500" id="dynamic-lens-tag" data-translate="dynamic-lens-active-tag" style="background-color: rgba(212,175,55,0.1); color: var(--accent-color)">
+          DYNAMIC LENS (CORE ACTIVE)
+        </div>
+        <div class="space-y-6">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold transition-colors duration-500" id="transformed-card-icon" style="background-color: rgba(212,175,55,0.1); color: var(--accent-color)">
+            <i class="fa-solid fa-shapes"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold tracking-tight mb-2" id="transformed-card-title" data-translate="card-core-title">Optimized Framework</h3>
+            <p class="text-neutral-400 text-sm leading-relaxed" id="transformed-card-desc" data-translate="card-core-desc">
+              While mathematically perfect, standard systems lack situational references. We inject familiarity to eliminate the transition friction.
+            </p>
+          </div>
+          <div class="bg-black/40 rounded-xl p-4 border font-mono text-xs text-neutral-400 space-y-2 transition-colors duration-500" id="transformed-card-code" style="border-color: rgba(212,175,55,0.2);">
+            <div class="font-semibold mb-1 transition-colors duration-500" id="transformed-card-header" data-translate="card-core-code-header" style="color: var(--accent-color)">Restructured Logic (Core)</div>
+            <div id="transformed-card-content" data-translate="card-core-code-content">&ldquo;A mapped network of familiar forces operating uniformly, matching user expectations and drastically reducing cognitive load.&rdquo;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Comprehensive English-Arabic Dictionary matching SUDSTUDY Tone
+    const dict = {
+      en: {
+        'nav-home': 'Back to Platform',
+        'nav-method': 'Engine Logic',
+        'badge-text': 'Interactive Customization Platform',
+        'hero-title-1': 'Knowledge,',
+        'hero-title-2': 'Around Your Passions.',
+        'morphed-title-phrase': 'Restructured',
+        'hero-subtitle': 'We adapt school courses, business environments, and training systems to match your personal context. Learn complex physics through sports vectors, or global markets through familiar logistics.',
+        'lens-header': 'Choose Target Environment',
+        
+        'lens-core': 'Core Standard',
+        'lens-sports': 'Sports Dynamics',
+        'lens-culture': 'Cultural Arts',
+        'lens-business': 'Market Logistics',
+        
+        'metric-1-title': 'Standard Engagement',
+        'metric-1-desc': 'Average integration rate in traditional rigid environments.',
+        'metric-2-title': 'SUDSTUDY Engagement',
+        'metric-2-desc': 'Success protocol rate inside our restyled dynamic engine.',
+        
+        'engine-status': 'Engine status: ',
+        'slider-1-label': 'Learning Pace',
+        'slider-2-label': 'Environment Variables',
+        'slider-3-label': 'Target Complexity',
+        'sandbox-disclaimer': 'Click, hold, & drag inside the canvas to manually disrupt structural coordinates.',
+        'slider-reset': 'Reset Presets',
+        
+        'methodology-header': 'Structural Transformation',
+        'methodology-title': 'How We Reshape Environments',
+        'methodology-desc': 'Traditional systems push a uniform, rigid block of data to all users. The Analogy Engine processes raw concepts and restructures them in real time into models and languages matching your core interests.',
+        
+        'card-standard-tag': 'STANDARD LENS',
+        'card-standard-title': 'Theoretical Framework',
+        'card-standard-desc': 'Standard environments deliver rigid procedures and pure, abstract frameworks without reference to any field of immediate personal relevance. Users face high friction bridging the gap between abstract facts and real passions.',
+        'card-standard-code-header': 'Standard Input: Raw Data',
+        'card-standard-code-content': '“Foreign variables interacting in a static matrix requiring 10,000 hours of unguided trial-and-error to map mentally.”',
+        
+        'dynamic-lens-active-tag': 'DYNAMIC LENS (CORE ACTIVE)',
+        'overlay-pace-cap': 'ADAPTATION PACE',
+        'overlay-intensity-cap': 'RESTRUCTURING INTENSITY',
+        
+        // Profiles specific English texts
+        'profile-core-badge': 'Interactive Customization Platform',
+        'profile-core-morphedTitle': 'Restructured',
+        'profile-core-tag': 'MODULE: STANDARD_CORE',
+        'profile-core-title': 'Standardized Framework',
+        'profile-core-desc': 'Abstract particle nodes simulating standardized, theoretical laws inside a generic environment.',
+        'profile-core-cardTitle': 'Optimized Framework',
+        'profile-core-cardDesc': 'While mathematically perfect, standard systems lack situational references. We inject familiarity to eliminate the transition friction.',
+        'profile-core-cardHeader': 'Restructured Logic (Core)',
+        'profile-core-cardContent': '“A mapped network of familiar forces operating uniformly, matching user expectations and drastically reducing cognitive load.”',
+        
+        'profile-sports-badge': 'Athletic Integration Module',
+        'profile-sports-morphedTitle': 'Adapted to Play',
+        'profile-sports-tag': 'MODULE: SPORTS_KINETICS',
+        'profile-sports-title': 'Fan & Player Nexus Dynamics',
+        'profile-sports-desc': 'Nodes model real-time trajectories of physical movement, team formations, and deeply rooted athletic personas.',
+        'profile-sports-cardTitle': 'Athletic Real-Time Restructuring',
+        'profile-sports-cardDesc': 'We replace equations with sports dynamics. The math of transition morphs into pitch formation spacing and team psychology.',
+        'profile-sports-cardHeader': 'Restructured Mechanics (Field)',
+        'profile-sports-cardContent': '“The player acts as a core point coordinate. Transition curves adapt based on club environment and fan base resonance.”',
+
+        'profile-culture-badge': 'Cultural Expat Integration',
+        'profile-culture-morphedTitle': 'Culturally Infused',
+        'profile-culture-tag': 'MODULE: CULTURAL_NARRATIVE',
+        'profile-culture-title': 'Expat Integration & Optics',
+        'profile-culture-desc': 'Particles orbit to visualize narrative structure arcs, cultural immersion, and finding the flavor of home abroad.',
+        'profile-culture-cardTitle': 'Cultural Composition Lens',
+        'profile-culture-cardDesc': 'We transform physical shock into narrative pacing and optical refraction dynamics, giving expats the flavor of home through their new city.',
+        'profile-culture-cardHeader': 'Restructured Society (Arts & Hubs)',
+        'profile-culture-cardContent': '“Environmental configuration coordinates align to cultural familiarities, adjusting the transition focus dynamically on a relatable vector track.”',
+
+        'profile-business-badge': 'Market Sync & Enterprise',
+        'profile-business-morphedTitle': 'Market Synchronized',
+        'profile-business-tag': 'MODULE: CORP_DYNAMICS',
+        'profile-business-title': 'Capital Logistics & Market Wells',
+        'profile-business-desc': 'Nodes spiral around gravitational market centers, showing capital attraction vectors and corporate asset paths.',
+        'profile-business-cardTitle': 'Market Simulation Matrix',
+        'profile-business-cardDesc': 'We translate foreign environments into optimal transition periods for investors so the new market speaks directly to their existing assets.',
+        'profile-business-cardHeader': 'Restructured Economics (Market)',
+        'profile-business-cardContent': '“System entities orbit a simulated market core. Path vectors maximize existing assets, mapping rapid corporate transition velocities.”'
+      },
+      ar: {
+        'nav-home': 'العودة للمنصة',
+        'nav-method': 'منطق المحرك',
+        'badge-text': 'منصة التخصيص التفاعلية',
+        'hero-title-1': 'المعرفة،',
+        'hero-title-2': 'تتشكل حول شغفك.',
+        'morphed-title-phrase': 'المُعادة هيكلتها',
+        'hero-subtitle': 'نقوم بتطويع المناهج الدراسية، بيئات العمل، وأنظمة التدريب لتتوافق مع سياقك الشخصي. تعلّم الفيزياء المعقدة عبر الرياضة، أو الأسواق العالمية عبر لوجستيات مألوفة.',
+        'lens-header': 'اختر البيئة المستهدفة',
+        
+        'lens-core': 'النواة القياسية',
+        'lens-sports': 'ديناميكيات الرياضة',
+        'lens-culture': 'الفنون والثقافة',
+        'lens-business': 'لوجستيات الأسواق',
+        
+        'metric-1-title': 'التفاعل التقليدي',
+        'metric-1-desc': 'معدل الاندماج في البيئات التقليدية الجامدة.',
+        'metric-2-title': 'تفاعل SUDSTUDY',
+        'metric-2-desc': 'معدل نجاح البروتوكول داخل محركنا الديناميكي.',
+        
+        'engine-status': 'حالة المحرك: ',
+        'slider-1-label': 'سرعة التكيف',
+        'slider-2-label': 'متغيرات البيئة',
+        'slider-3-label': 'التعقيد المستهدف',
+        'sandbox-disclaimer': 'انقر، واضغط مع السحب داخل اللوحة لتشتيت الإحداثيات يدوياً.',
+        'slider-reset': 'إعادة الضبط',
+        
+        'methodology-header': 'التحول الهيكلي',
+        'methodology-title': 'كيف نعيد صياغة البيئات',
+        'methodology-desc': 'تفرض الأنظمة التقليدية كتلة بيانات موحدة وجامدة. يعالج محرك التناظر المفاهيم ويعيد هيكلتها فورياً لنماذج ولغات تطابق اهتماماتك.',
+        
+        'card-standard-tag': 'العدسة التقليدية',
+        'card-standard-title': 'الإطار النظري',
+        'card-standard-desc': 'تقدم البيئات القياسية إجراءات جامدة وأطراً مجردة دون ارتباط بأي مجال مألوف. يواجه المستخدمون احتكاكاً عالياً في سد الفجوة بين الحقائق والشغف.',
+        'card-standard-code-header': 'المدخلات القياسية: بيانات خام',
+        'card-standard-code-content': '“متغيرات غريبة تتفاعل في مصفوفة ثابتة تتطلب 10,000 ساعة من التجربة والخطأ لاستيعابها ذهنياً.”',
+        
+        'dynamic-lens-active-tag': 'العدسة الديناميكية (نشطة)',
+        'overlay-pace-cap': 'وتيرة التكيف',
+        'overlay-intensity-cap': 'كثافة إعادة الهيكلة',
+        
+        // Profiles specific Arabic texts
+        'profile-core-badge': 'منصة التخصيص التفاعلية',
+        'profile-core-morphedTitle': 'المُعادة هيكلتها',
+        'profile-core-tag': 'وحدة: النواة_القياسية',
+        'profile-core-title': 'الإطار القياسي',
+        'profile-core-desc': 'عقد جزيئية تحاكي القوانين النظرية القياسية داخل بيئة عامة.',
+        'profile-core-cardTitle': 'الإطار المحسّن',
+        'profile-core-cardDesc': 'رغم دقتها الرياضية، تفتقر الأنظمة القياسية للمراجع الواقعية. نحن نضخ الألفة لإزالة احتكاك الانتقال.',
+        'profile-core-cardHeader': 'المنطق المعاد هيكلته (النواة)',
+        'profile-core-cardContent': '“شبكة مرسومة من القوى المألوفة تعمل بانتظام، تطابق توقعات المستخدم وتقلل العبء المعرفي بشدة.”',
+        
+        'profile-sports-badge': 'وحدة الاندماج الرياضي',
+        'profile-sports-morphedTitle': 'مُهيأة للعب',
+        'profile-sports-tag': 'وحدة: حركيات_الرياضة',
+        'profile-sports-title': 'تواصل اللاعبين والجماهير',
+        'profile-sports-desc': 'عقد تحاكي مسارات الحركة، وتشكيلات الفرق، والهويات الرياضية العميقة في الوقت الفعلي.',
+        'profile-sports-cardTitle': 'إعادة الهيكلة الرياضية',
+        'profile-sports-cardDesc': 'نستبدل المعادلات بديناميكيات الرياضة. يتحول مسار الانتقال إلى مساحات التشكيل وسيكولوجية الفريق.',
+        'profile-sports-cardHeader': 'الميكانيكا المعاد هيكلتها (الملعب)',
+        'profile-sports-cardContent': '“يعمل اللاعب كنقطة إحداثية أساسية. تتكيف منحنيات الانتقال بناءً على بيئة النادي وصدى الجماهير.”',
+
+        'profile-culture-badge': 'دمج المغتربين الثقافي',
+        'profile-culture-morphedTitle': 'مُشبعة بالثقافة',
+        'profile-culture-tag': 'وحدة: السرد_الثقافي',
+        'profile-culture-title': 'دمج المغتربين والرؤية',
+        'profile-culture-desc': 'جزيئات تدور لتصور أقواس البنية السردية، والانغماس الثقافي، وإيجاد نكهة الوطن بالخارج.',
+        'profile-culture-cardTitle': 'عدسة التركيب الثقافي',
+        'profile-culture-cardDesc': 'نحول الصدمة البيئية إلى وتيرة سردية، مانحين المغتربين نكهة الوطن من خلال مدينتهم الجديدة.',
+        'profile-culture-cardHeader': 'المجتمع المعاد هيكلته (فنون ومراكز)',
+        'profile-culture-cardContent': '“تتوافق إحداثيات البيئة مع الألفة الثقافية، وتضبط تركيز الانتقال ديناميكياً على مسار متصل.”',
+
+        'profile-business-badge': 'مزامنة الأسواق والشركات',
+        'profile-business-morphedTitle': 'متزامنة مع السوق',
+        'profile-business-tag': 'وحدة: ديناميكيات_الشركات',
+        'profile-business-title': 'لوجستيات رأس المال والأسواق',
+        'profile-business-desc': 'عقد تلتف حول مراكز الأسواق، مظهرة متجهات جذب رأس المال ومسارات أصول الشركات.',
+        'profile-business-cardTitle': 'مصفوفة محاكاة الأسواق',
+        'profile-business-cardDesc': 'نترجم البيئات الغريبة لفترات انتقال مثالية للمستثمرين لتتحدث السوق الجديدة مباشرة لأصولهم.',
+        'profile-business-cardHeader': 'الاقتصاد المعاد هيكلته (السوق)',
+        'profile-business-cardContent': '“تدور كيانات النظام حول مركز سوق محاكى. تعظم متجهات المسار الأصول الحالية، مسرعة انتقال الشركات.”'
+      }
+    };
+
+    let currentLang = 'en';
+
+    // Canvas Setup
+    const canvas = document.getElementById('restructure-canvas');
+    const ctx = canvas.getContext('2d');
+    const bodyEl = document.getElementById('main-body');
+
+    // UI Elements
+    const lensChips = document.querySelectorAll('.lens-chip');
+    const textCol = document.getElementById('text-col');
+    const visualTag = document.getElementById('visualized-module-tag');
+    const visualTitle = document.getElementById('visualized-module-title');
+    const visualDesc = document.getElementById('visualized-module-desc');
+    const simMode = document.getElementById('simulation-mode');
+    const engineStatus = document.getElementById('engine-status-label');
+    const intensityIndicator = document.getElementById('intensity-indicator');
+    const kineticEnergyIndicator = document.getElementById('kinetic-energy-indicator');
+    const nodeCountLabel = document.getElementById('node-count-label');
+    const morphedPhrase = document.getElementById('morphed-title-phrase');
+    
+    // Aesthetic Elements
+    const ambientGlow1 = document.getElementById('ambient-glow-1');
+    const ambientGlow2 = document.getElementById('ambient-glow-2');
+    const humanHeadSvg = document.getElementById('human-head-silhouette');
+    const logoBlock = document.getElementById('logo-block');
+    const logoIcon = document.getElementById('logo-icon');
+
+    // Sliders
+    const speedSlider = document.getElementById('speed-slider');
+    const focusSlider = document.getElementById('focus-slider');
+    const complexitySlider = document.getElementById('complexity-slider');
+    const resetSlidersBtn = document.getElementById('reset-sliders-btn');
+
+    // Card Elements
+    const tcGlow = document.getElementById('transformed-card-glow');
+    const tcTag = document.getElementById('dynamic-lens-tag');
+    const tcIcon = document.getElementById('transformed-card-icon');
+    const tcTitle = document.getElementById('transformed-card-title');
+    const tcDesc = document.getElementById('transformed-card-desc');
+    const tcCode = document.getElementById('transformed-card-code');
+    const tcHeader = document.getElementById('transformed-card-header');
+    const tcContent = document.getElementById('transformed-card-content');
+    const customRetention = document.getElementById('custom-retention-metric');
+
+    const profiles = {
+      core: {
+        themeColor: '#D4AF37', // SUDSTUDY Gold
+        themeRgb: { r: 212, g: 175, b: 55 },
+        speed: 1.0,
+        connectionDist: 100,
+        complexity: 80,
+        pattern: 'network',
+        engineCode: 'CORE_STABLE',
+        intensity: { en: '0% (CORE)', ar: '٠٪ (النواة)' },
+        simulationText: { en: 'Uniform State', ar: 'حالة منتظمة' },
+        retentionMetric: '95.0%'
+      },
+      sports: {
+        themeColor: '#f97316', // Orange/Red
+        themeRgb: { r: 249, g: 115, b: 22 },
+        speed: 2.8,
+        connectionDist: 140,
+        complexity: 120,
+        pattern: 'tactical',
+        engineCode: 'ATHLETIC_FLUID',
+        intensity: { en: '82% (RESTYLED)', ar: '٨٢٪ (مُعاد تشكيلها)' },
+        simulationText: { en: 'Dynamic Projectiles', ar: 'مقذوفات ديناميكية' },
+        retentionMetric: '97.4%'
+      },
+      culture: {
+        themeColor: '#3b82f6', // Azure Blue
+        themeRgb: { r: 59, g: 130, b: 246 },
+        speed: 0.6,
+        connectionDist: 85,
+        complexity: 90,
+        pattern: 'cinematic',
+        engineCode: 'CHRONO_NARRATIVE',
+        intensity: { en: '94% (RESTYLED)', ar: '٩٤٪ (مُعاد تشكيلها)' },
+        simulationText: { en: 'Cultural Optics', ar: 'بصريات ثقافية' },
+        retentionMetric: '96.2%'
+      },
+      business: {
+        themeColor: '#10b981', // Emerald
+        themeRgb: { r: 16, g: 185, b: 129 },
+        speed: 1.6,
+        connectionDist: 110,
+        complexity: 150,
+        pattern: 'orbital',
+        engineCode: 'MARKET_WELLS',
+        intensity: { en: '99% (MAX_SYNC)', ar: '٩٩٪ (تزامن أقصى)' },
+        simulationText: { en: 'Capital Attraction', ar: 'جذب رأس المال' },
+        retentionMetric: '99.1%'
+      }
+    };
+
+    let activeProfile = 'core';
+    let particles = [];
+    let mouse = { x: null, y: null, active: false };
+
+    // Language Handling
+    function setLanguage(isAr) {
+      currentLang = isAr ? 'ar' : 'en';
+      document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+      
+      if (isAr) {
+        textCol.classList.remove('text-left');
+        textCol.classList.add('text-right');
+      } else {
+        textCol.classList.remove('text-right');
+        textCol.classList.add('text-left');
+      }
+      
+      // Update UI Toggles
+      document.getElementById('langSwitch').checked = isAr;
+      const elEn = document.getElementById('lang-label-en');
+      const elAr = document.getElementById('lang-label-ar');
+      
+      if(isAr) {
+          elEn.classList.remove('text-gold-primary'); elEn.classList.add('text-gray-500'); elEn.style.color = '';
+          elAr.classList.add('text-gold-primary'); elAr.classList.remove('text-gray-500'); elAr.style.color = 'var(--accent-color)';
+      } else {
+          elEn.classList.add('text-gold-primary'); elEn.classList.remove('text-gray-500'); elEn.style.color = 'var(--accent-color)';
+          elAr.classList.remove('text-gold-primary'); elAr.classList.add('text-gray-500'); elAr.style.color = '';
+      }
+
+      // Translate text content
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (dict[currentLang][key]) el.textContent = dict[currentLang][key];
+      });
+
+      // Refresh layout data
+      reshapeEnvironment(activeProfile);
+    }
+
+    function toggleLang() {
+      setLanguage(document.getElementById('langSwitch').checked);
+    }
+
+    class Particle {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * this.canvas.width;
+        this.y = Math.random() * this.canvas.height;
+        this.vx = (Math.random() - 0.5) * 1.5;
+        this.vy = (Math.random() - 0.5) * 1.5;
+        this.radius = Math.random() * 2 + 1.2;
+        this.color = { ...profiles[activeProfile].themeRgb };
+        this.alpha = Math.random() * 0.5 + 0.3;
+        this.angle = Math.random() * Math.PI * 2;
+        this.orbitRadius = Math.random() * 120 + 40;
+        this.originX = this.canvas.width / 2;
+        this.originY = this.canvas.height / 2;
+      }
+
+      update(profile, userSpeed, userComplexity) {
+        this.color.r += (profile.themeRgb.r - this.color.r) * 0.08;
+        this.color.g += (profile.themeRgb.g - this.color.g) * 0.08;
+        this.color.b += (profile.themeRgb.b - this.color.b) * 0.08;
+        this.originX = this.canvas.width / 2;
+        this.originY = this.canvas.height / 2;
+
+        switch(profile.pattern) {
+          case 'tactical':
+            this.angle += 0.01 * userSpeed;
+            this.vy += 0.03 * userSpeed; 
+            if (this.y > this.canvas.height) {
+              this.y = 0;
+              this.x = Math.random() * this.canvas.width;
+              this.vy = (Math.random() * 1.5 + 0.5) * userSpeed;
+            }
+            this.x += this.vx * userSpeed;
+            break;
+          case 'cinematic':
+            this.angle += 0.003 * userSpeed;
+            this.x = this.originX + Math.cos(this.angle) * this.orbitRadius;
+            this.y = this.originY + Math.sin(this.angle) * (this.orbitRadius * 0.5);
+            break;
+          case 'orbital':
+            this.angle += (0.008 * (150 / this.orbitRadius)) * userSpeed;
+            this.x = this.originX + Math.cos(this.angle) * this.orbitRadius;
+            this.y = this.originY + Math.sin(this.angle) * this.orbitRadius;
+            break;
+          case 'network':
+          default:
+            this.x += this.vx * userSpeed;
+            this.y += this.vy * userSpeed;
+            break;
+        }
+
+        if (profile.pattern === 'network' || profile.pattern === 'tactical') {
+          if (this.x < 0 || this.x > this.canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > this.canvas.height) this.vy *= -1;
+        }
+
+        if (mouse.active && mouse.x !== null && mouse.y !== null) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 100) {
+            const force = (100 - dist) / 100;
+            const angle = Math.atan2(dy, dx);
+            this.x -= Math.cos(angle) * force * 4;
+            this.y -= Math.sin(angle) * force * 4;
+          }
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${Math.round(this.color.r)}, ${Math.round(this.color.g)}, ${Math.round(this.color.b)}, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    function drawConnections(profile, userFocusDistance) {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist < userFocusDistance) {
+            const alpha = (1 - dist / userFocusDistance) * 0.22;
+            ctx.strokeStyle = `rgba(${Math.round(particles[i].color.r)}, ${Math.round(particles[i].color.g)}, ${Math.round(particles[i].color.b)}, ${alpha})`;
+            ctx.lineWidth = 0.75;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function init() {
+      const rect = canvas.parentNode.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      particles = [];
+      const density = parseInt(complexitySlider.value);
+      for (let i = 0; i < density; i++) particles.push(new Particle(canvas));
+      nodeCountLabel.textContent = (currentLang === 'ar' ? 'العقد: ' : 'Nodes: ') + particles.length;
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const profile = profiles[activeProfile];
+      const userSpeed = parseFloat(speedSlider.value);
+      const userFocusDistance = parseFloat(focusSlider.value);
+      const userComplexity = parseInt(complexitySlider.value);
+
+      if (particles.length !== userComplexity) {
+        if (particles.length < userComplexity) {
+          while (particles.length < userComplexity) particles.push(new Particle(canvas));
+        } else {
+          particles.splice(userComplexity);
+        }
+        nodeCountLabel.textContent = (currentLang === 'ar' ? 'العقد: ' : 'Nodes: ') + particles.length;
+      }
+
+      particles.forEach(p => { p.update(profile, userSpeed, userComplexity); p.draw(); });
+      drawConnections(profile, userFocusDistance);
+
+      const totalVelocity = particles.reduce((acc, p) => acc + Math.hypot(p.vx, p.vy) * userSpeed, 0);
+      kineticEnergyIndicator.textContent = (totalVelocity * 0.05).toFixed(2) + " eV";
+
+      requestAnimationFrame(animate);
+    }
+
+    function updateCSSAccent(color) {
+      document.documentElement.style.setProperty('--accent-color', color);
+      
+      // Update custom slider track colors dynamically
+      const sliders = document.querySelectorAll('.slider-sync');
+      sliders.forEach(s => s.style.accentColor = color);
+    }
+
+    function reshapeEnvironment(lensName) {
+      activeProfile = lensName;
+      const profile = profiles[lensName];
+      updateCSSAccent(profile.themeColor);
+
+      // Sync sliders
+      speedSlider.value = profile.speed;
+      document.getElementById('speed-slider-val').textContent = profile.speed + "x";
+      focusSlider.value = profile.connectionDist;
+      document.getElementById('focus-slider-val').textContent = profile.connectionDist + "px";
+      complexitySlider.value = profile.complexity;
+      document.getElementById('complexity-slider-val').textContent = profile.complexity;
+
+      // Update Texts
+      visualTag.textContent = dict[currentLang][`profile-${lensName}-tag`] || profile.engineCode;
+      visualTitle.textContent = dict[currentLang][`profile-${lensName}-title`] || '';
+      visualDesc.textContent = dict[currentLang][`profile-${lensName}-desc`] || '';
+      simMode.textContent = profile.simulationText[currentLang];
+      engineStatus.textContent = profile.engineCode;
+      intensityIndicator.textContent = profile.intensity[currentLang];
+      customRetention.textContent = profile.retentionMetric;
+
+      // Title morph animation
+      morphedPhrase.style.opacity = '0';
+      morphedPhrase.style.transform = 'translateY(5px)';
+      setTimeout(() => {
+        morphedPhrase.textContent = dict[currentLang][`profile-${lensName}-morphedTitle` ] || dict[currentLang]['morphed-title-phrase'];
+        morphedPhrase.style.opacity = '1';
+        morphedPhrase.style.transform = 'translateY(0px)';
+      }, 200);
+
+      // Update Logos and SVGs
+      let iconClass = 'fa-shapes';
+      if (lensName === 'sports') iconClass = 'fa-futbol';
+      else if (lensName === 'culture') iconClass = 'fa-mask';
+      else if (lensName === 'business') iconClass = 'fa-chart-line';
+
+      logoIcon.className = `fa-solid ${iconClass} text-white text-lg transition-transform duration-500 rotate-[360deg]`;
+      setTimeout(() => logoIcon.className = `fa-solid ${iconClass} text-white text-lg`, 500);
+
+      ambientGlow1.style.backgroundColor = `${profile.themeColor}15`;
+      ambientGlow2.style.backgroundColor = `${profile.themeColor}10`;
+      humanHeadSvg.style.setProperty('--glow-color', profile.themeColor);
+
+      // Methodology Card Updates
+      tcGlow.style.borderColor = `${profile.themeColor}33`;
+      tcTag.textContent = `${dict[currentLang]['dynamic-lens-active-tag'].split('(')[0]} (${(currentLang === 'ar' ? dict.ar[`lens-${lensName}`] : lensName.toUpperCase())})`;
+      tcTag.style.backgroundColor = `${profile.themeColor}22`;
+      tcIcon.style.backgroundColor = `${profile.themeColor}22`;
+      tcIcon.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+      tcTitle.textContent = dict[currentLang][`profile-${lensName}-cardTitle`] || '';
+      tcDesc.textContent = dict[currentLang][`profile-${lensName}-cardDesc`] || '';
+      tcHeader.textContent = dict[currentLang][`profile-${lensName}-cardHeader`] || '';
+      tcContent.textContent = dict[currentLang][`profile-${lensName}-cardContent`] || '';
+      tcCode.style.borderColor = `${profile.themeColor}44`;
+    }
+
+    // Lens Click Events
+    lensChips.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        const targetBtn = e.target.closest('.lens-chip');
+        if (!targetBtn) return;
+
+        lensChips.forEach(btn => {
+          btn.classList.remove('active', 'border-gold-primary', 'border-orange-500', 'border-blue-400', 'border-emerald-400', 'bg-gold-primary/10', 'bg-orange-500/10', 'bg-blue-400/10', 'bg-emerald-400/10', 'shadow-[0_0_20px_rgba(212,175,55,0.15)]');
+          btn.classList.add('text-neutral-400');
+          btn.style.boxShadow = '';
+          const icon = btn.querySelector('i');
+          icon.className = icon.className.replace(/text-(gold|orange|blue|emerald)-[0-9a-z]+/g, 'text-neutral-500');
+        });
+
+        const activeLens = targetBtn.dataset.lens;
+        targetBtn.classList.add('active');
+        targetBtn.classList.remove('text-neutral-400');
+        
+        const icon = targetBtn.querySelector('i');
+        
+        if (activeLens === 'core') {
+          targetBtn.classList.add('border-gold-primary', 'bg-gold-primary/10', 'shadow-[0_0_20px_rgba(212,175,55,0.15)]');
+          icon.classList.add('text-gold-primary');
+        } else if (activeLens === 'sports') {
+          targetBtn.classList.add('border-orange-500', 'bg-orange-500/10');
+          targetBtn.style.boxShadow = '0 0 20px rgba(249,115,22,0.15)';
+          icon.classList.add('text-orange-500');
+        } else if (activeLens === 'culture') {
+          targetBtn.classList.add('border-blue-400', 'bg-blue-400/10');
+          targetBtn.style.boxShadow = '0 0 20px rgba(59,130,246,0.15)';
+          icon.classList.add('text-blue-400');
+        } else if (activeLens === 'business') {
+          targetBtn.classList.add('border-emerald-400', 'bg-emerald-400/10');
+          targetBtn.style.boxShadow = '0 0 20px rgba(16,185,129,0.15)';
+          icon.classList.add('text-emerald-400');
+        }
+
+        reshapeEnvironment(activeLens);
+      });
+    });
+
+    // Slider Events
+    ['speed', 'focus', 'complexity'].forEach(type => {
+      document.getElementById(`${type}-slider`).addEventListener('input', (e) => {
+        let val = e.target.value;
+        if(type === 'speed') val = parseFloat(val).toFixed(1) + 'x';
+        else if (type === 'focus') val += 'px';
+        document.getElementById(`${type}-slider-val`).textContent = val;
+        engineStatus.textContent = "MANUAL_TUNED";
+      });
+    });
+
+    resetSlidersBtn.addEventListener('click', () => reshapeEnvironment(activeProfile));
+
+    // Mouse/Touch tracking
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; mouse.active = true;
+    });
+    canvas.addEventListener('mouseleave', () => mouse.active = false);
+    canvas.addEventListener('mousedown', () => {
+      focusSlider.value = Math.min(parseInt(focusSlider.value) + 40, 200);
+      document.getElementById('focus-slider-val').textContent = focusSlider.value + 'px';
+    });
+    canvas.addEventListener('mouseup', () => {
+      focusSlider.value = profiles[activeProfile].connectionDist;
+      document.getElementById('focus-slider-val').textContent = focusSlider.value + 'px';
+    });
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.touches[0].clientX - rect.left; mouse.y = e.touches[0].clientY - rect.top; mouse.active = true;
+      }
+    }, { passive: true });
+    canvas.addEventListener('touchend', () => mouse.active = false);
+
+    window.addEventListener('resize', init);
+    window.onload = () => { init(); animate(); setLanguage(false); };
+  </script>
+</body>
+</html>
