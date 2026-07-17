@@ -10,7 +10,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;600;800&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Changa:wght@300;400;600;800&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,7 +33,9 @@
                     fontFamily: {
                         main: ['Changa', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
-                        outfit: ['Outfit', 'sans-serif']
+                        outfit: ['Outfit', 'sans-serif'],
+                        arabic: ['Alexandria', 'sans-serif'],
+                        arabicSerif: ['Amiri', 'serif']
                     }
                 }
             }
@@ -63,6 +65,20 @@
             font-family: 'Changa', sans-serif;
             overflow-x: hidden;
             scroll-behavior: smooth;
+        }
+
+        /* Premium Arabic Font Overrides */
+        [dir="rtl"], 
+        [dir="rtl"] body {
+            font-family: 'Alexandria', sans-serif;
+        }
+        [dir="rtl"] .font-serif {
+            font-family: 'Amiri', serif !important;
+            font-style: italic;
+        }
+        [dir="rtl"] .font-outfit,
+        [dir="rtl"] .font-main {
+            font-family: 'Alexandria', sans-serif !important;
         }
 
         .text-gradient {
@@ -305,7 +321,7 @@
                 <a href="#bottleneck" class="nav-link text-sm font-semibold tracking-wider uppercase lang-en">The Transition</a>
                 <a href="#bottleneck" class="nav-link text-sm font-semibold tracking-wider uppercase lang-ar hidden">المرحلة الانتقالية</a>
                 
-                <a href="#programs" class="nav-link text-sm font-semibold tracking-wider uppercase lang-en">Our </a>
+                <a href="#programs" class="nav-link text-sm font-semibold tracking-wider uppercase lang-en">Our Engine</a>
                 <a href="#programs" class="nav-link text-sm font-semibold tracking-wider uppercase lang-ar hidden">محركنا</a>
                 
                 <a href="#contact" class="nav-link text-gold-primary text-sm font-semibold tracking-wider uppercase lang-en">Partner</a>
@@ -331,16 +347,16 @@
         <!-- Mobile Nav Overlay -->
         <div id="mobileMenu" class="absolute top-full left-0 w-full bg-panel/95 backdrop-blur-xl border-b border-gold-primary/30 p-6 flex flex-col gap-6 shadow-2xl">
             <a href="#vision" class="nav-link text-lg font-semibold lang-en">Vision</a>
-            <a href="#vision" class="nav-link text-lg font-semibold lang-ar hidden">الرؤية</a>
+            <a href="#vision" class="nav-link text-lg font-semibold lang-ar hidden">رؤيتنا</a>
             
-            <a href="#bottleneck" class="nav-link text-lg font-semibold lang-en">The Transition</a>
-            <a href="#bottleneck" class="nav-link text-lg font-semibold lang-ar hidden">المرحلة الانتقالية</a>
+            <a href="#bottleneck" class="nav-link text-lg font-semibold lang-en">Transition</a>
+            <a href="#bottleneck" class="nav-link text-lg font-semibold lang-ar hidden">وجهتك</a>
             
-            <a href="#programs" class="nav-link text-lg font-semibold lang-en">Our </a>
-            <a href="#programs" class="nav-link text-lg font-semibold lang-ar hidden">محركنا</a>
+            <a href="#programs" class="nav-link text-lg font-semibold lang-en">Mission</a>
+            <a href="#programs" class="nav-link text-lg font-semibold lang-ar hidden">وجهاتنا</a>
             
             <a href="#contact" class="text-gold-primary text-lg font-semibold lang-en">Partner</a>
-            <a href="#contact" class="text-gold-primary text-lg font-semibold lang-ar hidden">شراكة</a>
+            <a href="#contact" class="text-gold-primary text-lg font-semibold lang-ar hidden">تشاركنا</a>
 
             <div class="flex items-center gap-3 pt-4 border-t border-white/10">
                 <span class="text-sm font-bold lang-label-en text-gold-primary">EN</span>
@@ -480,14 +496,14 @@
                 <span class="lang-ar hidden">نحن نعيد طلاءها <br> بألوانك الخاصة.</span>
             </p>
             <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed lang-en">
-                Introducing the <strong>Analogy </strong>. We provide the ultimate personalized experience, analyzing your preferences to build a system that fits YOU. Acquire skills faster, thrive in new environments, and make the foreign feel profoundly familiar.
+                Introducing the <strong>Analogy Engine</strong>. We provide the ultimate personalized experience, analyzing your preferences to build a system that fits YOU. Acquire skills faster, thrive in new environments, and make the foreign feel profoundly familiar.
             </p>
             <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed lang-ar hidden">
                 نقدم لكم <strong>محرك التناظر</strong>. نقدم التجربة المخصصة المطلقة، ونحلل تفضيلاتك لبناء نظام يناسبك. اكتسب المهارات بشكل أسرع، وازدهر في البيئات الجديدة، واجعل الغريب يبدو مألوفاً للغاية.
             </p>
             <div class="mt-12 flex justify-center">
-                <a href="engine/" target="_blank" class="bg-gold-primary text-deep font-bold px-10 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 rounded-lg lang-en">See How It Works</a>
-                <a href="engine/" target="_blank" class="bg-gold-primary text-deep font-bold px-10 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 rounded-lg lang-ar hidden">شاهد كيف يعمل</a>
+                <a href="engine-presentation.html" target="_blank" class="bg-gold-primary text-deep font-bold px-10 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 rounded-lg lang-en">See How It Works</a>
+                <a href="engine-presentation.html" target="_blank" class="bg-gold-primary text-deep font-bold px-10 py-4 uppercase tracking-widest hover:bg-gold-hover hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 rounded-lg lang-ar hidden">شاهد كيف يعمل</a>
             </div>            
         </div>
         
@@ -718,8 +734,8 @@
                     <h5 class="text-white font-bold tracking-widest uppercase mb-6 lang-ar hidden">النظام البيئي</h5>
                     <ul class="space-y-4">
                         <li><a href="#vision" class="text-gray-400 footer-glow transition-all lang-en">The Vision</a><a href="#vision" class="text-gray-400 footer-glow transition-all lang-ar hidden">الرؤية</a></li>
-                        <li><a href="/privact-poict" class="text-gray-400 footer-glow transition-all lang-en">Transition Protocol</a><a href="#bottleneck" class="text-gray-400 footer-glow transition-all lang-ar hidden">بروتوكول الانتقال</a></li>
-                        <li><a href="#programs" class="text-gray-400 footer-glow transition-all lang-en">Analogy Engine</a><a href="#programs" class="text-gray-400 footer-glow transition-all lang-ar hidden">محرك التناظر</a></li>
+                        <li><a href="/privacy-policy" class="text-gray-400 footer-glow transition-all lang-en">Privacy Policy</a><a href="/privacy-policy" class="text-gray-400 footer-glow transition-all lang-ar hidden">سياسة الخصوصية</a></li>
+                        <li><a href="/terms-of-service" class="text-gray-400 footer-glow transition-all lang-en">Terms Of Service</a><a href="/terms-of-service" class="text-gray-400 footer-glow transition-all lang-ar hidden">معايير خدماتنا</a></li>
                     </ul>
                 </div>
 
